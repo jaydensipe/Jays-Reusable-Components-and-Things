@@ -6,7 +6,7 @@ class_name BurnableComponent
 
 func start_burn() -> void:
 	#TODO: Add burning shader
-	get_tree().create_timer(burn_stats.burn_time).timeout.connect(_burn)
+	get_tree().create_timer(randf_range(burn_stats.burn_min_time, burn_stats.burn_max_time)).timeout.connect(_burn)
 	
 func _burn() -> void:
 	actor.queue_free()
