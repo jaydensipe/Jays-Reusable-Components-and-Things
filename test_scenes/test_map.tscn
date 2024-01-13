@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://baehb3l644xdq"]
+
+[ext_resource type="PackedScene" uid="uid://db7iec8cbct04" path="res://test_scenes/3d_character_controller.tscn" id="1_e75y8"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hk127"]
+
+[sub_resource type="Sky" id="Sky_w61ij"]
+sky_material = SubResource("ProceduralSkyMaterial_hk127")
+
+[sub_resource type="Environment" id="Environment_7orar"]
+background_mode = 2
+sky = SubResource("Sky_w61ij")
+
+[node name="TestMap" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(16, 1, 17)
+
+[node name="3dCharacterController" parent="." instance=ExtResource("1_e75y8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.76377, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7orar")

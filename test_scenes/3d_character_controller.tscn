@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://db7iec8cbct04"]
+
+[ext_resource type="Script" path="res://test_scenes/3d_character_controller.gd" id="1_3s0an"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/components/move-component-3d.gd" id="1_ayfdq"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/components/move_stats.gd" id="2_60wyh"]
+
+[sub_resource type="Resource" id="Resource_xsbxg"]
+script = ExtResource("2_60wyh")
+movement_speed = 20
+jump_height = 10
+fall_acceleration = 75
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nprdn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_05s7q"]
+
+[node name="3dCharacterController" type="CharacterBody3D"]
+script = ExtResource("1_3s0an")
+move_stats = SubResource("Resource_xsbxg")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.481505, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_nprdn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_05s7q")
+
+[node name="MoveComponent3D" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("1_ayfdq")
+actor = NodePath("..")
