@@ -5,4 +5,4 @@ class_name MoveComponent3D
 @export var velocity: Vector3
 
 func _physics_process(delta: float) -> void:
-	actor.translate(velocity * delta)
+	actor.global_translate(velocity * delta)
