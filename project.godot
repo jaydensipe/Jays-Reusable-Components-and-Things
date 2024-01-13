@@ -1,0 +1,18 @@
+config_version=5
+
+[application]
+
+config/name="Jay's Reusable Components & Things"
+config/features=PackedStringArray("4.2", "Forward Plus")
+config/icon="res://icon.svg"
+config/tags=PackedStringArray("plugin")
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/jaysreusablecomponentsandthings/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://addons/jaysreusablecomponentsandthings/components/": "pink"
+}
