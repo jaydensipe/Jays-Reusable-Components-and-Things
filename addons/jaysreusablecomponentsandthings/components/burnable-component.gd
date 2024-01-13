@@ -4,5 +4,9 @@ class_name BurnableComponent
 @export var actor: Node
 @export var burn_stats: BurnStats
 
-func _ready() -> void:
-	get_tree().create_timer(burn_stats.burn_time).timeout.connect(func(): actor.queue_free())
+func start_burn() -> void:
+	#TODO: Add burning shader
+	get_tree().create_timer(burn_stats.burn_time).timeout.connect(_burn)
+	
+func _burn() -> void:
+	actor.queue_free()
