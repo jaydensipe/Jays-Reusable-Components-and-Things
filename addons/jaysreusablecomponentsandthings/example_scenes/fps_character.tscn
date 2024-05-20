@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://diblfuh2an6yo"]
+
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/health_component.gd" id="1_wo75t"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/fp_camera_component_3d.gd" id="2_6du85"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/movement_component_3d.gd" id="2_obyq4"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/move_stats.gd" id="3_xtxtl"]
+
+[sub_resource type="Resource" id="Resource_ydoui"]
+script = ExtResource("3_xtxtl")
+speed = 8.0
+jump_height = 5.0
+apply_acceleration = false
+acceleration = 10.0
+apply_air_acceleration = false
+air_acceleration = 2.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_htr6e"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_we6uf"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f406o"]
+
+[sub_resource type="Sky" id="Sky_lmomc"]
+sky_material = SubResource("ProceduralSkyMaterial_f406o")
+
+[sub_resource type="Environment" id="Environment_sblje"]
+background_mode = 2
+sky = SubResource("Sky_lmomc")
+
+[node name="FPSCharacter" type="Node"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(15, 1, 15)
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49952, 0)
+
+[node name="FPCameraComponent3D" type="Camera3D" parent="CharacterBody3D" node_paths=PackedStringArray("character", "viewmodel_container")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.50048, 0)
+script = ExtResource("2_6du85")
+character = NodePath("..")
+viewmodel_container = NodePath("../../Node3D")
+enable_idle = false
+
+[node name="HealthComponent" type="Node" parent="CharacterBody3D"]
+script = ExtResource("1_wo75t")
+
+[node name="MovementComponent3D" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("character")]
+script = ExtResource("2_obyq4")
+character = NodePath("..")
+move_stats = SubResource("Resource_ydoui")
+is_player_controlled = true
+move_forward_name = "move_forward"
+move_backward_name = "move_backward"
+move_left_name = "move_left"
+move_right_name = "move_right"
+jump_name = "jump"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_htr6e")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_we6uf")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sblje")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="Node3D" type="Node3D" parent="."]

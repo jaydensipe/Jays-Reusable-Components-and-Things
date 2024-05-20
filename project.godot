@@ -12,9 +12,22 @@ config_version=5
 
 config/name="Jay's Reusable Components & Things"
 config/tags=PackedStringArray("plugin")
-run/main_scene="res://test_scenes/test_map.tscn"
+run/main_scene="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_character.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+run/max_fps=240
 config/icon="res://icon.svg"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=2
+gdscript/warnings/unsafe_property_access=2
+gdscript/warnings/unsafe_method_access=2
+gdscript/warnings/unsafe_cast=1
+gdscript/warnings/unsafe_call_argument=2
+
+[display]
+
+window/vsync/vsync_mode=0
 
 [editor_plugins]
 
@@ -23,8 +36,12 @@ enabled=PackedStringArray("res://addons/jaysreusablecomponentsandthings/plugin.c
 [file_customization]
 
 folder_colors={
-"res://addons/jaysreusablecomponentsandthings/components/": "pink",
-"res://test_scenes/": "yellow"
+"res://addons/jaysreusablecomponentsandthings/2d_components/": "orange",
+"res://addons/jaysreusablecomponentsandthings/3d_components/": "teal",
+"res://addons/jaysreusablecomponentsandthings/assets/": "green",
+"res://addons/jaysreusablecomponentsandthings/common_components/": "gray",
+"res://addons/jaysreusablecomponentsandthings/example_scenes/": "purple",
+"res://addons/jaysreusablecomponentsandthings/resources/": "blue"
 }
 
 [input]
@@ -54,3 +71,7 @@ jump={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"echo":false,"script":null)
 ]
 }
+
+[physics]
+
+common/physics_ticks_per_second=120
