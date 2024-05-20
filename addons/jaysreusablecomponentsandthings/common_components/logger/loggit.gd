@@ -3,19 +3,19 @@ class_name Loggit
 
 # Simple logger implementation, similar to Spring Boot
 
-static func debug(message: String) -> void:
-	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=white][DEBUG][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], message])
+static func debug(message: Variant) -> void:
+	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=white][DEBUG][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], str(message)])
 
-static func info(message: String) -> void: 
-	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=cyan][INFO][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], message])
+static func info(message: Variant) -> void: 
+	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=cyan][INFO][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], str(message)])
 
-static func warn(message: String) -> void: 
-	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=yellow][WARN][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], message])
+static func warn(message: Variant) -> void: 
+	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=yellow][WARN][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], str(message)])
 	push_warning(message)
 	
-static func error(message: String, throw_assert: bool = false) -> void: 
-	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=red][ERROR][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], message])
+static func error(message: Variant, throw_assert: bool = false) -> void: 
+	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=red][ERROR][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], str(message)])
 	push_error(message)
 	
-	if (throw_assert): assert(false, message)
+	if (throw_assert): assert(false, str(message))
 	

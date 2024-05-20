@@ -1,8 +1,10 @@
 extends Resource
 class_name MoveStats
 
-@export var speed: float = 10.0
-@export var jump_height: float = 5.0
+@export var speed: float = 8.0
+@export var sprint_multiplier: float = 1.25
+@export var crouch_multiplier: float = 0.55
+@export var jump_height: float = 3.0
 
 @export_group("Advanced Config")
 @export var apply_acceleration: bool = false

@@ -1,22 +1,45 @@
-[gd_scene load_steps=11 format=3 uid="uid://diblfuh2an6yo"]
+[gd_scene load_steps=20 format=3 uid="uid://diblfuh2an6yo"]
 
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/health_component.gd" id="1_wo75t"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/fp_camera_component_3d.gd" id="2_6du85"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/movement_component_3d.gd" id="2_obyq4"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/move_stats.gd" id="3_xtxtl"]
+[ext_resource type="AudioStream" uid="uid://dji80rj3tt1n6" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/step1.wav" id="5_n63hi"]
+[ext_resource type="AudioStream" uid="uid://dr86vpmkr20mj" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/step2.wav" id="6_t68vx"]
+[ext_resource type="AudioStream" uid="uid://ut78pf2p4cay" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/step3.wav" id="7_i1sma"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enyuc"]
+albedo_color = Color(1, 0.52428, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_erdwx"]
+albedo_color = Color(0, 1, 0.0918241, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0l2uh"]
+albedo_color = Color(1, 0, 0.149277, 1)
 
 [sub_resource type="Resource" id="Resource_ydoui"]
 script = ExtResource("3_xtxtl")
 speed = 8.0
-jump_height = 5.0
-apply_acceleration = false
+sprint_multiplier = 1.25
+crouch_multiplier = 0.55
+jump_height = 4.0
+apply_acceleration = true
 acceleration = 10.0
 apply_air_acceleration = false
 air_acceleration = 2.0
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_htr6e"]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kr6mr"]
+streams_count = 3
+stream_0/stream = ExtResource("5_n63hi")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("6_t68vx")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("7_i1sma")
+stream_2/weight = 1.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_we6uf"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ffsav"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f406o"]
 
@@ -26,12 +49,122 @@ sky_material = SubResource("ProceduralSkyMaterial_f406o")
 [sub_resource type="Environment" id="Environment_sblje"]
 background_mode = 2
 sky = SubResource("Sky_lmomc")
+sdfgi_use_occlusion = true
+
+[sub_resource type="Resource" id="Resource_jd6ul"]
+script = ExtResource("3_xtxtl")
+speed = 8.0
+sprint_multiplier = 1.25
+crouch_multiplier = 0.55
+jump_height = 3.0
+apply_acceleration = false
+acceleration = 10.0
+apply_air_acceleration = false
+air_acceleration = 2.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r442o"]
 
 [node name="FPSCharacter" type="Node"]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Geometry"]
 use_collision = true
 size = Vector3(15, 1, 15)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+use_collision = true
+size = Vector3(15, 1, 15)
+material = SubResource("StandardMaterial3D_enyuc")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -15, 0, 15)
+use_collision = true
+size = Vector3(15, 1, 15)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 15)
+use_collision = true
+size = Vector3(15, 1, 15)
+material = SubResource("StandardMaterial3D_enyuc")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+use_collision = true
+size = Vector3(15, 1, 15)
+material = SubResource("StandardMaterial3D_enyuc")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3, -6)
+use_collision = true
+size = Vector3(15, 1, 3)
+material = SubResource("StandardMaterial3D_erdwx")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0, 1, 15, 3, -3)
+use_collision = true
+size = Vector3(15, 1, 3)
+material = SubResource("StandardMaterial3D_0l2uh")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 15, 3, 6)
+use_collision = true
+size = Vector3(15, 1, 3)
+material = SubResource("StandardMaterial3D_erdwx")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(-0.906308, -0.422618, -8.74228e-08, -0.422618, 0.906308, 0, 7.9232e-08, 3.69465e-08, -1, 15, 3, 3)
+use_collision = true
+size = Vector3(15, 1, 3)
+material = SubResource("StandardMaterial3D_0l2uh")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Geometry"]
+transform = Transform3D(1, -8.35187e-23, -4.37114e-08, 4.37114e-08, 1.91069e-15, 1, 0, -1, 1.91069e-15, 15, 10, 0)
+light_energy = 16.0
+shadow_enabled = true
+spot_range = 14.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Geometry"]
+transform = Transform3D(1, -8.35187e-23, -4.37114e-08, 4.37114e-08, 1.91069e-15, 1, 0, -1, 1.91069e-15, -15, 10, 0)
+light_energy = 16.0
+shadow_enabled = true
+spot_range = 14.0
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="Geometry"]
+transform = Transform3D(1, -8.35187e-23, -4.37114e-08, 4.37114e-08, 1.91069e-15, 1, 0, -1, 1.91069e-15, 0, 10, 0)
+light_energy = 16.0
+shadow_enabled = true
+spot_range = 14.0
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="Geometry"]
+transform = Transform3D(1, -8.35187e-23, -4.37114e-08, 4.37114e-08, 1.91069e-15, 1, 0, -1, 1.91069e-15, -15, 10, 15)
+light_energy = 16.0
+shadow_enabled = true
+spot_range = 14.0
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="Geometry"]
+transform = Transform3D(1, -8.35187e-23, -4.37114e-08, 4.37114e-08, 1.91069e-15, 1, 0, -1, 1.91069e-15, 0, 10, 15)
+light_energy = 16.0
+shadow_enabled = true
+spot_range = 14.0
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 1, -5)
+use_collision = true
+radius = 2.0
+height = 1.0
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.5, -5)
+use_collision = true
+radius = 2.0
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, -5)
+use_collision = true
+radius = 2.0
+height = 3.0
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49952, 0)
@@ -40,29 +173,40 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49952, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.50048, 0)
 script = ExtResource("2_6du85")
 character = NodePath("..")
-viewmodel_container = NodePath("../../Node3D")
-enable_idle = false
+viewmodel_container = NodePath("../Node3D")
+viewmodel_origin = Vector3(-0.52, -1.685, -0.79)
 
 [node name="HealthComponent" type="Node" parent="CharacterBody3D"]
 script = ExtResource("1_wo75t")
 
-[node name="MovementComponent3D" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("character")]
+[node name="MovementComponent3D" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("character", "collider", "footstep_audio_player")]
 script = ExtResource("2_obyq4")
 character = NodePath("..")
+collider = NodePath("../CollisionShape3D")
 move_stats = SubResource("Resource_ydoui")
+footstep_audio_player = NodePath("AudioStreamPlayer3D")
 is_player_controlled = true
 move_forward_name = "move_forward"
 move_backward_name = "move_backward"
 move_left_name = "move_left"
 move_right_name = "move_right"
 jump_name = "jump"
+sprint_name = "sprint"
+crouch_name = "crouch"
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
-mesh = SubResource("CapsuleMesh_htr6e")
-skeleton = NodePath("../..")
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CharacterBody3D/MovementComponent3D"]
+stream = SubResource("AudioStreamRandomizer_kr6mr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_we6uf")
+
+[node name="Node3D" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0, -1.49952, 0)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Node3D"]
+transform = Transform3D(-2.27299e-08, 0.78, -2.27299e-08, -0.52, -3.40949e-08, -2.27299e-08, -2.27299e-08, 3.40949e-08, 0.52, 0, 3, 0)
+mesh = SubResource("CylinderMesh_ffsav")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sblje")
@@ -70,4 +214,13 @@ environment = SubResource("Environment_sblje")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="CharacterBody3D2" type="CharacterBody3D" parent="."]
+
+[node name="MovementComponent3D" type="Node3D" parent="CharacterBody3D2" node_paths=PackedStringArray("character", "collider")]
+script = ExtResource("2_obyq4")
+character = NodePath("..")
+collider = NodePath("../CollisionShape3D")
+move_stats = SubResource("Resource_jd6ul")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D2"]
+shape = SubResource("CapsuleShape3D_r442o")

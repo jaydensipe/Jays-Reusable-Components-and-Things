@@ -1,0 +1,96 @@
+[gd_scene load_steps=12 format=3 uid="uid://diblfuh2an6yo"]
+
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/health_component.gd" id="1_wo75t"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/fp_camera_component_3d.gd" id="2_6du85"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/movement_component_3d.gd" id="2_obyq4"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/move_stats.gd" id="3_xtxtl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enyuc"]
+albedo_color = Color(1, 0.52428, 0, 1)
+
+[sub_resource type="Resource" id="Resource_ydoui"]
+script = ExtResource("3_xtxtl")
+speed = 8.0
+sprint_multiplier = 5.0
+crouch_multiplier = 0.75
+jump_height = 3.0
+apply_acceleration = true
+acceleration = 10.0
+apply_air_acceleration = false
+air_acceleration = 2.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_we6uf"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ffsav"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f406o"]
+
+[sub_resource type="Sky" id="Sky_lmomc"]
+sky_material = SubResource("ProceduralSkyMaterial_f406o")
+
+[sub_resource type="Environment" id="Environment_sblje"]
+background_mode = 2
+sky = SubResource("Sky_lmomc")
+
+[node name="FPSCharacter" type="Node"]
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Geometry"]
+use_collision = true
+size = Vector3(15, 1, 15)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+use_collision = true
+size = Vector3(15, 1, 15)
+material = SubResource("StandardMaterial3D_enyuc")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+use_collision = true
+size = Vector3(15, 1, 15)
+material = SubResource("StandardMaterial3D_enyuc")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49952, 0)
+
+[node name="FPCameraComponent3D" type="Camera3D" parent="CharacterBody3D" node_paths=PackedStringArray("character", "viewmodel_container")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.50048, 0)
+script = ExtResource("2_6du85")
+character = NodePath("..")
+viewmodel_container = NodePath("../Node3D")
+viewmodel_origin = Vector3(-0.52, -1.685, -0.79)
+
+[node name="HealthComponent" type="Node" parent="CharacterBody3D"]
+script = ExtResource("1_wo75t")
+
+[node name="MovementComponent3D" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("character")]
+script = ExtResource("2_obyq4")
+character = NodePath("..")
+move_stats = SubResource("Resource_ydoui")
+is_player_controlled = true
+move_forward_name = "move_forward"
+move_backward_name = "move_backward"
+move_left_name = "move_left"
+move_right_name = "move_right"
+jump_name = "jump"
+sprint_name = "sprint"
+crouch_name = "crouch"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_we6uf")
+
+[node name="Node3D" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0, -1.49952, 0)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Node3D"]
+transform = Transform3D(-2.27299e-08, 0.78, -2.27299e-08, -0.52, -3.40949e-08, -2.27299e-08, -2.27299e-08, 3.40949e-08, 0.52, 0, 3, 0)
+mesh = SubResource("CylinderMesh_ffsav")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sblje")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)

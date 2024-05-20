@@ -6,15 +6,29 @@ class_name FPCameraComponent3D
 @export var character: CharacterBody3D
 @export var viewmodel_container: Node3D
 
-@export_group("View Config")
+@export_group("Config")
 @export var mouse_sensitivity: float = 3.0
+
+@export_group("Viewmodel Config")
+@export var enable_idle: bool = true
+@export var idle_scale: float = 1.6   
+var idle_time: float = 0.0   
+var iyaw_cycle: float = 1.5       
+var iroll_cycle: float = 1.0     
+var ipitch_cycle: float = 2.0    
+var iyaw_level: float = 0.1       
+var iroll_level: float = 0.2         
+var ipitch_level: float = 0.15      
+var i_right: float = 0.0
+var i_forward: float = 0.0
+var i_up: float = 0.0
 @export var viewmodel_origin: Vector3 = Vector3(0.0, 0.0, 0.0)
 
 enum BOB_TYPE { VB_COS, VB_SIN, VB_COS2, VB_SIN2 }
 
 @export_group("Advanced Config")
 @export_subgroup("Bob Config")
-var _bob_times: Array = [0,0,0]
+var _bob_times: Array = [0, 0, 0]
 var _bob_dir_right: float = 0.0
 var _bob_dir_forward: float = 0.0
 var _bob_dir_up: float = 0.0
@@ -26,19 +40,6 @@ var Q_bob: float = 0.0
 @export var bob_amount: float = 0.012            
 @export var bob_mode: BOB_TYPE = BOB_TYPE.VB_SIN
 
-@export_subgroup("Idle Config")
-@export var enable_idle: bool = true
-@export var idle_scale: float = 1.6      
-var iyaw_cycle: float = 1.5       
-var iroll_cycle: float = 1.0     
-var ipitch_cycle: float = 2.0    
-var iyaw_level: float = 0.1       
-var iroll_level: float = 0.2         
-var ipitch_level: float = 0.15      
-var idleRight : float = 0.0
-var idleForward : float = 0.0
-var idleUp : float =  0.0
-
 var swayPos : Vector3 = Vector3.ZERO
 var swayRot : Vector3 = Vector3.ZERO
 var swayPos_offset : float = 0.12     # default: 0.12
@@ -48,26 +49,20 @@ var swayRot_angle : float = 5.0      # default: 5.0   (old default: Vector3(5.0,
 var swayRot_max : float = 15.0       # default: 15.0  (old default: Vector3(12.0, 12.0, 4.0))
 var swayRot_speed : float = 5.0     # default: 10.0
 
-var deltaTime : float = 0.0
-
 @export_subgroup("Roll Config")
 @export var enable_roll: bool = true
 @export var roll_amount: float = 15.0          
 @export var roll_speed: float = 300.0    
-	 
-const kick_time: float = 0.5         
-const kick_amount: float = 0.6       
 
-var idle_time: float = 0.0
+var deltaTime : float = 0.0   
 var mouse_move: Vector2 = Vector2.ZERO
 var mouse_rotation_x: float = 0.0
-var y_offset: float = 1.25         
+const y_offset: float = 1.25      
 
 signal footstep 
 
 func _ready() -> void:
 	assert(is_instance_valid(character), "Please provide CharacterBody3D to the FPCameraComponent3D component!")
-	#assert(is_instance_valid(move_stats), "Please provide MoveStats to the FPCameraComponent3D component!")
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Input.use_accumulated_input = false
@@ -124,11 +119,6 @@ func calc_bob (freqmod: float, mode, bob_i: int, bob: float):
 
 func _process(delta: float) -> void:
 	deltaTime = delta
-	#
-	#if (character.health_component.is_dead):
-		#rotation_degrees.z = 80
-		#transform.origin = Vector3(0, 0.75, 0)
-		#return
 	
 	# Set points of origin
 	rotation_degrees = Vector3(mouse_rotation_x, 0, 0)
@@ -147,7 +137,6 @@ func _process(delta: float) -> void:
 		
 		if (enable_idle):
 			add_idle()
-			view_idle()
 		
 		view_model_idle()
 	else:
@@ -221,14 +210,9 @@ func calc_roll(velocity: Vector3, angle: float, speed: float) -> float:
 
 func add_idle():
 	idle_time += deltaTime
-	idleRight = idle_scale * sin(idle_time * ipitch_cycle) * ipitch_level
-	idleUp = idle_scale * sin(idle_time * iyaw_cycle) * iyaw_level
-	idleForward = idle_scale * sin(idle_time * iroll_cycle) * iroll_level
-
-func view_idle():
-	rotation_degrees.x += idleUp
-	rotation_degrees.y += idleRight
-	rotation_degrees.z += idleForward
+	i_right = idle_scale * sin(idle_time * ipitch_cycle) * ipitch_level
+	i_up = idle_scale * sin(idle_time * iyaw_cycle) * iyaw_level
+	i_forward = idle_scale * sin(idle_time * iroll_cycle) * iroll_level
 
 func view_bob_classic():
 	transform.origin[1] += calc_bob_classic()
