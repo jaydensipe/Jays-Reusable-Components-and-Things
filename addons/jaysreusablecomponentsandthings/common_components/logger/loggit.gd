@@ -1,8 +1,7 @@
 extends RefCounted
 class_name Loggit
 
-# Simple logger implementation, similar to Spring Boot
-
+# Simple logger implementation
 static func debug(message: Variant) -> void:
 	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=white][DEBUG][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], str(message)])
 

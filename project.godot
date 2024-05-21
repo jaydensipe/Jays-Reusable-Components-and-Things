@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 DebugIt="*res://addons/jaysreusablecomponentsandthings/common_components/debug/debugit.tscn"
+RaycastIt3D="*res://addons/jaysreusablecomponentsandthings/common_components/raycast/raycastit_3d.gd"
+DrawIt="*res://addons/jaysreusablecomponentsandthings/common_components/draw/drawit.gd"
 
 [debug]
 
@@ -33,6 +35,7 @@ gdscript/warnings/unsafe_call_argument=2
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/always_on_top=true
 window/vsync/vsync_mode=0
 
 [editor_plugins]

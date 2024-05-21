@@ -57,18 +57,21 @@ var swayRot_speed : float = 5.0     # default: 10.0
 var deltaTime : float = 0.0   
 var mouse_move: Vector2 = Vector2.ZERO
 var mouse_rotation_x: float = 0.0
-const y_offset: float = 1.25      
+var cam_pos: Vector3    
 
 signal footstep 
 
 func _ready() -> void:
 	assert(is_instance_valid(character), "Please provide CharacterBody3D to the FPCameraComponent3D component!")
 	
+	cam_pos = transform.origin
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Input.use_accumulated_input = false
 	swayPos = viewmodel_origin
 
 func _unhandled_input(event: InputEvent) -> void:
+	if (event is InputEventMouseButton):
+		RaycastIt3D.ray_from_camera_3d(10.0, true)
 	if (event is InputEventMouseMotion):
 		var viewport_transform: Transform2D = get_tree().root.get_final_transform()
 		var motion: Vector2 = event.xformed_by(viewport_transform).relative
@@ -122,7 +125,7 @@ func _process(delta: float) -> void:
 	
 	# Set points of origin
 	rotation_degrees = Vector3(mouse_rotation_x, 0, 0)
-	transform.origin = Vector3(0, y_offset, 0)
+	transform.origin = cam_pos
 	viewmodel_container.transform.origin = viewmodel_origin
 	viewmodel_container.rotation_degrees = Vector3.ZERO
 	

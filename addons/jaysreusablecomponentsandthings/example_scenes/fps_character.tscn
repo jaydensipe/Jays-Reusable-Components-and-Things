@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/health_component.gd" id="1_wo75t"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/fp_camera_component_3d.gd" id="2_6du85"]
+[ext_resource type="PackedScene" uid="uid://76lr6q3185xc" path="res://addons/jaysreusablecomponentsandthings/assets/model/revolver.fbx" id="2_625gd"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/movement_component_3d.gd" id="2_obyq4"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/move_stats.gd" id="3_xtxtl"]
 [ext_resource type="AudioStream" uid="uid://dji80rj3tt1n6" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/step1.wav" id="5_n63hi"]
@@ -38,8 +39,6 @@ stream_2/stream = ExtResource("7_i1sma")
 stream_2/weight = 1.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_we6uf"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_ffsav"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f406o"]
 
@@ -96,7 +95,7 @@ size = Vector3(15, 1, 15)
 material = SubResource("StandardMaterial3D_enyuc")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Geometry"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3, -6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2.5, -6)
 use_collision = true
 size = Vector3(15, 1, 3)
 material = SubResource("StandardMaterial3D_erdwx")
@@ -108,7 +107,7 @@ size = Vector3(15, 1, 3)
 material = SubResource("StandardMaterial3D_0l2uh")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Geometry"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 15, 3, 6)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 15, 2.5, 6)
 use_collision = true
 size = Vector3(15, 1, 3)
 material = SubResource("StandardMaterial3D_erdwx")
@@ -170,11 +169,17 @@ height = 3.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49952, 0)
 
 [node name="FPCameraComponent3D" type="Camera3D" parent="CharacterBody3D" node_paths=PackedStringArray("character", "viewmodel_container")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.50048, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 script = ExtResource("2_6du85")
 character = NodePath("..")
-viewmodel_container = NodePath("../Node3D")
-viewmodel_origin = Vector3(-0.52, -1.685, -0.79)
+viewmodel_container = NodePath("ViewmodelContainer")
+viewmodel_origin = Vector3(0.13, -1.425, -0.225)
+
+[node name="ViewmodelContainer" type="Node3D" parent="CharacterBody3D/FPCameraComponent3D"]
+transform = Transform3D(0.999919, -0.00476433, -0.00800428, 0.00484969, 0.999879, 0.0106696, 0.00795293, -0.0107078, 0.999869, 0.00188872, -2.0028, 0)
+
+[node name="Gun" parent="CharacterBody3D/FPCameraComponent3D/ViewmodelContainer" instance=ExtResource("2_625gd")]
+transform = Transform3D(-0.999994, 0.00485034, -0.00795361, 0.00476483, 0.999984, 0.010709, 0.00800504, 0.010671, -0.999953, 0.00418977, 1.25327, 0.0133882)
 
 [node name="HealthComponent" type="Node" parent="CharacterBody3D"]
 script = ExtResource("1_wo75t")
@@ -199,14 +204,6 @@ stream = SubResource("AudioStreamRandomizer_kr6mr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_we6uf")
-
-[node name="Node3D" type="Node3D" parent="CharacterBody3D"]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0, -1.49952, 0)
-visible = false
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Node3D"]
-transform = Transform3D(-2.27299e-08, 0.78, -2.27299e-08, -0.52, -3.40949e-08, -2.27299e-08, -2.27299e-08, 3.40949e-08, 0.52, 0, 3, 0)
-mesh = SubResource("CylinderMesh_ffsav")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sblje")
