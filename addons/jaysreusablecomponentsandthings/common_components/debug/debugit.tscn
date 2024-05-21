@@ -1,8 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dy0q60vlkv5xb"]
+[gd_scene load_steps=2 format=3 uid="uid://dy0q60vlkv5xb"]
 
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/debug/debugit.gd" id="1_4pexd"]
-
-[sub_resource type="Theme" id="Theme_m8arg"]
 
 [node name="DebugIt" type="Node"]
 script = ExtResource("1_4pexd")
@@ -31,18 +29,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 column_titles_visible = true
-
-[node name="ItemList" type="ItemList" parent="Panel"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_m8arg")
 allow_search = false
-fixed_icon_size = Vector2i(35, 35)
+enable_recursive_folding = false
+hide_root = true
 
+[connection signal="item_collapsed" from="Panel/Tree" to="." method="_on_tree_item_collapsed"]
 [connection signal="item_selected" from="Panel/Tree" to="." method="_on_tree_item_selected"]
-[connection signal="item_selected" from="Panel/ItemList" to="." method="_on_item_list_item_selected"]

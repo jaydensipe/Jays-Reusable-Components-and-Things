@@ -64,6 +64,8 @@ signal footstep
 func _ready() -> void:
 	assert(is_instance_valid(character), "Please provide CharacterBody3D to the FPCameraComponent3D component!")
 	
+	DebugIt.register_section(self)
+	
 	cam_pos = transform.origin
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Input.use_accumulated_input = false

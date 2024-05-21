@@ -38,7 +38,6 @@ var _current_movement: MOVEMENT_STATES = MOVEMENT_STATES.WALKING
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _direction: Vector3 = Vector3.ZERO
 var _input_dir: Vector2 = Vector2.ZERO
-var _debugger_index: int = 0
 @onready var _current_max_move_speed: float = move_stats.speed
 
 func _ready() -> void:
@@ -46,7 +45,7 @@ func _ready() -> void:
 	assert(is_instance_valid(collider), "Please provide CollisionShape3D to the CharacterMovement3D component!")
 	assert(is_instance_valid(move_stats), "Please provide MoveStats to the CharacterMovement3D component!")
 	
-	DebugIt.register_section("%s -> %s" % [get_parent().name, self.name], self, preload("res://addons/jaysreusablecomponentsandthings/assets/icons/icon_movement_component_3d.svg"))
+	DebugIt.register_section(self, preload("res://addons/jaysreusablecomponentsandthings/assets/icons/icon_movement_component_3d.svg"))
 
 func _physics_process(delta: float) -> void:
 	# Disable movement check
@@ -82,7 +81,7 @@ func _physics_process(delta: float) -> void:
 		
 	apply_movement(delta)
 
-func apply_movement(delta: float): 	
+func apply_movement(delta: float):
 	# Checks for applying acceleration
 	if (move_stats.apply_acceleration):
 		_direction = lerp(_direction, (character.transform.basis * Vector3(_input_dir.x, 0, _input_dir.y)).normalized(), delta * move_stats.acceleration)
