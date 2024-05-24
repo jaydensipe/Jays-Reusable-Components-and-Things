@@ -107,6 +107,7 @@ func apply_player_input_direction():
 	_input_dir = Input.get_vector(move_left_name, move_right_name, move_forward_name, move_backward_name)
 	
 func jump():
+	LogIt.error("hello")
 	if character.is_on_floor():
 		_current_movement = MOVEMENT_STATES.JUMPING
 		character.velocity.y = move_stats.jump_height

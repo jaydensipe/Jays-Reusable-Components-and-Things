@@ -19,8 +19,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-DebugIt="*res://addons/jaysreusablecomponentsandthings/common_components/debug/debugit.tscn"
 RaycastIt3D="*res://addons/jaysreusablecomponentsandthings/common_components/raycast/raycastit_3d.gd"
+DebugIt="*res://addons/jaysreusablecomponentsandthings/common_components/debug/debugit.tscn"
 DrawIt="*res://addons/jaysreusablecomponentsandthings/common_components/draw/drawit.gd"
 
 [debug]

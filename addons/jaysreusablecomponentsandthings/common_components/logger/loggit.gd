@@ -1,5 +1,5 @@
 extends RefCounted
-class_name Loggit
+class_name LogIt
 
 # Simple logger implementation
 static func debug(message: Variant) -> void:

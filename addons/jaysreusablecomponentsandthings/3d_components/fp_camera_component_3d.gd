@@ -65,6 +65,9 @@ func _ready() -> void:
 	assert(is_instance_valid(character), "Please provide CharacterBody3D to the FPCameraComponent3D component!")
 	
 	DebugIt.register_section(self)
+	var camera_box: DebugBoxContainer = DebugIt.create_debug_box("camera", Color.SKY_BLUE)
+	camera_box.add_button("Test button", func(): print("hello"))
+	camera_box.add_button("Toggle Idle", func(): enable_idle = !enable_idle)
 	
 	cam_pos = transform.origin
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

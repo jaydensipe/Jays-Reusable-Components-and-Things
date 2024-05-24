@@ -3,12 +3,6 @@ extends Node
 # Code based on https://github.com/Ryan-Mirch/Line-and-Sphere-Drawing/blob/main/Draw3D.gd. Thank you!
 # TODO: Wireframe?
 
-func _input(event):
-	# TODO: Implement GUI for all of these, shit is cool
-	if event is InputEventKey and Input.is_key_pressed(KEY_P):
-		var vp = get_viewport()
-		vp.debug_draw = (vp.debug_draw + 1 ) % 26
-
 func draw_line(from: Vector3, to: Vector3, color: Color = Color.RED, seconds_to_persist: float = 0.0):
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var immediate_mesh: ImmediateMesh = ImmediateMesh.new()
