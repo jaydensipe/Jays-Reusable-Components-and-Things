@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bserkpwybsqs2"]
 
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/debug/monitor.gd" id="1_qwrk5"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/debug/monitor/monitor.gd" id="1_qwrk5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhpxr"]
 bg_color = Color(0.368753, 0.368753, 0.368753, 1)

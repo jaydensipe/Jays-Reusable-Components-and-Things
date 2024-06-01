@@ -22,7 +22,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	var viewport_rid: RID = get_viewport().get_viewport_rid()
-	
+
 	var _fps: float = Engine.get_frames_per_second()
 	if (_fps >= 60.0):
 		frame_label.label_settings.font_color = Color.GREEN
@@ -33,12 +33,12 @@ func _process(delta: float) -> void:
 	else:
 		frame_label.label_settings.font_color =  Color.DARK_RED
 		frame_text.label_settings.font_color = Color.DARK_RED
-		
+
 	frame_text.text = "%d fps" % _fps
 	cpu_ms_text.text = "%.2f ms" % RenderingServer.viewport_get_measured_render_time_cpu(viewport_rid)
 	gpu_ms_text.text = "%.2f ms" % RenderingServer.viewport_get_measured_render_time_gpu(viewport_rid)
 	os_text.text = "%s %s" % [OS.get_name(), OS.get_version()]
-	
+
 	var _physical_mem: float = OS.get_memory_info()['physical'] / (1024 * 1024)
 	var _used_mem: float = OS.get_static_memory_usage() / (1024 * 1024)
 	ram_usage_label.text = "RAM Usage (%.2f%%):" % ((_used_mem / _physical_mem) * 100.0)

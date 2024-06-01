@@ -20,7 +20,7 @@ func draw_line(from: Vector3, to: Vector3, color: Color = Color.RED, seconds_to_
 	material.albedo_color = color
 
 	return await cleanup(mesh_instance, seconds_to_persist)
-	
+
 func draw_ray(origin: Vector3, direction: Vector3, color: Color = Color.RED, seconds_to_persist: float = 0.0):
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var immediate_mesh: ImmediateMesh = ImmediateMesh.new()

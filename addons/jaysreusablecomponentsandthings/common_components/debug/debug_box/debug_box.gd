@@ -9,5 +9,5 @@ func add_button(button_text: String, functionality: Callable) -> void:
 	var button: Button = Button.new()
 	button.text = button_text
 	button.pressed.connect(functionality)
-	
+
 	grid_container.add_child(button)
