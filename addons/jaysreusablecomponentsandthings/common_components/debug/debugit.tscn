@@ -36,7 +36,6 @@ metadata/_tab_index = 0
 [node name="Inspector" type="Tree" parent="Window/TabContainer"]
 visible = false
 layout_mode = 2
-hide_root = true
 script = ExtResource("2_c1qnf")
 metadata/_tab_index = 1
 

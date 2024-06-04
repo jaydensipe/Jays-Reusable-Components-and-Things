@@ -1,5 +1,5 @@
 [gd_resource type="Theme" format=3 uid="uid://ch4j3053qj2bo"]
 
 [resource]
-Tree/constants/draw_guides = 4
-Tree/constants/v_separation = 6
+Tree/constants/button_margin = 6
+Tree/constants/v_separation = 8

@@ -6,7 +6,6 @@ class_name FPCameraComponent3D
 
 @export var character: CharacterBody3D
 @export var viewmodel_container: Node3D
-var _icon_path: String = "res://addons/jaysreusablecomponentsandthings/assets/icons/icon_fp_camera_component_3d.svg"
 
 @export_group("Config")
 @export var mouse_sensitivity: float = 3.0
@@ -66,7 +65,6 @@ signal footstep
 func _ready() -> void:
 	assert(is_instance_valid(character), "Please provide CharacterBody3D to the FPCameraComponent3D component!")
 
-	#DebugIt.register_in_inspector(self, preload("res://addons/jaysreusablecomponentsandthings/assets/icons/icon_fp_camera_component_3d.svg"))
 	cam_pos = transform.origin
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Input.use_accumulated_input = false

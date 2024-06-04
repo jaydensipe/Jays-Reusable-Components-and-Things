@@ -18,10 +18,10 @@ func _ready() -> void:
 
 	_init_default_debug_box_functionality()
 
-func register_in_inspector(node: Node, icon: Texture2D = inspector._fallback_icon) -> void:
+func register_in_inspector(node: Node, icon: Texture2D = inspector._fallback_icon, register_children: bool = false) -> void:
 	if (icon == null): icon = inspector._fallback_icon
 
-	inspector._register_inspector(node, icon)
+	inspector._register_inspector(node, icon, register_children)
 
 func _init_default_debug_box_functionality() -> void:
 	var built_ins_box: DebugBoxContainer = create_debug_box("Built-Ins")

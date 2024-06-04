@@ -10,12 +10,6 @@ class_name MovementComponent3D
 @export var footstep_audio_player: AudioStreamPlayer3D
 @export var jump_audio_player: AudioStreamPlayer3D
 @export var land_audio_player: AudioStreamPlayer3D
-var _time_between_footsteps: float = 0.0
-var _time: float = 0.0
-const a: float = 0.24
-const n: float = 2.5
-const b: float = 1.68
-const c: float = 90.0
 
 @export_group("Advanced Config")
 @export_subgroup("Player")
@@ -51,6 +45,12 @@ var _prev_movement_state: MOVEMENT_STATES = MOVEMENT_STATES.WALKING
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _direction: Vector3 = Vector3.ZERO
 var _input_dir: Vector2 = Vector2.ZERO
+var _time_between_footsteps: float = 0.0
+var _time: float = 0.0
+const a: float = 0.24
+const n: float = 2.5
+const b: float = 1.68
+const c: float = 90.0
 @onready var _current_max_move_speed: float = move_stats.speed
 
 func _ready() -> void:
@@ -59,8 +59,6 @@ func _ready() -> void:
 	assert(is_instance_valid(move_stats), "Please provide MoveStats to the CharacterMovement3D component!")
 
 	if (debug_instance):
-		DebugIt.register_in_inspector(self)
-
 		if (is_player_controlled):
 			var player_debug_box: DebugBoxContainer = DebugIt.create_debug_box(&"Player", Color.INDIAN_RED)
 			player_debug_box.add_button("Toggle Noclip", _debug_noclip)
