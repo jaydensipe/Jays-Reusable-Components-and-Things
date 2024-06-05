@@ -1,8 +1,8 @@
 extends MarginContainer
 class_name DebugBoxContainer
 
-@onready var label: Label = $VBoxContainer/Label
 @onready var background: Panel = $Background
+@onready var label: Label = $VBoxContainer/Label
 @onready var grid_container: GridContainer = $VBoxContainer/GridContainer
 
 func add_button(button_text: String, functionality: Callable) -> void:

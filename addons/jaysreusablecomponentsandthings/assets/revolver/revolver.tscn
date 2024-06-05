@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/weapon/weapon_component.gd" id="1_75gyx"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/assets/revolver/revolver.gd" id="1_doi8e"]
 [ext_resource type="Texture2D" uid="uid://clrw5wbsl8mlx" path="res://addons/jaysreusablecomponentsandthings/assets/revolver/muzzle_flash.png" id="2_g4el2"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/spawners/scene_spawn_component_3d.gd" id="3_185ok"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/weapon_stats.gd" id="3_qith4"]
 [ext_resource type="PackedScene" uid="uid://b7f1oytsw335a" path="res://addons/jaysreusablecomponentsandthings/assets/revolver/bullet_decal.tscn" id="3_v28u8"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/weapon_binds.gd" id="4_8ttca"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/spawner_component_3d.gd" id="5_75kgm"]
 [ext_resource type="AudioStream" uid="uid://bb0id21k8s8lb" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/shot1.wav" id="8_1tsti"]
 [ext_resource type="AudioStream" uid="uid://cciwbeg5sos2a" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/shot2.wav" id="9_svexd"]
 [ext_resource type="AudioStream" uid="uid://bstpmth38swo" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/shot3.wav" id="10_1n7mw"]
@@ -171,8 +171,8 @@ visible = false
 modulate = Color(1, 0.70483, 0, 1)
 texture = ExtResource("2_g4el2")
 
-[node name="DecalSpawner3D" type="Node3D" parent="."]
-script = ExtResource("5_75kgm")
+[node name="SceneSpawnComponent3D" type="Node3D" parent="."]
+script = ExtResource("3_185ok")
 scene = ExtResource("3_v28u8")
 
 [node name="WeaponComponent" type="Node" parent="."]

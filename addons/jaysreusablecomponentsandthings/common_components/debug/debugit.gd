@@ -1,27 +1,74 @@
 extends Control
 
-@export var debug_name: String
 @onready var window: Window = $Window
+@onready var tab_container: TabContainer = $Window/TabContainer
 @onready var inspector: Inspector = $Window/TabContainer/Inspector
 @onready var debug: FlowContainer = $Window/TabContainer/Debug
 @onready var monitor: Panel = $"Window/TabContainer/System Monitor"
+@onready var _target_position: Vector2i = Vector2i(_viewport_size.x - window.get_size_with_decorations().x, 50)
 
-var _position
+var _viewport_size: Vector2i = Vector2.ZERO
 var _debug_fly_cam_3d: FlyCamera = null
-
-const DEBUG_BOX_CONTAINER = preload("res://addons/jaysreusablecomponentsandthings/common_components/debug/debug_box/debug_box_container.tscn")
+const DEBUG_BOX_CONTAINER: PackedScene = preload("res://addons/jaysreusablecomponentsandthings/common_components/debug/debug_box/debug_box_container.tscn")
 const MONITOR: PackedScene = preload("res://addons/jaysreusablecomponentsandthings/common_components/debug/monitor/monitor.tscn")
 
 func _ready() -> void:
-	_position = Vector2(get_viewport().get_window().size.x / 1.5, get_viewport().get_window().size.y / 10)
-	monitor.add_child(MONITOR.instantiate())
-
+	_init_main_debug_window()
+	_init_monitor()
+	_init_tab_container()
 	_init_default_debug_box_functionality()
 
 func register_in_inspector(node: Node, icon: Texture2D = inspector._fallback_icon, register_children: bool = false) -> void:
 	if (icon == null): icon = inspector._fallback_icon
 
 	inspector._register_inspector(node, icon, register_children)
+
+func _init_main_debug_window() -> void:
+	get_viewport().size_changed.connect(func():
+		_viewport_size = get_viewport().get_window().size
+	)
+
+	debug.alignment = FlowContainer.ALIGNMENT_CENTER
+	_viewport_size = get_viewport().get_window().size
+
+func _init_monitor() -> void:
+	monitor.add_child(MONITOR.instantiate())
+
+func _init_tab_container() -> void:
+	tab_container.tab_alignment = TabBar.ALIGNMENT_CENTER
+	tab_container.tabs_position = TabContainer.POSITION_BOTTOM
+	tab_container.clip_tabs = false
+	tab_container.set_tab_icon_max_width(0, 32)
+	tab_container.set_tab_icon_max_width(1, 32)
+	tab_container.set_tab_icon_max_width(2, 32)
+	tab_container.set_tab_icon(0, preload("res://addons/jaysreusablecomponentsandthings/assets/icons/icon_fp_camera_component_3d.svg"))
+	tab_container.set_tab_icon(1, preload("res://addons/jaysreusablecomponentsandthings/assets/icons/icon_inspector_register.svg"))
+	tab_container.set_tab_icon(2, preload("res://addons/jaysreusablecomponentsandthings/assets/icons/icon_movement_component_3d.svg"))
+
+func _physics_process(delta: float) -> void:
+	var window_pos: Vector2i = window.get_position_with_decorations()
+
+	if (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	or (window_pos.x >= 0 and window_pos.x < _viewport_size.x
+	and window_pos.y >= 0 and window_pos.y < _viewport_size.y)): return
+
+	# Right Side
+	if (window_pos.x > _viewport_size.x):
+		_target_position.x = _viewport_size.x - window.get_size_with_decorations().x
+
+	# Left Side
+	if (window_pos.x < 0):
+		_target_position.x = 25
+
+	# Bottom
+	if (window_pos.y > _viewport_size.y):
+		_target_position.y = _viewport_size.y - window.get_size_with_decorations().y
+#
+	# Top
+	if (window_pos.y < 0):
+		_target_position.y = 50
+
+	create_tween().tween_property(window, "position", _target_position, 0.05)
 
 func _init_default_debug_box_functionality() -> void:
 	var built_ins_box: DebugBoxContainer = create_debug_box("Built-Ins")
@@ -55,13 +102,6 @@ func _init_default_debug_box_functionality() -> void:
 		get_tree().paused = !get_tree().paused
 	)
 
-func _input(event: InputEvent) -> void:
-	if (event.is_action_pressed(debug_name)):
-		if (!window.visible):
-			window.visible = true
-
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
 func create_debug_box(title: StringName, background_color: Color = Color.GRAY) -> DebugBoxContainer:
 	for debug_box: DebugBoxContainer in debug.get_children():
 		if (debug_box.label.text == title):
@@ -80,21 +120,30 @@ func create_debug_box(title: StringName, background_color: Color = Color.GRAY) -
 
 	return debug_box_container
 
-func _on_window_close_requested() -> void:
-	window.visible = false
+func _input(event: InputEvent) -> void:
+	if (event is InputEventKey):
+		if (event.pressed and event.keycode == KEY_F1):
+			if (!window.visible):
+				window.visible = true
 
-func _on_window_focus_exited() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _on_window_window_input(event: InputEvent) -> void:
-	if (event.is_action_pressed(debug_name)):
-		window.visible = false
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if (event is InputEventKey):
+		if (event.pressed and event.keycode == KEY_F1):
+			window.visible = false
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _on_window_close_requested() -> void:
+	window.visible = false
 
 func _on_window_visibility_changed() -> void:
 	if (window == null): return
 
 	if (window.visible):
-		window.position = _position
+		window.position = _target_position
 
-	_position = window.position
+	_target_position = window.position
+
+func _on_window_focus_exited() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

@@ -12,7 +12,7 @@ func ray_from_camera_3d(max_distance: float = INF, show_debug: bool = false, cam
 		DrawIt.draw_ray(ray_origin, ray_dir, Color.RED, 1.5)
 		LogIt.debug(result)
 		if (!result.is_empty()):
-			DrawIt.draw_sphere(result["position"], 0.25, Color.LIGHT_CORAL, 1.5)
+			DrawIt.draw_wireframe_sphere(result["position"], 0.25, 1.5)
 
 	return result
 
@@ -27,6 +27,6 @@ func ray_3d(from: Vector3, direction: Vector3, max_distance: float = INF, show_d
 		DrawIt.draw_ray(ray_origin, direction * max_distance, Color.RED, 1.5)
 		LogIt.debug(result)
 		if (!result.is_empty()):
-			DrawIt.draw_sphere(result["position"], 0.25, Color.LIGHT_CORAL, 1.5)
+			DrawIt.draw_wireframe_sphere(result["position"], 0.25, 1.5)
 
 	return result

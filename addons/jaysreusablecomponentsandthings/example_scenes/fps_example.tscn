@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://diblfuh2an6yo"]
+[gd_scene load_steps=29 format=3 uid="uid://diblfuh2an6yo"]
 
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/health_component.gd" id="1_wo75t"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/camera/fp_camera_component_3d.gd" id="2_6du85"]
@@ -14,8 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://d20st60vgxlty" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/step5.wav" id="10_rven3"]
 [ext_resource type="AudioStream" uid="uid://n5mbts3f0ksa" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/land2.wav" id="11_4pydq"]
 [ext_resource type="AudioStream" uid="uid://tgkqfwnjjefe" path="res://addons/jaysreusablecomponentsandthings/assets/sfx/jump2.wav" id="11_iadla"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/debug/inspector/inspector_register_component.gd" id="15_oypbg"]
-[ext_resource type="Texture2D" uid="uid://cxqspxkgmawo6" path="res://addons/jaysreusablecomponentsandthings/assets/icons/icon_movement_component_3d.svg" id="16_8t3v4"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/debug/inspector/inspector_register_component.gd" id="15_rf3lo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enyuc"]
 albedo_color = Color(1, 0.52428, 0, 1)
@@ -73,7 +72,7 @@ background_mode = 2
 sky = SubResource("Sky_lmomc")
 sdfgi_use_occlusion = true
 
-[node name="FPSCharacter" type="Node"]
+[node name="FPSExample" type="Node"]
 
 [node name="Geometry" type="Node3D" parent="."]
 
@@ -223,7 +222,12 @@ script = ExtResource("1_wo75t")
 
 [node name="MovementComponent3D" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("character", "collider", "footstep_audio_player", "jump_audio_player", "land_audio_player")]
 script = ExtResource("2_obyq4")
+character = NodePath("..")
+collider = NodePath("../CollisionShape3D")
 move_stats = SubResource("Resource_ydoui")
+footstep_audio_player = NodePath("AudioFootstepPlayer3D")
+jump_audio_player = NodePath("AudioJumpPlayer3D")
+land_audio_player = NodePath("AudioLandPlayer3D")
 is_player_controlled = true
 move_forward_name = "move_forward"
 move_backward_name = "move_backward"
@@ -232,11 +236,6 @@ move_right_name = "move_right"
 jump_name = "jump"
 sprint_name = "sprint"
 crouch_name = "crouch"
-character = NodePath("..")
-collider = NodePath("../CollisionShape3D")
-footstep_audio_player = NodePath("AudioFootstepPlayer3D")
-jump_audio_player = NodePath("AudioJumpPlayer3D")
-land_audio_player = NodePath("AudioLandPlayer3D")
 
 [node name="AudioFootstepPlayer3D" type="AudioStreamPlayer3D" parent="CharacterBody3D/MovementComponent3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.49952, 0)
@@ -254,8 +253,7 @@ stream = SubResource("AudioStreamRandomizer_eswmn")
 shape = SubResource("CapsuleShape3D_we6uf")
 
 [node name="InspectorRegister" type="Node" parent="CharacterBody3D"]
-script = ExtResource("15_oypbg")
-class_icon = ExtResource("16_8t3v4")
+script = ExtResource("15_rf3lo")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sblje")

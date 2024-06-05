@@ -1,7 +1,6 @@
 extends Node
 
 # Code based on https://github.com/Ryan-Mirch/Line-and-Sphere-Drawing/blob/main/Draw3D.gd. Thank you!
-# TODO: Wireframe?
 
 func draw_line(from: Vector3, to: Vector3, color: Color = Color.RED, seconds_to_persist: float = 0.0):
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
@@ -57,7 +56,18 @@ func draw_sphere(position: Vector3, radius: float = 0.05, color: Color = Color.R
 
 	return await cleanup(mesh_instance, seconds_to_persist)
 
-func draw_cube(position: Vector3, size: Vector3, color: Color = Color.RED, seconds_to_persist: float = 0.0):
+func draw_wireframe_sphere(position: Vector3, radius: float = 0.05, seconds_to_persist: float = 0.0):
+	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
+	var sphere_shape: SphereShape3D =  SphereShape3D.new()
+
+	sphere_shape.radius = radius
+
+	mesh_instance.mesh = sphere_shape.get_debug_mesh()
+	mesh_instance.position = position
+
+	return await cleanup(mesh_instance, seconds_to_persist)
+
+func draw_box(position: Vector3, size: Vector3, color: Color = Color.RED, seconds_to_persist: float = 0.0):
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var box_mesh: BoxMesh =  BoxMesh.new()
 	var material: ORMMaterial3D = ORMMaterial3D.new()
@@ -71,6 +81,17 @@ func draw_cube(position: Vector3, size: Vector3, color: Color = Color.RED, secon
 
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.albedo_color = color
+
+	return await cleanup(mesh_instance, seconds_to_persist)
+
+func draw_wireframe_box(position: Vector3, size: Vector3, seconds_to_persist: float = 0.0):
+	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
+	var box_shape: BoxShape3D =  BoxShape3D.new()
+
+	box_shape.size = Vector3(size.x, size.y, size.z)
+
+	mesh_instance.mesh = box_shape.get_debug_mesh()
+	mesh_instance.position = position
 
 	return await cleanup(mesh_instance, seconds_to_persist)
 

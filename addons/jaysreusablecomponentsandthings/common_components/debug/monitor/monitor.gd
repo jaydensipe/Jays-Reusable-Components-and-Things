@@ -31,8 +31,8 @@ func _process(delta: float) -> void:
 		frame_label.label_settings.font_color = Color.YELLOW
 		frame_text.label_settings.font_color =  Color.YELLOW
 	else:
-		frame_label.label_settings.font_color =  Color.DARK_RED
-		frame_text.label_settings.font_color = Color.DARK_RED
+		frame_label.label_settings.font_color =  Color.RED
+		frame_text.label_settings.font_color = Color.RED
 
 	frame_text.text = "%d fps" % _fps
 	cpu_ms_text.text = "%.2f ms" % RenderingServer.viewport_get_measured_render_time_cpu(viewport_rid)
@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 	var _physical_mem: float = OS.get_memory_info()['physical'] / (1024 * 1024)
 	var _used_mem: float = OS.get_static_memory_usage() / (1024 * 1024)
 	ram_usage_label.text = "RAM Usage (%.2f%%):" % ((_used_mem / _physical_mem) * 100.0)
-	ram_usage_text.text = "%dmb / %dmb" % [_used_mem, _physical_mem]
+	ram_usage_text.text = "%d / %d (mb)" % [_used_mem, _physical_mem]
 
 func _on_button_pressed() -> void:
-	DisplayServer.clipboard_set("%s %s %s %s %s %s %s | %s / %s / %s / %s" % [frame_text.text, cpu_ms_label.text, cpu_ms_text.text, gpu_ms_label.text, gpu_ms_text.text, ram_usage_label.text, ram_usage_text.text, engine_version_text.text, graphics_text.text, processor_text.text, os_text.text])
+	DisplayServer.clipboard_set("%s \n %s %s \n %s %s \n %s %s \n %s / %s / %s / %s" % [frame_text.text, cpu_ms_label.text, cpu_ms_text.text, gpu_ms_label.text, gpu_ms_text.text, ram_usage_label.text, ram_usage_text.text, engine_version_text.text, graphics_text.text, processor_text.text, os_text.text])

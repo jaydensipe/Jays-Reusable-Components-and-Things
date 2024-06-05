@@ -13,7 +13,7 @@ config_version=5
 config/name="Jay's Reusable Components & Things"
 config/description="A package of reusable components and random things for Godot."
 config/tags=PackedStringArray("plugin")
-run/main_scene="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_character.tscn"
+run/main_scene="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -117,7 +117,3 @@ reload={
 [physics]
 
 common/physics_ticks_per_second=120
-
-[rendering]
-
-rendering_device/driver.windows="d3d12"

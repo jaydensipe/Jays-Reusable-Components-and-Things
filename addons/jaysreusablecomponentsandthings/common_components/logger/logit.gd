@@ -13,12 +13,10 @@ static func warn(message: Variant) -> void:
 	_display_log(message, "WARN", "yellow")
 	push_warning(message)
 
-static func error(message: Variant, throw_assert: bool = false) -> void:
+static func error(message: Variant) -> void:
 	_display_log(message, "ERROR", "red")
 	push_error(message)
 	print_stack()
-
-	if (throw_assert): assert(false, str(message))
 
 static func custom(message: Variant, log_type: String, bbcode_color: String) -> void:
 	_display_log(message, log_type, bbcode_color)
