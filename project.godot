@@ -13,7 +13,7 @@ config_version=5
 config/name="Jay's Reusable Components & Things"
 config/description="A package of reusable components and random things for Godot."
 config/tags=PackedStringArray("plugin")
-run/main_scene="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example.tscn"
+run/main_scene="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/fps_example.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -21,7 +21,8 @@ config/icon="res://icon.svg"
 
 DrawIt="*res://addons/jaysreusablecomponentsandthings/common_components/draw/drawit.gd"
 DebugIt="*res://addons/jaysreusablecomponentsandthings/common_components/debug/debugit.tscn"
-RaycastIt3D="*res://addons/jaysreusablecomponentsandthings/common_components/raycast/raycastit_3d.gd"
+RaycastIt="*res://addons/jaysreusablecomponentsandthings/common_components/raycast/raycastit.gd"
+ResonateIt="*res://addons/jaysreusablecomponentsandthings/common_components/audio/resonateit.gd"
 
 [debug]
 
@@ -113,6 +114,12 @@ reload={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"location":0,"echo":false,"script":null)
 ]
 }
+
+[layer_names]
+
+3d_physics/layer_1="Level / Props"
+3d_physics/layer_2="Player"
+3d_physics/layer_3="Projectiles"
 
 [physics]
 

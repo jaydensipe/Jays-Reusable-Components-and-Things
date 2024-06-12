@@ -5,12 +5,12 @@ class_name FPCameraComponent3D
 # Camera controller settings and code used from: https://github.com/Btan2/Q_Move/. Thank you!
 
 @export var character: CharacterBody3D
-@export var viewmodel_container: Node3D
+@export var item_container: FPItemContainer3D
 
 @export_group("Config")
 @export var mouse_sensitivity: float = 3.0
 
-@export_group("Viewmodel Config")
+@export_group("Item Config")
 @export var enable_idle: bool = true
 @export var idle_scale: float = 1.6
 var idle_time: float = 0.0
@@ -23,7 +23,6 @@ var ipitch_level: float = 0.15
 var i_right: float = 0.0
 var i_forward: float = 0.0
 var i_up: float = 0.0
-@export var viewmodel_origin: Vector3 = Vector3(0.0, 0.0, 0.0)
 
 enum BOB_TYPE { VB_COS, VB_SIN, VB_COS2, VB_SIN2 }
 
@@ -59,8 +58,7 @@ var deltaTime : float = 0.0
 var mouse_move: Vector2 = Vector2.ZERO
 var mouse_rotation_x: float = 0.0
 var cam_pos: Vector3
-
-signal footstep
+var is_inside: bool = false
 
 func _ready() -> void:
 	assert(is_instance_valid(character), "Please provide CharacterBody3D to the FPCameraComponent3D component!")
@@ -68,7 +66,7 @@ func _ready() -> void:
 	cam_pos = transform.origin
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Input.use_accumulated_input = false
-	swayPos = viewmodel_origin
+	swayPos = item_container.current_item.viewmodel_origin
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (event is InputEventMouseMotion):
@@ -119,14 +117,54 @@ func calc_bob (freqmod: float, mode, bob_i: int, bob: float):
 
 	return bob
 
+var outsideness = 1.0
+
+var hit_lenghts: Array[float] = [0.0, 0.0, 0.0, 0.0]
+
 func _process(delta: float) -> void:
 	deltaTime = delta
+
+	var max_length = 25.0
+	var l = RaycastIt.ray_3d(global_position, Vector3.LEFT, max_length, true)
+	var r = RaycastIt.ray_3d(global_position, Vector3.RIGHT, max_length, true)
+	var b = RaycastIt.ray_3d(global_position, Vector3.BACK, max_length, true)
+	var f = RaycastIt.ray_3d(global_position, Vector3.FORWARD, max_length, true)
+
+	if (l.is_empty()):
+		hit_lenghts[0] = max_length
+	else:
+		hit_lenghts[0] = (l["position"] - global_position).length()
+	if (r.is_empty()):
+		hit_lenghts[1] =  max_length
+	else:
+		hit_lenghts[1] =( r["position"] - global_position).length()
+	if (b.is_empty()):
+		hit_lenghts[2] =  max_length
+	else:
+		hit_lenghts[2] = (b["position"] - global_position).length()
+	if (f.is_empty()):
+		hit_lenghts[3] = max_length
+	else:
+		hit_lenghts[3] = (f["position"] - global_position).length()
+
+	var hitl = 0.0
+	for length in hit_lenghts:
+		hitl += length
+
+	outsideness = hitl / (max_length * 4.0)
+	outsideness = 1 - outsideness
+
+	if (!RaycastIt.ray_3d(global_position, Vector3.UP, 5000, true).is_empty()):
+		is_inside = true
+	else:
+		is_inside = false
+
 
 	# Set points of origin
 	rotation_degrees = Vector3(mouse_rotation_x, 0, 0)
 	transform.origin = cam_pos
-	viewmodel_container.transform.origin = viewmodel_origin
-	viewmodel_container.rotation_degrees = Vector3.ZERO
+	item_container.transform.origin = item_container.current_item.viewmodel_origin
+	item_container.rotation_degrees = Vector3.ZERO
 
 	# Apply velocity roll
 	if (enable_roll): velocity_roll()
@@ -152,9 +190,9 @@ func _process(delta: float) -> void:
 
 func view_model_bob():
 	for i in range(3):
-		viewmodel_container.transform.origin[i] += _bob_dir_right * 0.25 * transform.basis.x[i]
-		viewmodel_container.transform.origin[i] += _bob_dir_up * 0.125 * transform.basis.y[i]
-		viewmodel_container.transform.origin[i] += _bob_dir_forward * 0.06125 * transform.basis.z[i]
+		item_container.transform.origin[i] += _bob_dir_right * 0.25 * transform.basis.x[i]
+		item_container.transform.origin[i] += _bob_dir_up * 0.125 * transform.basis.y[i]
+		item_container.transform.origin[i] += _bob_dir_forward * 0.06125 * transform.basis.z[i]
 
 func view_model_sway():
 	var pos : Vector3
@@ -168,7 +206,7 @@ func view_model_sway():
 	pos.x = clamp(-mouse_move.x * swayPos_offset, -swayPos_max, swayPos_max)
 	pos.y = clamp(mouse_move.y * swayPos_offset, -swayPos_max, swayPos_max)
 	swayPos = lerp(swayPos, pos, swayPos_speed * deltaTime)
-	viewmodel_container.transform.origin += swayPos
+	item_container.transform.origin += swayPos
 
 	rot = Vector3.ZERO
 	rot.x = clamp(-mouse_move.y * swayRot_angle, -swayRot_max, swayRot_max)
@@ -185,15 +223,15 @@ var idleRot_level = Vector3(-1.5, 2, 1.5)       #default: Vector3(-1.5, 2, 1.5)
 
 func view_model_idle():
 	for i in range(3):
-		viewmodel_container.transform.origin[i] += idlePos_scale * sin(idle_time * idlePos_cycle[i]) * idlePos_level[i]
-		viewmodel_container.rotation_degrees[i] += idleRot_scale * sin(idle_time * idleRot_cycle[i]) * idleRot_level[i]
+		item_container.transform.origin[i] += idlePos_scale * sin(idle_time * idlePos_cycle[i]) * idlePos_level[i]
+		item_container.rotation_degrees[i] += idleRot_scale * sin(idle_time * idleRot_cycle[i]) * idleRot_level[i]
 
 func velocity_roll() -> void:
 	var side: float
 
 	side = calc_roll(character.velocity, roll_amount, roll_speed) * 4
 	rotation_degrees.z += side
-	viewmodel_container.rotation_degrees.z += side
+	item_container.rotation_degrees.z += side
 
 func calc_roll(velocity: Vector3, angle: float, speed: float) -> float:
 	var s: float
@@ -228,7 +266,6 @@ func calc_bob_classic():
 	cycle /= bob_cycle
 	if cycle < bob_up:
 		cycle = PI * cycle / bob_up
-		footstep.emit()
 	else:
 		cycle = PI + PI * (cycle - bob_up) / (1.0 - bob_up)
 

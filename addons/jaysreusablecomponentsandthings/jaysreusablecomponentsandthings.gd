@@ -12,7 +12,8 @@ func _enter_tree() -> void:
 	# Add autoload singletons
 	add_autoload_singleton("DrawIt", "res://addons/jaysreusablecomponentsandthings/common_components/draw/drawit.gd")
 	add_autoload_singleton("DebugIt", "res://addons/jaysreusablecomponentsandthings/common_components/debug/debugit.tscn")
-	add_autoload_singleton("RaycastIt3D", "res://addons/jaysreusablecomponentsandthings/common_components/raycast/raycastit_3d.gd")
+	add_autoload_singleton("RaycastIt", "res://addons/jaysreusablecomponentsandthings/common_components/raycast/raycastit.gd")
+	add_autoload_singleton("ResonateIt", "res://addons/jaysreusablecomponentsandthings/common_components/audio/resonateit.gd")
 
 	pass
 
@@ -21,6 +22,6 @@ func _exit_tree() -> void:
 	# Remove autoload singletons
 	remove_autoload_singleton("DrawIt")
 	remove_autoload_singleton("DebugIt")
-	remove_autoload_singleton("RaycastIt3D")
+	remove_autoload_singleton("RaycastIt")
 
 	pass

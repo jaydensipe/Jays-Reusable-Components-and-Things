@@ -61,8 +61,8 @@ func _ready() -> void:
 	if (debug_instance):
 		if (is_player_controlled):
 			var player_debug_box: DebugBoxContainer = DebugIt.create_debug_box(&"Player", Color.INDIAN_RED)
-			player_debug_box.add_button("Toggle Noclip", _debug_noclip)
-			player_debug_box.add_button("Disable Movement", func(): disable_movement = !disable_movement)
+			player_debug_box.add_toggle_button("Toggle Noclip", _debug_noclip)
+			player_debug_box.add_toggle_button("Disable Movement", func(): disable_movement = !disable_movement)
 
 func _physics_process(delta: float) -> void:
 	# Disable movement check

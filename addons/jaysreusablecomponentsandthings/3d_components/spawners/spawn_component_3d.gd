@@ -1,4 +1,5 @@
-extends Node3D
+@icon("res://addons/jaysreusablecomponentsandthings/assets/icons/icon_scene_spawn_component_3d.svg")
+extends Marker3D
 class_name SpawnComponent3D
 
 @export_group("Config")
@@ -11,12 +12,3 @@ class_name SpawnComponent3D
 @export var randomize_x: bool = false
 @export var randomize_y: bool = false
 @export var randomize_z: bool = false
-
-func spawn_at_location(spawn_position: Vector3 = global_position, parent: Node = get_tree().current_scene):
-	pass
-
-func spawn_at_location_with_transform(spawn_transform: Transform3D = global_transform, parent: Node = get_tree().current_scene):
-	pass
-
-func spawn_at_location_with_normal(normal: Vector3, spawn_position: Vector3 = global_position, parent: Node = get_tree().current_scene):
-	pass

@@ -72,17 +72,18 @@ func _physics_process(delta: float) -> void:
 
 func _init_default_debug_box_functionality() -> void:
 	var built_ins_box: DebugBoxContainer = create_debug_box("Built-Ins")
+	built_ins_box.add_plus_minus_buton("Time Scale", Engine.time_scale, Engine.set_time_scale)
 	built_ins_box.add_button("Switch Render Views", func():
 		var vp = get_viewport()
 		vp.debug_draw = (vp.debug_draw + 1 ) % 6
 	)
-	built_ins_box.add_button("Toggle Fullscreen", func():
+	built_ins_box.add_toggle_button("Toggle Fullscreen", func():
 		if (DisplayServer.window_get_mode(0) == DisplayServer.WINDOW_MODE_FULLSCREEN):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	)
-	built_ins_box.add_button("Toggle Fly Camera (3D)", func():
+	built_ins_box.add_toggle_button("Toggle Fly Camera (3D)", func():
 		if (is_instance_valid(_debug_fly_cam_3d)):
 			_debug_fly_cam_3d._prev_camera.make_current()
 			_debug_fly_cam_3d.queue_free()
@@ -94,11 +95,9 @@ func _init_default_debug_box_functionality() -> void:
 		_debug_fly_cam_3d.global_transform = _current_cam.global_transform
 		_debug_fly_cam_3d._prev_camera = _current_cam
 		_debug_fly_cam_3d.make_current()
-	)
-	built_ins_box.add_button("Toggle Debug", func():
-		pass
-	)
-	built_ins_box.add_button("Pause Game", func():
+	).add_shortcut(KEY_V)
+	built_ins_box.add_toggle_button("Toggle Debug", func(): pass)
+	built_ins_box.add_toggle_button("Pause Game", func():
 		get_tree().paused = !get_tree().paused
 	)
 

@@ -17,6 +17,7 @@ static func error(message: Variant) -> void:
 	_display_log(message, "ERROR", "red")
 	push_error(message)
 	print_stack()
+	print("\n")
 
 static func custom(message: Variant, log_type: String, bbcode_color: String) -> void:
 	_display_log(message, log_type, bbcode_color)
