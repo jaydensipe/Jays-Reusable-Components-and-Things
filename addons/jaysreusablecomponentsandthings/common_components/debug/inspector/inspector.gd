@@ -79,7 +79,7 @@ func _on_item_selected() -> void:
 	var selected_tree_item: TreeItem = get_selected()
 	if (!selected_tree_item.has_meta(&"current_node_instance_id") or selected_tree_item.get_icon_modulate(0) == Color.GREEN): return
 
-	var current_node_instance_id = selected_tree_item.get_meta(&"current_node_instance_id")
+	var current_node_instance_id: Variant = selected_tree_item.get_meta(&"current_node_instance_id")
 	var current_node: Object = null
 	if (current_node_instance_id == null):
 		current_node = instance_from_id(selected_tree_item.get_parent().get_meta(&"current_node_instance_id"))
@@ -151,7 +151,6 @@ func _set_edit_variable(tree_item: TreeItem, button_id: int) -> void:
 	tree_item.set_button_color(1, button_id, Color.WHITE)
 
 func _setup_child_tree_node_bg_color(child: TreeItem, item: Dictionary) -> void:
-	LogIt.warn(item)
 	if (item["type"] == TYPE_OBJECT and (item["usage"] == 4102 or item["usage"] == 4096)):
 		child.set_custom_bg_color(0, Color("#ff7477",  0.2))
 	else:

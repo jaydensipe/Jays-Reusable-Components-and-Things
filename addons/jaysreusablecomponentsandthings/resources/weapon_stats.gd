@@ -6,7 +6,6 @@ class_name WeaponStats
 var ammo: float = 6.0
 
 func _init() -> void:
-	# Ensures variables are ready
 	call_deferred("_ready")
 
 func _ready() -> void:

@@ -7,10 +7,13 @@ extends Control
 @onready var monitor: Panel = $"Window/TabContainer/System Monitor"
 @onready var _target_position: Vector2i = Vector2i(_viewport_size.x - window.get_size_with_decorations().x, 50)
 
+var is_global_debug_enabled: bool = false
 var _viewport_size: Vector2i = Vector2.ZERO
 var _debug_fly_cam_3d: FlyCamera = null
 const DEBUG_BOX_CONTAINER: PackedScene = preload("res://addons/jaysreusablecomponentsandthings/common_components/debug/debug_box/debug_box_container.tscn")
 const MONITOR: PackedScene = preload("res://addons/jaysreusablecomponentsandthings/common_components/debug/monitor/monitor.tscn")
+
+signal global_debug_changed(value: bool)
 
 func _ready() -> void:
 	_init_main_debug_window()
@@ -24,7 +27,7 @@ func register_in_inspector(node: Node, icon: Texture2D = inspector._fallback_ico
 	inspector._register_inspector(node, icon, register_children)
 
 func _init_main_debug_window() -> void:
-	get_viewport().size_changed.connect(func():
+	get_viewport().size_changed.connect(func() -> void:
 		_viewport_size = get_viewport().get_window().size
 	)
 
@@ -73,17 +76,17 @@ func _physics_process(delta: float) -> void:
 func _init_default_debug_box_functionality() -> void:
 	var built_ins_box: DebugBoxContainer = create_debug_box("Built-Ins")
 	built_ins_box.add_plus_minus_buton("Time Scale", Engine.time_scale, Engine.set_time_scale)
-	built_ins_box.add_button("Switch Render Views", func():
-		var vp = get_viewport()
+	built_ins_box.add_button("Switch Render Views", func() -> void:
+		var vp: Viewport = get_viewport()
 		vp.debug_draw = (vp.debug_draw + 1 ) % 6
 	)
-	built_ins_box.add_toggle_button("Toggle Fullscreen", func():
+	built_ins_box.add_toggle_button("Toggle Fullscreen", func() -> void:
 		if (DisplayServer.window_get_mode(0) == DisplayServer.WINDOW_MODE_FULLSCREEN):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	)
-	built_ins_box.add_toggle_button("Toggle Fly Camera (3D)", func():
+	built_ins_box.add_toggle_button("Toggle Fly Camera (3D)", func() -> void:
 		if (is_instance_valid(_debug_fly_cam_3d)):
 			_debug_fly_cam_3d._prev_camera.make_current()
 			_debug_fly_cam_3d.queue_free()
@@ -96,8 +99,11 @@ func _init_default_debug_box_functionality() -> void:
 		_debug_fly_cam_3d._prev_camera = _current_cam
 		_debug_fly_cam_3d.make_current()
 	).add_shortcut(KEY_V)
-	built_ins_box.add_toggle_button("Toggle Debug", func(): pass)
-	built_ins_box.add_toggle_button("Pause Game", func():
+	built_ins_box.add_toggle_button("Toggle Debug", func() -> void:
+		is_global_debug_enabled = !is_global_debug_enabled
+		global_debug_changed.emit(is_global_debug_enabled)
+	)
+	built_ins_box.add_toggle_button("Pause Game", func() -> void:
 		get_tree().paused = !get_tree().paused
 	)
 
@@ -107,7 +113,7 @@ func create_debug_box(title: StringName, background_color: Color = Color.GRAY) -
 			return debug_box
 
 	var debug_box_container: DebugBoxContainer = DEBUG_BOX_CONTAINER.instantiate()
-	debug_box_container.ready.connect(func():
+	debug_box_container.ready.connect(func() -> void:
 		debug_box_container.label.text = title
 
 		var style_box: StyleBox = debug_box_container.background.get_theme_stylebox("panel").duplicate()

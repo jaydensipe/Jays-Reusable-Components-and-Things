@@ -16,16 +16,16 @@ enum REVOLVER_SHOOT_STATE {
 func _ready() -> void:
 	viewmodel_origin = Vector3(0.1, -0.16, -0.285)
 
-	weapon_component.primary_pressed.connect(func():
+	weapon_component.primary_pressed.connect(func() -> void:
 		shoot()
 	)
 
-	weapon_component.alternate_pressed.connect(func():
+	weapon_component.alternate_pressed.connect(func() -> void:
 		_shared_between_primary_and_alternate(20.0, weapon_component.get_stats().fire_rate * 0.75)
 		audio_gunshot_player.pitch_scale = 0.9
 	)
 
-	weapon_component.reload_pressed.connect(func():
+	weapon_component.reload_pressed.connect(func() -> void:
 		reload()
 	)
 
@@ -40,14 +40,14 @@ func reload() -> void:
 	audio_reload_player.play()
 	_current_state = REVOLVER_SHOOT_STATE.RELOADING
 
-func _shared_between_primary_and_alternate(range: float, anim_speed: float):
+func _shared_between_primary_and_alternate(range: float, anim_speed: float) -> void:
 	if (weapon_component.get_stats().ammo <= 0 or _current_state != REVOLVER_SHOOT_STATE.IDLE): return
 
 	_current_state = REVOLVER_SHOOT_STATE.SHOOTING
 	weapon_component.get_stats().ammo -= 1
 	animation_player.play("revolver_shoot", -1, anim_speed)
 	audio_gunshot_player.play()
-	var hit: Dictionary = RaycastIt.ray_from_camera_3d(range, get_parent_node_3d().camera, true, true)
+	var hit: Dictionary = RaycastIt.ray_from_camera_3d(range, get_parent_node_3d().camera, true, 0.1, [get_parent_node_3d().owner])
 	if (hit != {}):
 		scene_spawn_component_3d.spawn_at_location_with_normal(hit["normal"], hit["position"])
 

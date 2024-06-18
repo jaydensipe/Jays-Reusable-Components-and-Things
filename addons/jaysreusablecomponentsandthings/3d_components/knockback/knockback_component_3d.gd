@@ -10,15 +10,8 @@ class_name KnockbackComponent3D
 @export var override_y: float = 0.0
 @export var override_z: float = 0.0
 
-func _ready() -> void:
-	target_position.y = target_position.y + 0.01
-
-func _physics_process(delta: float) -> void:
-	force_shapecast_update()
-
-func trigger_knockback():
+func trigger_knockback()  -> void:
 	for i in get_collision_count():
-		print(get_collider(i))
 		if (get_collider(i) is not PhysicsBody3D): return
 
 		var vector: Vector3 = get_collider(i).global_transform.origin - global_transform.origin

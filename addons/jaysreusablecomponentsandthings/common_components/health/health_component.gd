@@ -27,7 +27,7 @@ var _is_dead: bool = false
 func _ready() -> void:
 	_health = max_health
 
-func apply_health(health_value: float, type: HEALTH_TYPES):
+func apply_health(health_value: float, type: HEALTH_TYPES)  -> void:
 	match type:
 		HEALTH_TYPES.DAMAGE:
 			if (_health <= 0.0 or invincible): return

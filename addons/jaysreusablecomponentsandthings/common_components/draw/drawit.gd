@@ -3,6 +3,8 @@ extends Node
 # Code based on https://github.com/Ryan-Mirch/Line-and-Sphere-Drawing/blob/main/Draw3D.gd. Thank you!
 
 func draw_line_3d(from: Vector3, to: Vector3, color: Color = Color.RED, seconds_to_persist: float = 0.0) -> void:
+	if (!DebugIt.is_global_debug_enabled): return
+
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var immediate_mesh: ImmediateMesh = ImmediateMesh.new()
 	var material: ORMMaterial3D = ORMMaterial3D.new()
@@ -19,24 +21,9 @@ func draw_line_3d(from: Vector3, to: Vector3, color: Color = Color.RED, seconds_
 
 	instantiate_and_cleanup(mesh_instance, seconds_to_persist)
 
-func draw_ray_3d(origin: Vector3, direction: Vector3, color: Color = Color.RED, seconds_to_persist: float = 0.0) -> void:
-	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
-	var immediate_mesh: ImmediateMesh = ImmediateMesh.new()
-	var material: ORMMaterial3D = ORMMaterial3D.new()
-
-	mesh_instance.mesh = immediate_mesh
-
-	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
-	immediate_mesh.surface_add_vertex(origin)
-	immediate_mesh.surface_add_vertex(origin + direction)
-	immediate_mesh.surface_end()
-
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = color
-
-	instantiate_and_cleanup(mesh_instance, seconds_to_persist)
-
 func draw_sphere_3d(position: Vector3, radius: float = 0.05, color: Color = Color.RED, seconds_to_persist: float = 0.0) -> void:
+	if (!DebugIt.is_global_debug_enabled): return
+
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var sphere_mesh: SphereMesh =  SphereMesh.new()
 	var material: ORMMaterial3D = ORMMaterial3D.new()
@@ -54,6 +41,8 @@ func draw_sphere_3d(position: Vector3, radius: float = 0.05, color: Color = Colo
 	instantiate_and_cleanup(mesh_instance, seconds_to_persist)
 
 func draw_wireframe_sphere_3d(position: Vector3, radius: float = 0.05, seconds_to_persist: float = 0.0) -> void:
+	if (!DebugIt.is_global_debug_enabled): return
+
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var sphere_shape: SphereShape3D =  SphereShape3D.new()
 
@@ -65,6 +54,8 @@ func draw_wireframe_sphere_3d(position: Vector3, radius: float = 0.05, seconds_t
 	instantiate_and_cleanup(mesh_instance, seconds_to_persist)
 
 func draw_box_3d(position: Vector3, size: Vector3, color: Color = Color.RED, seconds_to_persist: float = 0.0) -> void:
+	if (!DebugIt.is_global_debug_enabled): return
+
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var box_mesh: BoxMesh =  BoxMesh.new()
 	var material: ORMMaterial3D = ORMMaterial3D.new()
@@ -81,6 +72,8 @@ func draw_box_3d(position: Vector3, size: Vector3, color: Color = Color.RED, sec
 	instantiate_and_cleanup(mesh_instance, seconds_to_persist)
 
 func draw_wireframe_box_3d(position: Vector3, size: Vector3, seconds_to_persist: float = 0.0) -> void:
+	if (!DebugIt.is_global_debug_enabled): return
+
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var box_shape: BoxShape3D =  BoxShape3D.new()
 
@@ -93,8 +86,11 @@ func draw_wireframe_box_3d(position: Vector3, size: Vector3, seconds_to_persist:
 
 func instantiate_and_cleanup(mesh_instance: MeshInstance3D, seconds_to_persist: float) -> void:
 	var rendering_server: RID = RenderingServer.instance_create2(mesh_instance.mesh, get_viewport().get_camera_3d().get_world_3d().scenario)
+	RenderingServer.instance_set_transform(rendering_server, mesh_instance.transform)
 	RenderingServer.instance_geometry_set_cast_shadows_setting(rendering_server, RenderingServer.SHADOW_CASTING_SETTING_OFF)
 
-	if (seconds_to_persist > 0):
+	if (seconds_to_persist > 0.0):
 		await get_tree().create_timer(seconds_to_persist).timeout
-		RenderingServer.free_rid(rendering_server)
+
+	mesh_instance.queue_free()
+	RenderingServer.free_rid(rendering_server)

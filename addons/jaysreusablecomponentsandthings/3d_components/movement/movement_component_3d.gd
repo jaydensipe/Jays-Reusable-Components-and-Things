@@ -45,12 +45,6 @@ var _prev_movement_state: MOVEMENT_STATES = MOVEMENT_STATES.WALKING
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _direction: Vector3 = Vector3.ZERO
 var _input_dir: Vector2 = Vector2.ZERO
-var _time_between_footsteps: float = 0.0
-var _time: float = 0.0
-const a: float = 0.24
-const n: float = 2.5
-const b: float = 1.68
-const c: float = 90.0
 @onready var _current_max_move_speed: float = move_stats.speed
 
 func _ready() -> void:
@@ -62,7 +56,7 @@ func _ready() -> void:
 		if (is_player_controlled):
 			var player_debug_box: DebugBoxContainer = DebugIt.create_debug_box(&"Player", Color.INDIAN_RED)
 			player_debug_box.add_toggle_button("Toggle Noclip", _debug_noclip)
-			player_debug_box.add_toggle_button("Disable Movement", func(): disable_movement = !disable_movement)
+			player_debug_box.add_toggle_button("Disable Movement", func() -> void: disable_movement = !disable_movement)
 
 func _physics_process(delta: float) -> void:
 	# Disable movement check
@@ -97,7 +91,7 @@ func _physics_process(delta: float) -> void:
 
 	_prev_movement_state= _current_movement_state
 
-func apply_movement(delta: float):
+func apply_movement(delta: float) -> void:
 	# Checks for applying acceleration
 	if (move_stats.apply_acceleration):
 		_direction = lerp(_direction, (character.transform.basis * Vector3(_input_dir.x, 0, _input_dir.y)).normalized(), delta * move_stats.acceleration)
@@ -120,51 +114,49 @@ func apply_movement(delta: float):
 	_process_footsteps(delta)
 	character.move_and_slide()
 
-func _process_footsteps(delta: float):
-	_time += delta
 
-	var mappedPlayerSpeed : float = character.velocity.length_squared() / 10.0 # Convert the speed so that walking speed is about 6
-	var stepsPerSecond : float = ((a * pow(mappedPlayerSpeed, n)) + (b * mappedPlayerSpeed) + c) / 60.0
-	var timePerStep : float = 1.0 / stepsPerSecond
-	var currentFootstepsWaitingPeriod : float = timePerStep # Amount of time to wait before playing the next audio source
-	if (character.is_on_floor() and !character.velocity.is_zero_approx() and _time > _time_between_footsteps):
+var dist_traveled: float = 0.0
+func _process_footsteps(delta: float) -> void:
+	if (_input_dir != Vector2.ZERO and character.is_on_floor()):
+		dist_traveled += max(0.8, (1.0 * character.velocity.length_squared()) / 60.0)
+	elif (character.is_on_floor()):
 		if (_prev_movement_state == MOVEMENT_STATES.FALLING):
 			land_audio_player.play()
-		footstep_audio_player.play()
-		footstep_audio_player.pitch_scale = randf_range(0.95, 1.05)
-		_time_between_footsteps = currentFootstepsWaitingPeriod
-		_time = 0
 
-func apply_player_input_direction():
+	if (dist_traveled >= 70.0):
+		footstep_audio_player.play()
+		dist_traveled = 0.0
+
+func apply_player_input_direction() -> void:
 	_input_dir = Input.get_vector(move_left_name, move_right_name, move_forward_name, move_backward_name)
 
-func jump():
+func jump() -> void:
 	if character.is_on_floor():
 		character.velocity.y = move_stats.jump_height
 
 		jump_audio_player.play()
 
-func sprint():
+func sprint() -> void:
 	if (character.is_on_floor() and _current_movement_state != MOVEMENT_STATES.CROUCHING):
 		_current_movement_state = MOVEMENT_STATES.SPRINTING
 		_current_max_move_speed = move_stats.speed * move_stats.sprint_multiplier
 
-func crouch(delta: float):
+func crouch(delta: float) -> void:
 	_current_movement_state = MOVEMENT_STATES.CROUCHING
 	collider.shape.set_height(lerpf(collider.shape.get_height(), 1.25, 7.5 * delta))
 	_current_max_move_speed = move_stats.speed * move_stats.crouch_multiplier
 
-func _debug_noclip():
+func _debug_noclip() -> void:
 	pass
 
-func stop_crouch(delta: float):
+func stop_crouch(delta: float) -> void:
 	collider.shape.set_height(lerpf(collider.shape.get_height(), 2.0, 7.5 * delta))
 
-func reset_to_walk():
+func reset_to_walk() -> void:
 	_current_max_move_speed = move_stats.speed
 	_current_movement_state = MOVEMENT_STATES.WALKING
 
-func move_to_direction(direction: Vector3, delta: float):
+func move_to_direction(direction: Vector3, delta: float) -> void:
 	direction = direction.normalized()
 
 	character.velocity = character.velocity.lerp(direction * _current_max_move_speed, move_stats.acceleration * delta)

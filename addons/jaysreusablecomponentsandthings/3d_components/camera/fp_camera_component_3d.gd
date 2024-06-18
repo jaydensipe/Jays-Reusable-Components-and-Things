@@ -80,7 +80,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		mouse_rotation_x = clamp(mouse_rotation_x, -89, 89)
 		character.rotate_y(deg_to_rad(-motion.x * mouse_sensitivity))
 
-func add_bob():
+func add_bob() -> void:
 	_bob_dir_right = calc_bob(0.75, bob_mode, 0, _bob_dir_right)
 	_bob_dir_up = calc_bob(1.50, bob_mode, 1, _bob_dir_up)
 	_bob_dir_forward = calc_bob(1.00, bob_mode, 2, _bob_dir_forward)
@@ -89,7 +89,7 @@ var cl_bob : float = 0.01             # default: 0.01
 var cl_bobup : float = 0.5            # default: 0.5
 var cl_bobcycle : float = 0.9         # default: 0.8
 
-func calc_bob (freqmod: float, mode, bob_i: int, bob: float):
+func calc_bob (freqmod: float, mode: BOB_TYPE, bob_i: int, bob: float) -> float:
 	var cycle : float
 	var vel : Vector3
 
@@ -117,47 +117,8 @@ func calc_bob (freqmod: float, mode, bob_i: int, bob: float):
 
 	return bob
 
-var outsideness = 1.0
-
-var hit_lenghts: Array[float] = [0.0, 0.0, 0.0, 0.0]
-
 func _process(delta: float) -> void:
 	deltaTime = delta
-
-	var max_length = 25.0
-	var l = RaycastIt.ray_3d(global_position, Vector3.LEFT, max_length, true)
-	var r = RaycastIt.ray_3d(global_position, Vector3.RIGHT, max_length, true)
-	var b = RaycastIt.ray_3d(global_position, Vector3.BACK, max_length, true)
-	var f = RaycastIt.ray_3d(global_position, Vector3.FORWARD, max_length, true)
-
-	if (l.is_empty()):
-		hit_lenghts[0] = max_length
-	else:
-		hit_lenghts[0] = (l["position"] - global_position).length()
-	if (r.is_empty()):
-		hit_lenghts[1] =  max_length
-	else:
-		hit_lenghts[1] =( r["position"] - global_position).length()
-	if (b.is_empty()):
-		hit_lenghts[2] =  max_length
-	else:
-		hit_lenghts[2] = (b["position"] - global_position).length()
-	if (f.is_empty()):
-		hit_lenghts[3] = max_length
-	else:
-		hit_lenghts[3] = (f["position"] - global_position).length()
-
-	var hitl = 0.0
-	for length in hit_lenghts:
-		hitl += length
-
-	outsideness = hitl / (max_length * 4.0)
-	outsideness = 1 - outsideness
-
-	if (!RaycastIt.ray_3d(global_position, Vector3.UP, 5000, true).is_empty()):
-		is_inside = true
-	else:
-		is_inside = false
 
 
 	# Set points of origin
@@ -188,13 +149,13 @@ func _process(delta: float) -> void:
 		if (enable_bob and character.is_on_floor()):
 			view_bob_classic()
 
-func view_model_bob():
+func view_model_bob() -> void:
 	for i in range(3):
 		item_container.transform.origin[i] += _bob_dir_right * 0.25 * transform.basis.x[i]
 		item_container.transform.origin[i] += _bob_dir_up * 0.125 * transform.basis.y[i]
 		item_container.transform.origin[i] += _bob_dir_forward * 0.06125 * transform.basis.z[i]
 
-func view_model_sway():
+func view_model_sway() -> void:
 	var pos : Vector3
 	var rot : Vector3
 
@@ -214,14 +175,14 @@ func view_model_sway():
 	rot.y = clamp(-mouse_move.x * swayRot_angle, -swayRot_max, swayRot_max)
 	swayRot = lerp(swayRot, rot, swayRot_speed * deltaTime)
 
-var idlePos_scale = 0.1                         #default: 0.1
-var idleRot_scale = 0.5                         #default: 0.5
-var idlePos_cycle = Vector3(2.0, 4.0, 0)        #default: Vector3(2.0, 4.0, 0)
-var idlePos_level = Vector3(0.02, 0.045, 0)     #default: Vector3(0.02, 0.045, 0)
-var idleRot_cycle = Vector3(1.0, 0.5, 1.25)     #default: Vector3(1.0, 0.5, 1.25)
-var idleRot_level = Vector3(-1.5, 2, 1.5)       #default: Vector3(-1.5, 2, 1.5)
+var idlePos_scale:float = 0.1                         #default: 0.1
+var idleRot_scale:float = 0.5                         #default: 0.5
+var idlePos_cycle: Vector3 = Vector3(2.0, 4.0, 0)        #default: Vector3(2.0, 4.0, 0)
+var idlePos_level: Vector3 = Vector3(0.02, 0.045, 0)     #default: Vector3(0.02, 0.045, 0)
+var idleRot_cycle: Vector3 = Vector3(1.0, 0.5, 1.25)     #default: Vector3(1.0, 0.5, 1.25)
+var idleRot_level: Vector3 = Vector3(-1.5, 2, 1.5)       #default: Vector3(-1.5, 2, 1.5)
 
-func view_model_idle():
+func view_model_idle() -> void:
 	for i in range(3):
 		item_container.transform.origin[i] += idlePos_scale * sin(idle_time * idlePos_cycle[i]) * idlePos_level[i]
 		item_container.rotation_degrees[i] += idleRot_scale * sin(idle_time * idleRot_cycle[i]) * idleRot_level[i]
@@ -248,16 +209,16 @@ func calc_roll(velocity: Vector3, angle: float, speed: float) -> float:
 
 	return side * s
 
-func add_idle():
+func add_idle() -> void:
 	idle_time += deltaTime
 	i_right = idle_scale * sin(idle_time * ipitch_cycle) * ipitch_level
 	i_up = idle_scale * sin(idle_time * iyaw_cycle) * iyaw_level
 	i_forward = idle_scale * sin(idle_time * iroll_cycle) * iroll_level
 
-func view_bob_classic():
+func view_bob_classic() -> void:
 	transform.origin[1] += calc_bob_classic()
 
-func calc_bob_classic():
+func calc_bob_classic() -> float:
 	var vel : Vector3
 	var cycle : float
 

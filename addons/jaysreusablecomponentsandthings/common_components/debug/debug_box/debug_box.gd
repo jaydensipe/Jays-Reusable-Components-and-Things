@@ -6,7 +6,7 @@ class_name DebugBoxContainer
 @onready var grid_container: GridContainer = $VBoxContainer/GridContainer
 
 class ShortcutButton extends Button:
-	func add_shortcut(shortcut_key: Key):
+	func add_shortcut(shortcut_key: Key) -> void:
 		var input_key: InputEventKey = InputEventKey.new()
 		input_key.keycode = shortcut_key
 
@@ -37,13 +37,13 @@ class PlusMinusButton extends BaseButton:
 		plus_button.text = "+"
 		plus_button.tooltip_text = "Add by %f" % step
 
-		minus_button.pressed.connect(func():
+		minus_button.pressed.connect(func() -> void:
 			initial_value -= step
 			_call_button(button, initial_value))
-		button.pressed.connect(func():
+		button.pressed.connect(func() -> void:
 			initial_value = _store_initial_value
 			_call_button(button, initial_value))
-		plus_button.pressed.connect(func():
+		plus_button.pressed.connect(func() -> void:
 			initial_value += step
 			_call_button(button, initial_value))
 

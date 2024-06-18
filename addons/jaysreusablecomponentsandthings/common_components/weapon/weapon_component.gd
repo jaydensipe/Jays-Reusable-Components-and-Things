@@ -7,9 +7,9 @@ class_name WeaponComponent
 var _primary_held: bool = false
 var _alternate_held: bool = false
 
-signal reload_pressed()
 signal primary_pressed()
 signal alternate_pressed()
+signal reload_pressed()
 signal primary_stopped_pressing()
 signal alternate_stopped_pressing()
 
@@ -40,3 +40,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func get_stats() -> WeaponStats:
 	return _weapon_stats
+
+func get_binds() -> WeaponBinds:
+	return _weapon_binds

@@ -23,14 +23,12 @@ DrawIt="*res://addons/jaysreusablecomponentsandthings/common_components/draw/dra
 DebugIt="*res://addons/jaysreusablecomponentsandthings/common_components/debug/debugit.tscn"
 RaycastIt="*res://addons/jaysreusablecomponentsandthings/common_components/raycast/raycastit.gd"
 ResonateIt="*res://addons/jaysreusablecomponentsandthings/common_components/audio/resonateit.gd"
+SceneIt="*res://addons/jaysreusablecomponentsandthings/common_components/scene/sceneit.gd"
 
 [debug]
 
+gdscript/warnings/exclude_addons=false
 gdscript/warnings/untyped_declaration=2
-gdscript/warnings/unsafe_property_access=2
-gdscript/warnings/unsafe_method_access=2
-gdscript/warnings/unsafe_cast=1
-gdscript/warnings/unsafe_call_argument=2
 
 [display]
 
@@ -40,7 +38,7 @@ window/size/always_on_top=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/jaysreusablecomponentsandthings/plugin.cfg")
+enabled=PackedStringArray("res://addons/gd_local_history/plugin.cfg", "res://addons/jaysreusablecomponentsandthings/plugin.cfg")
 
 [file_customization]
 
@@ -56,6 +54,10 @@ folder_colors={
 [filesystem]
 
 import/fbx2gltf/enabled=false
+
+[global_group]
+
+player=""
 
 [input]
 
@@ -120,6 +122,7 @@ reload={
 3d_physics/layer_1="Level / Props"
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Projectiles"
+3d_physics/layer_4="Triggers"
 
 [physics]
 

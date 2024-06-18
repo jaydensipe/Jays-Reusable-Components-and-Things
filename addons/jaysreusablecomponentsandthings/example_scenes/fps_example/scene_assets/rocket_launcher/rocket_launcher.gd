@@ -12,7 +12,7 @@ enum ROCKET_LAUNCHER_SHOOT_STATE {
 }
 
 func _ready() -> void:
-	weapon_component.primary_pressed.connect(func():
+	weapon_component.primary_pressed.connect(func()  -> void:
 		if (weapon_component.get_stats().ammo <= 0 or _current_state != ROCKET_LAUNCHER_SHOOT_STATE.IDLE): return
 
 		_current_state = ROCKET_LAUNCHER_SHOOT_STATE.SHOOTING
@@ -21,7 +21,7 @@ func _ready() -> void:
 		scene_spawn_component_3d.spawn_at_location_with_transform()
 	)
 
-	weapon_component.reload_pressed.connect(func():
+	weapon_component.reload_pressed.connect(func()  -> void:
 		if (_current_state != ROCKET_LAUNCHER_SHOOT_STATE.IDLE): return
 
 		animation_player.play("rocket_launcher_reload")

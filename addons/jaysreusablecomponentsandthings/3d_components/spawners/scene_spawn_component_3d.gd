@@ -53,7 +53,7 @@ func spawn_at_location_with_normal(normal: Vector3, spawn_position: Vector3 = gl
 
 func _check_delete_timer(instance: Node3D) -> void:
 	if (delete_timer):
-		get_tree().create_timer(delete_time).timeout.connect(func(): instance.queue_free())
+		get_tree().create_timer(delete_time).timeout.connect(func() -> void: instance.queue_free())
 
 func _check_spawn_delay() -> void:
 	if (spawn_delay_timer):

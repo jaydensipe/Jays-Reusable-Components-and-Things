@@ -1,5 +1,8 @@
 # Godot 4+ specific ignores
 .godot/
+.gd_local_history/
+addons/gd_local_history
+addons/script-ide
 
 # Godot-specific ignores
 .import/
