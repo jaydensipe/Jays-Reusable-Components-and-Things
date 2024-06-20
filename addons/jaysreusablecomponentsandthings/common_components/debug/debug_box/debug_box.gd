@@ -75,6 +75,8 @@ func add_toggle_button(button_text: String, functionality: Callable) -> Shortcut
 	# Make colors uniform
 	toggle_button.add_theme_color_override("font_color", Color.RED)
 	toggle_button.add_theme_color_override("font_pressed_color", Color.GREEN)
+	toggle_button.add_theme_color_override("font_focus_color", Color.RED)
+	toggle_button.add_theme_color_override("font_hover_color", Color.RED)
 
 	grid_container.add_child(toggle_button)
 

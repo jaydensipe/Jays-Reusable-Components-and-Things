@@ -1,9 +1,13 @@
-[gd_scene load_steps=28 format=3 uid="uid://dbv61vt7eeulv"]
+[gd_scene load_steps=34 format=3 uid="uid://dbv61vt7eeulv"]
 
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/camera/fp_camera_component_3d.gd" id="1_7b20w"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/items/fp_item_container_3d.gd" id="2_807of"]
 [ext_resource type="PackedScene" uid="uid://civqocinlq2bd" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/revolver/revolver.tscn" id="3_qsttl"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/crosshair.gd" id="3_rb6h6"]
+[ext_resource type="Texture2D" uid="uid://cd6ee2xwwkm32" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/textures/crosshair/crosshair.svg" id="3_xnwa7"]
 [ext_resource type="PackedScene" uid="uid://nf2vqxboypy3" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/rocket_launcher/rocket_launcher.tscn" id="4_mvcfp"]
+[ext_resource type="Texture2D" uid="uid://bfthwk4ve2d7s" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/textures/crosshair/interact_crosshair.svg" id="4_p7b0i"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/crosshair/crosshair_component.gd" id="5_civi4"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/audio/reverb_handler_component_3d.gd" id="5_fda8f"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/health/health_component.gd" id="6_fhe3m"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/movement/movement_component_3d.gd" id="7_01v45"]
@@ -22,6 +26,16 @@
 [ext_resource type="AudioStream" uid="uid://cuwe7kpflehy8" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/sfx/land2.wav" id="20_nj8l6"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/debug/inspector/inspector_register_component.gd" id="21_6w2p5"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/interaction/interaction_component_3d.gd" id="22_mnd3l"]
+
+[sub_resource type="Resource" id="Resource_5mtbw"]
+script = ExtResource("3_rb6h6")
+texture = ExtResource("3_xnwa7")
+crosshair_scale = 0.15
+
+[sub_resource type="Resource" id="Resource_4or72"]
+script = ExtResource("3_rb6h6")
+texture = ExtResource("4_p7b0i")
+crosshair_scale = 1.0
 
 [sub_resource type="Resource" id="Resource_fav0k"]
 script = ExtResource("8_cuvm2")
@@ -67,6 +81,13 @@ current = true
 script = ExtResource("1_7b20w")
 character = NodePath("..")
 item_container = NodePath("FPItemContainer3D")
+
+[node name="CrosshairComponent" type="TextureRect" parent="FPCameraComponent3D" node_paths=PackedStringArray("interact_component")]
+script = ExtResource("5_civi4")
+normal_crosshair = SubResource("Resource_5mtbw")
+enable_interact = true
+interact_component = NodePath("../../InteractionComponent3D")
+interact_crosshair = SubResource("Resource_4or72")
 
 [node name="FPItemContainer3D" type="Node3D" parent="FPCameraComponent3D" node_paths=PackedStringArray("camera")]
 script = ExtResource("2_807of")

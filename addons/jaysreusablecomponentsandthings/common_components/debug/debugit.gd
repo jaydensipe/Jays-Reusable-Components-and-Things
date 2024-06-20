@@ -7,6 +7,8 @@ extends Control
 @onready var monitor: Panel = $"Window/TabContainer/System Monitor"
 @onready var _target_position: Vector2i = Vector2i(_viewport_size.x - window.get_size_with_decorations().x, 50)
 
+# TODO: Disable in release mode
+
 var is_global_debug_enabled: bool = false
 var _viewport_size: Vector2i = Vector2.ZERO
 var _debug_fly_cam_3d: FlyCamera = null

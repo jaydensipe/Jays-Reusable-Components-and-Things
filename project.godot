@@ -124,6 +124,11 @@ reload={
 3d_physics/layer_3="Projectiles"
 3d_physics/layer_4="Triggers"
 
+[local_history]
+
+config/allow_global_directory=true
+config/save_file_path="C:/Users/Jayden/Desktop/Test"
+
 [physics]
 
 common/physics_ticks_per_second=120

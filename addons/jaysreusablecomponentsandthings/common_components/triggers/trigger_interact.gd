@@ -14,6 +14,8 @@ var _toggled: bool = false
 func _ready() -> void:
 	assert(is_instance_valid(node), "Ensure the Node export is set on this Trigger Interact.")
 
+	super()
+
 func pressed() -> void:
 	if (toggleable):
 		if (_toggled):
