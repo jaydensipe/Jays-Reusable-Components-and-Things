@@ -9,7 +9,13 @@ extends Control
 
 # TODO: Disable in release mode
 
-var is_global_debug_enabled: bool = false
+var is_global_debug_enabled: bool = false :
+	set(value):
+		is_global_debug_enabled = value
+		global_debug_changed.emit(value)
+
+
+
 var _viewport_size: Vector2i = Vector2.ZERO
 var _debug_fly_cam_3d: FlyCamera = null
 const DEBUG_BOX_CONTAINER: PackedScene = preload("res://addons/jaysreusablecomponentsandthings/common_components/debug/debug_box/debug_box_container.tscn")
@@ -18,6 +24,7 @@ const MONITOR: PackedScene = preload("res://addons/jaysreusablecomponentsandthin
 signal global_debug_changed(value: bool)
 
 func _ready() -> void:
+	_init_editor_debug_build_specifics()
 	_init_main_debug_window()
 	_init_monitor()
 	_init_tab_container()
@@ -27,6 +34,10 @@ func register_in_inspector(node: Node, icon: Texture2D = inspector._fallback_ico
 	if (icon == null): icon = inspector._fallback_icon
 
 	inspector._register_inspector(node, icon, register_children)
+
+func _init_editor_debug_build_specifics() -> void:
+	if (OS.has_feature("debug")):
+		is_global_debug_enabled = true
 
 func _init_main_debug_window() -> void:
 	get_viewport().size_changed.connect(func() -> void:
@@ -103,7 +114,6 @@ func _init_default_debug_box_functionality() -> void:
 	).add_shortcut(KEY_V)
 	built_ins_box.add_toggle_button("Toggle Debug", func() -> void:
 		is_global_debug_enabled = !is_global_debug_enabled
-		global_debug_changed.emit(is_global_debug_enabled)
 	)
 	built_ins_box.add_toggle_button("Pause Game", func() -> void:
 		get_tree().paused = !get_tree().paused

@@ -27,12 +27,12 @@
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/debug/inspector/inspector_register_component.gd" id="21_6w2p5"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/interaction/interaction_component_3d.gd" id="22_mnd3l"]
 
-[sub_resource type="Resource" id="Resource_5mtbw"]
+[sub_resource type="Resource" id="Resource_mxa4w"]
 script = ExtResource("3_rb6h6")
 texture = ExtResource("3_xnwa7")
 crosshair_scale = 0.15
 
-[sub_resource type="Resource" id="Resource_4or72"]
+[sub_resource type="Resource" id="Resource_1ota0"]
 script = ExtResource("3_rb6h6")
 texture = ExtResource("4_p7b0i")
 crosshair_scale = 1.0
@@ -82,12 +82,13 @@ script = ExtResource("1_7b20w")
 character = NodePath("..")
 item_container = NodePath("FPItemContainer3D")
 
-[node name="CrosshairComponent" type="TextureRect" parent="FPCameraComponent3D" node_paths=PackedStringArray("interact_component")]
+[node name="CrosshairComponent" type="CenterContainer" parent="FPCameraComponent3D" node_paths=PackedStringArray("interact_component")]
 script = ExtResource("5_civi4")
-normal_crosshair = SubResource("Resource_5mtbw")
+normal_crosshair = SubResource("Resource_mxa4w")
 enable_interact = true
 interact_component = NodePath("../../InteractionComponent3D")
-interact_crosshair = SubResource("Resource_4or72")
+interact_crosshair = SubResource("Resource_1ota0")
+tween_time = 0.05
 
 [node name="FPItemContainer3D" type="Node3D" parent="FPCameraComponent3D" node_paths=PackedStringArray("camera")]
 script = ExtResource("2_807of")

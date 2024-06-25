@@ -1,4 +1,3 @@
-@tool
 extends Trigger3D
 class_name TriggerSoundscape
 
@@ -11,12 +10,13 @@ class_name TriggerSoundscape
 var _playback_position: float = 0.0
 
 func _ready() -> void:
+	assert(is_instance_valid(spatial_audio), "Ensure the SpatialAudioStreamPlayer3D export is set on this Trigger Soundscape.")
+
 	super()
 
-	assert(is_instance_valid(spatial_audio), "Ensure the SpatialAudioStreamPlayer3D export is set on this Trigger Soundscape.")
 	spatial_audio.volume_db = -80.0
 
-	body_entered.connect(func(body: Node3D) -> void:
+	trigger_entered.connect(func(body: Node3D) -> void:
 		if (is_instance_valid(exterior_soundscape)):
 			# Enable LPF on soundscape to diminish outdoor noise
 			AudioServer.set_bus_effect_enabled(spatial_audio.bus_index, 0, true)
@@ -28,7 +28,7 @@ func _ready() -> void:
 		spatial_audio.play(_playback_position)
 	)
 
-	body_exited.connect(func(body: Node3D) -> void:
+	trigger_exited.connect(func(body: Node3D) -> void:
 		if (is_instance_valid(exterior_soundscape)):
 			# Disable LPF on soundscape
 			AudioServer.set_bus_effect_enabled(spatial_audio.bus_index, 0, false)

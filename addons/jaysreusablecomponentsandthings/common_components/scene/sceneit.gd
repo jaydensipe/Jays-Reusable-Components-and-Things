@@ -1,14 +1,13 @@
 extends Node
 
-const LOAD_SCREEN_SCENE = preload("res://addons/jaysreusablecomponentsandthings/2d_components/ui/menus/load_screen_scene.tscn")
-
+const LOAD_UI_SCENE = preload("res://addons/jaysreusablecomponentsandthings/2d_components/ui/menus/load/load_ui.tscn")
 var load_progress: Array[int] = []
 var _scene_path: String = ""
 
 signal scene_loaded
 
 func load_packed_scene(packed_scene: PackedScene) -> Resource:
-	var load_scene: Control = LOAD_SCREEN_SCENE.instantiate()
+	var load_scene: Control = LOAD_UI_SCENE.instantiate()
 	get_tree().root.add_child(load_scene)
 
 	_scene_path = packed_scene.resource_path

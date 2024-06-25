@@ -2,29 +2,32 @@
 extends Area3D
 class_name Trigger3D
 
-@export_group("Debug")
-@export var collision_shape: CollisionShape3D
-@export var debug_label: DebugLabel
+@export_enum("Multiple", "Once") var trigger_variety: int = 0
+var _triggered: bool = false
+
+signal trigger_entered(body: Node3D)
+signal trigger_exited(body: Node3D)
 
 func _ready() -> void:
-	_init_debug_label()
+	body_entered.connect(func(body: Node3D) -> void:
+		if (trigger_variety == 1 and _triggered): return
 
-func _init_debug_label() -> void:
-	if (!is_instance_valid(debug_label)): return
+		trigger_entered.emit(body)
+	)
 
-	assert(is_instance_valid(collision_shape), "Ensure the Collision Shape is set on this Trigger to enable proper debugging.")
+	body_exited.connect(func(body: Node3D) -> void:
+		if (trigger_variety == 1 and _triggered): return
 
-	var label_3d: Label3D = Label3D.new()
-	label_3d.text = debug_label.label_text
-	label_3d.modulate = debug_label.label_color
-	label_3d.position = collision_shape.position
-	label_3d.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
-	if (!Engine.is_editor_hint()):
-		label_3d.visible = DebugIt.is_global_debug_enabled
+		trigger_exited.emit(body)
+	)
 
-		# Setup signal to change label visibility based on global debug variable
-		DebugIt.global_debug_changed.connect(func(value: bool) -> void: label_3d.visible = DebugIt.is_global_debug_enabled)
+	_init_trigger_type()
 
-
-
-	add_child(label_3d)
+func _init_trigger_type() -> void:
+	match (trigger_variety):
+		1:
+			body_entered.connect(func(body: Node3D) -> void:
+				_triggered = true
+			)
+		_:
+			pass
