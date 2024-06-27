@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/rocket_launcher/rocket_launcher.gd" id="3_un334"]
 [ext_resource type="PackedScene" uid="uid://c4cm83wmrw3jw" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/rocket_launcher/rocket.tscn" id="4_5qvo8"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/weapon/weapon_component.gd" id="4_n8h8u"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/weapon_stats.gd" id="5_7vjl6"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/weapon_binds.gd" id="6_sko28"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/stats/weapon_stats.gd" id="5_7vjl6"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/binds/weapon_binds.gd" id="6_sko28"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/spawners/scene_spawn_component_3d.gd" id="7_lrqdr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqmw4"]

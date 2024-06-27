@@ -19,11 +19,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-DrawIt="*res://addons/jaysreusablecomponentsandthings/common_components/draw/drawit.gd"
-DebugIt="*res://addons/jaysreusablecomponentsandthings/common_components/debug/debugit.tscn"
-RaycastIt="*res://addons/jaysreusablecomponentsandthings/common_components/raycast/raycastit.gd"
-ResonateIt="*res://addons/jaysreusablecomponentsandthings/common_components/audio/resonateit.gd"
-SceneIt="*res://addons/jaysreusablecomponentsandthings/common_components/scene/sceneit.gd"
+DrawIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/draw/drawit.gd"
+DebugIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/debugit.tscn"
+RaycastIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/raycast/raycastit.gd"
+ResonateIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/audio/resonateit.gd"
 
 [debug]
 
@@ -43,7 +42,6 @@ enabled=PackedStringArray("res://addons/gd_local_history/plugin.cfg", "res://add
 [file_customization]
 
 folder_colors={
-"res://addons/jaysreusablecomponentsandthings/2d_components/": "orange",
 "res://addons/jaysreusablecomponentsandthings/3d_components/": "teal",
 "res://addons/jaysreusablecomponentsandthings/assets/": "green",
 "res://addons/jaysreusablecomponentsandthings/common_components/": "gray",
@@ -116,12 +114,18 @@ reload={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"location":0,"echo":false,"script":null)
 ]
 }
+interact={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
 3d_physics/layer_1="Level / Props"
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Projectiles"
+3d_physics/layer_4="Interactables"
 
 [physics]
 

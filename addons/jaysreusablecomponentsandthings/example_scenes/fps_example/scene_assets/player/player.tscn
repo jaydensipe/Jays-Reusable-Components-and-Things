@@ -1,17 +1,16 @@
-[gd_scene load_steps=34 format=3 uid="uid://dbv61vt7eeulv"]
+[gd_scene load_steps=33 format=3 uid="uid://dbv61vt7eeulv"]
 
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/camera/fp_camera_component_3d.gd" id="1_7b20w"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/binds/interact_binds.gd" id="2_5eydq"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/items/fp_item_container_3d.gd" id="2_807of"]
 [ext_resource type="PackedScene" uid="uid://civqocinlq2bd" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/revolver/revolver.tscn" id="3_qsttl"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/crosshair.gd" id="3_rb6h6"]
 [ext_resource type="Texture2D" uid="uid://cd6ee2xwwkm32" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/textures/crosshair/crosshair.svg" id="3_xnwa7"]
 [ext_resource type="PackedScene" uid="uid://nf2vqxboypy3" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/rocket_launcher/rocket_launcher.tscn" id="4_mvcfp"]
-[ext_resource type="Texture2D" uid="uid://bfthwk4ve2d7s" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/textures/crosshair/interact_crosshair.svg" id="4_p7b0i"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/crosshair/crosshair_component.gd" id="5_civi4"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/audio/reverb_handler_component_3d.gd" id="5_fda8f"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/health/health_component.gd" id="6_fhe3m"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/spatial_audio/reverb_handler_component_3d.gd" id="5_fda8f"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/movement/movement_component_3d.gd" id="7_01v45"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/move_stats.gd" id="8_cuvm2"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/stats/move_stats.gd" id="8_cuvm2"]
 [ext_resource type="AudioStream" uid="uid://b66oxps48wnqm" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/sfx/step1.wav" id="9_mubmw"]
 [ext_resource type="AudioStream" uid="uid://ysbs1rr5ff8t" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/sfx/step2.wav" id="10_1ye0t"]
 [ext_resource type="AudioStream" uid="uid://h63qg74oor65" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/sfx/step3.wav" id="11_d8gd0"]
@@ -24,18 +23,17 @@
 [ext_resource type="AudioStream" uid="uid://tgkqfwnjjefe" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/sfx/jump2.wav" id="18_7deic"]
 [ext_resource type="AudioStream" uid="uid://bhityhq61e18o" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/sfx/land1.wav" id="19_qpqbb"]
 [ext_resource type="AudioStream" uid="uid://cuwe7kpflehy8" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/sfx/land2.wav" id="20_nj8l6"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/debug/inspector/inspector_register_component.gd" id="21_6w2p5"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/interaction/interaction_component_3d.gd" id="22_mnd3l"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/inspector/inspector_register_component.gd" id="21_6w2p5"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/interaction/fp_interaction_component.gd" id="25_jw0hi"]
 
-[sub_resource type="Resource" id="Resource_mxa4w"]
+[sub_resource type="Resource" id="Resource_bmygk"]
+script = ExtResource("2_5eydq")
+interact = "interact"
+
+[sub_resource type="Resource" id="Resource_5dnaj"]
 script = ExtResource("3_rb6h6")
 texture = ExtResource("3_xnwa7")
 crosshair_scale = 0.15
-
-[sub_resource type="Resource" id="Resource_1ota0"]
-script = ExtResource("3_rb6h6")
-texture = ExtResource("4_p7b0i")
-crosshair_scale = 1.0
 
 [sub_resource type="Resource" id="Resource_fav0k"]
 script = ExtResource("8_cuvm2")
@@ -75,6 +73,12 @@ stream_1/stream = ExtResource("20_nj8l6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 
+[node name="FPInteractionComponent" type="Node" parent="."]
+script = ExtResource("25_jw0hi")
+interact_range = null
+show_debug = true
+_interact_binds = SubResource("Resource_bmygk")
+
 [node name="FPCameraComponent3D" type="Camera3D" parent="." node_paths=PackedStringArray("character", "item_container")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.644, 0)
 current = true
@@ -82,26 +86,20 @@ script = ExtResource("1_7b20w")
 character = NodePath("..")
 item_container = NodePath("FPItemContainer3D")
 
-[node name="CrosshairComponent" type="CenterContainer" parent="FPCameraComponent3D" node_paths=PackedStringArray("interact_component")]
-script = ExtResource("5_civi4")
-normal_crosshair = SubResource("Resource_mxa4w")
-enable_interact = true
-interact_component = NodePath("../../InteractionComponent3D")
-interact_crosshair = SubResource("Resource_1ota0")
-tween_time = 0.05
-
 [node name="FPItemContainer3D" type="Node3D" parent="FPCameraComponent3D" node_paths=PackedStringArray("camera")]
 script = ExtResource("2_807of")
 camera = NodePath("..")
 items = Array[PackedScene]([ExtResource("3_qsttl"), ExtResource("4_mvcfp")])
 
+[node name="CrosshairComponent" type="CenterContainer" parent="FPCameraComponent3D"]
+script = ExtResource("5_civi4")
+crosshair = SubResource("Resource_5dnaj")
+tween_time = 0.05
+
 [node name="ReverbHandlerComponent3D" type="Node3D" parent="."]
 script = ExtResource("5_fda8f")
 max_raycasts = 8
 max_ray_range = 100.0
-
-[node name="HealthComponent" type="Node" parent="."]
-script = ExtResource("6_fhe3m")
 
 [node name="MovementComponent3D" type="Node3D" parent="." node_paths=PackedStringArray("character", "collider", "footstep_audio_player", "jump_audio_player", "land_audio_player")]
 script = ExtResource("7_01v45")
@@ -131,10 +129,6 @@ stream = SubResource("AudioStreamRandomizer_xtjfu")
 [node name="AudioLandPlayer3D" type="AudioStreamPlayer3D" parent="MovementComponent3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.49952, 0)
 stream = SubResource("AudioStreamRandomizer_eswmn")
-
-[node name="InteractionComponent3D" type="Node3D" parent="." node_paths=PackedStringArray("camera_3d")]
-script = ExtResource("22_mnd3l")
-camera_3d = NodePath("../FPCameraComponent3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_ggneu")

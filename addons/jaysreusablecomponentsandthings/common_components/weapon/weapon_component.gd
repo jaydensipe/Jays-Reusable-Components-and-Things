@@ -13,7 +13,7 @@ signal reload_pressed()
 signal primary_stopped_pressing()
 signal alternate_stopped_pressing()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if (_primary_held):
 		primary_pressed.emit()
 
