@@ -7,8 +7,9 @@ class_name FPItemContainer3D
 @onready var current_item: FPItem3D
 
 func _ready() -> void:
-	current_item = items[0].instantiate() as FPItem3D
-	add_child(current_item, true)
+	pass
+	#current_item = items[0].instantiate() as FPItem3D
+	#add_child(current_item, true)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:

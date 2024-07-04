@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/spatial_audio/spatial_audio_stream_player_3d.gd" id="1_7np8j"]
 [ext_resource type="AudioStream" uid="uid://bxaphgm5cqr2p" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/sfx/combine.mp3" id="1_rp3p1"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/inspector/inspector_register_component.gd" id="3_kwu7x"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/triggers/trigger_interact.gd" id="4_sa0w4"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/triggers/trigger_interact.gd" id="4_sa0w4"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/debug_label.gd" id="5_b8eqt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tybaj"]

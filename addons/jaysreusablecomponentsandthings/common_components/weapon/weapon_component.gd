@@ -3,7 +3,6 @@ extends Node
 class_name WeaponComponent
 
 @export var _weapon_stats: WeaponStats
-@export var _weapon_binds: WeaponBinds
 var _primary_held: bool = false
 var _alternate_held: bool = false
 
@@ -21,25 +20,22 @@ func _physics_process(_delta: float) -> void:
 		alternate_pressed.emit()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if (event.is_action_pressed(_weapon_binds.primary)):
+	if (event.is_action_pressed(&"mouse_primary_fire")):
 		_primary_held = true
 
-	if (event.is_action_pressed(_weapon_binds.alternate)):
+	if (event.is_action_pressed(&"mouse_alternate_fire")):
 		_alternate_held = true
 
-	if (event.is_action_pressed(_weapon_binds.reload)):
+	if (event.is_action_pressed(&"reload")):
 		reload_pressed.emit()
 
-	if (event.is_action_released(_weapon_binds.primary)):
+	if (event.is_action_released(&"mouse_primary_fire")):
 		primary_stopped_pressing.emit()
 		_primary_held = false
 
-	if (event.is_action_released(_weapon_binds.alternate)):
+	if (event.is_action_released(&"mouse_alternate_fire")):
 		alternate_stopped_pressing.emit()
 		_alternate_held = false
 
 func get_stats() -> WeaponStats:
 	return _weapon_stats
-
-func get_binds() -> WeaponBinds:
-	return _weapon_binds

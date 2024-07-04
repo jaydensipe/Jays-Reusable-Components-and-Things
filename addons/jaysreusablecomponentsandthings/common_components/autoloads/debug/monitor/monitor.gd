@@ -39,8 +39,11 @@ func _process(_delta: float) -> void:
 	gpu_ms_text.text = "%.2f ms" % RenderingServer.viewport_get_measured_render_time_gpu(viewport_rid)
 	os_text.text = "%s %s" % [OS.get_name(), OS.get_version()]
 
+	@warning_ignore("integer_division")
 	var _physical_mem: int = OS.get_memory_info()['physical'] / (1024 * 1024)
+	@warning_ignore("integer_division")
 	var _used_mem: int = OS.get_static_memory_usage() / (1024 * 1024)
+	@warning_ignore("integer_division")
 	ram_usage_label.text = "RAM Usage (%.2f%%):" % ((_used_mem / _physical_mem) * 100.0)
 	ram_usage_text.text = "%d / %d (mb)" % [_used_mem, _physical_mem]
 

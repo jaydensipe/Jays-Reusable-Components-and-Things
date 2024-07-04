@@ -7,19 +7,24 @@ var _reset_icon: Texture2D = preload("res://addons/jaysreusablecomponentsandthin
 
 func _ready() -> void:
 	columns = 2
-	set_column_custom_minimum_width(1, 75)
 	allow_reselect = false
 	allow_search = false
 	hide_root = true
 	column_titles_visible = false
+	set_column_custom_minimum_width(0, 125)
 
 	_tree_root = create_item()
 	_tree_root.set_selectable(0, false)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if (is_instance_valid(_tree_root)):
 		for child: TreeItem in _tree_root.get_children():
 			_update_values_in_tree(child)
+
+func _register_inspector(node: Node, bit_flag: int, icon: Texture2D) -> void:
+	var registered_root_tree_item: TreeItem = create_item(_tree_root)
+
+	_create_node_tree_item(node, registered_root_tree_item, icon)
 
 func _update_values_in_tree(root_node_tree_item: TreeItem) -> void:
 	var current_node: Object = instance_from_id(root_node_tree_item.get_meta(&"current_node_instance_id"))
@@ -46,12 +51,7 @@ func _update_values_in_tree(root_node_tree_item: TreeItem) -> void:
 			property_row.set_text(1, str(node_value))
 			property_row.set_meta(&"prev_value", node_value)
 
-func _register_inspector(node: Node, icon: Texture2D = null, register_children: bool = false) -> void:
-	var registered_root_tree_item: TreeItem = create_item(_tree_root)
-
-	_create_node_tree_item(node, registered_root_tree_item, icon, true)
-
-func _create_node_tree_item(node: Object, node_tree_item: TreeItem, icon: Texture2D = null, child_node: bool = false) -> void:
+func _create_node_tree_item(node: Object, node_tree_item: TreeItem, icon: Texture2D, child_node: bool = false) -> void:
 	node_tree_item.set_text(0, node.to_string())
 	node_tree_item.set_icon(0, icon)
 	node_tree_item.set_icon_max_width(0, 24 if child_node else 32)
@@ -89,8 +89,8 @@ func _on_item_selected() -> void:
 	selected_tree_item.set_icon_modulate(0, Color.GREEN)
 
  	# Display child nodes
-	if (current_node is Node and (current_node as Node).get_script() == null):
-		for child: Node in (current_node as Node).get_children():
+	if (current_node is Node and current_node.get_script() == null):
+		for child: Node in current_node.get_children():
 			if (child is InspectorRegister): return
 
 			_create_node_tree_item(child, get_selected().create_child(), _fallback_icon, true)
@@ -111,7 +111,7 @@ func _on_item_selected() -> void:
 func _on_item_edited() -> void:
 	_set_tree_item_value(get_selected())
 
-func _on_button_clicked(item: TreeItem, column: int, id: int, mouse_button_index: int) -> void:
+func _on_button_clicked(item: TreeItem, _column: int, id: int, _mouse_button_index: int) -> void:
 	_set_tree_item_value(item, true, id)
 
 func _set_tree_item_value(tree_item: TreeItem, reset_value: bool = false, button_id: int = 0) -> void:

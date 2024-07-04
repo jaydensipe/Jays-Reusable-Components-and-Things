@@ -9,6 +9,7 @@ var is_global_debug_enabled: bool = false :
 		global_debug_changed.emit(value)
 var _debug_fly_cam_3d: FlyCamera = null
 const DEBUG_BOX_CONTAINER = preload("res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/debug_box/debug_box_container.tscn")
+
 signal global_debug_changed(value: bool)
 
 func _ready() -> void:
@@ -34,14 +35,12 @@ func create_debug_box(title: StringName, background_color: Color = Color.GRAY) -
 
 	return debug_box_container
 
-func register_in_inspector(node: Node, icon: Texture2D = inspector._fallback_icon, register_children: bool = false) -> void:
-	if (icon == null): icon = inspector._fallback_icon
-
-	inspector._register_inspector(node, icon, register_children)
+func register_in_inspector(node: Node, bit_flag: int, icon: Texture2D = inspector._fallback_icon) -> void:
+	inspector._register_inspector(node, bit_flag, icon)
 
 func _input(event: InputEvent) -> void:
 	if (event is InputEventKey):
-		if (event.pressed and event.keycode == KEY_F1):
+		if (event.is_action_pressed(&"debug")):
 			if (!window.visible):
 				window.visible = true
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

@@ -66,7 +66,7 @@ func _ready() -> void:
 	cam_pos = transform.origin
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Input.use_accumulated_input = false
-	swayPos = item_container.current_item.viewmodel_origin
+	#swayPos = item_container.current_item.viewmodel_origin
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (event is InputEventMouseMotion):
@@ -124,7 +124,7 @@ func _process(delta: float) -> void:
 	# Set points of origin
 	rotation_degrees = Vector3(mouse_rotation_x, 0, 0)
 	transform.origin = cam_pos
-	item_container.transform.origin = item_container.current_item.viewmodel_origin
+	#item_container.transform.origin = item_container.current_item.viewmodel_origin
 	item_container.rotation_degrees = Vector3.ZERO
 
 	# Apply velocity roll
