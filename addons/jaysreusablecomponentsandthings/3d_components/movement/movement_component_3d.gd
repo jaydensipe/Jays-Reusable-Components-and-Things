@@ -2,37 +2,26 @@
 extends Node3D
 class_name MovementComponent3D
 
-@export var character: CharacterBody3D
+@export var character: PhysicsBody3D
 @export var collider: CollisionShape3D
 @export var move_stats: MoveStats
 
 @export_group("Footsteps")
-@export var footstep_audio_player: AudioStreamPlayer3D
-@export var jump_audio_player: AudioStreamPlayer3D
-@export var land_audio_player: AudioStreamPlayer3D
+@export var footsteps: Footsteps
 
 @export_group("Advanced Config")
-@export_subgroup("Player")
-@export var is_player_controlled: bool = false
-@export_placeholder("Set in Project Settings") var move_forward_name: String = ""
-@export_placeholder("Set in Project Settings") var move_backward_name: String = ""
-@export_placeholder("Set in Project Settings") var move_left_name: String = ""
-@export_placeholder("Set in Project Settings") var move_right_name: String = ""
 @export_subgroup("Jump Config")
 @export var enable_jumping: bool = true
-@export_placeholder("Set in Project Settings") var jump_name: String = ""
 @export_subgroup("Sprint Config")
 @export var enable_sprinting: bool = true
-@export_placeholder("Set in Project Settings") var sprint_name: String = ""
 @export_subgroup("Crouch Config")
 @export var enable_crouching: bool = true
-@export_placeholder("Set in Project Settings") var crouch_name: String = ""
 
 @export_group("Flags")
-@export var debug_instance: bool = true
 @export var disable_movement: bool = false
 
-# TODO: Make a player movement component and keep this one for NPCs
+@export_group("Debug")
+@export var show_debug: bool = true
 
 enum MOVEMENT_STATES {
 	WALKING,
@@ -40,123 +29,121 @@ enum MOVEMENT_STATES {
 	FALLING,
 	CROUCHING
 }
-var _current_movement_state: MOVEMENT_STATES = MOVEMENT_STATES.WALKING
-var _prev_movement_state: MOVEMENT_STATES = MOVEMENT_STATES.WALKING
+var direction: Vector3 = Vector3.ZERO
+var input_dir: Vector2 = Vector2.ZERO
+var current_movement_state: MOVEMENT_STATES = MOVEMENT_STATES.WALKING
+var prev_movement_state: MOVEMENT_STATES = MOVEMENT_STATES.WALKING
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-var _direction: Vector3 = Vector3.ZERO
-var _input_dir: Vector2 = Vector2.ZERO
+var _footstep_dist_traveled: float = 0.0
 @onready var _current_max_move_speed: float = move_stats.speed
-
-func _ready() -> void:
-	assert(is_instance_valid(character), "Please provide CharacterBody3D to the CharacterMovement3D component!")
-	assert(is_instance_valid(collider), "Please provide CollisionShape3D to the CharacterMovement3D component!")
-	assert(is_instance_valid(move_stats), "Please provide MoveStats to the CharacterMovement3D component!")
-
-	if (debug_instance):
-		if (is_player_controlled):
-			var player_debug_box: DebugBoxContainer = DebugIt.create_debug_box(&"Player", Color.INDIAN_RED)
-			player_debug_box.add_toggle_button("Toggle Noclip", _debug_noclip)
-			player_debug_box.add_toggle_button("Disable Movement", func() -> void: disable_movement = !disable_movement)
+@onready var _character_movement: bool = true if (character is CharacterBody3D) else false
 
 func _physics_process(delta: float) -> void:
+	# Add the gravity
+	apply_gravity(delta)
+
+	# Add footsteps
+	apply_footsteps(delta)
+
 	# Disable movement check
 	if (disable_movement): return
 
-	# Apply player movement
-	if (is_player_controlled):
-		apply_player_input_direction()
+	process_movement_states()
 
-	# Checks for jump
-	if (is_player_controlled and Input.is_action_just_pressed(jump_name) and enable_jumping):
-		jump()
-
-	# Checks for sprint
-	if (is_player_controlled and Input.is_action_pressed("sprint") and enable_sprinting):
-		sprint()
+	if (_character_movement):
+		apply_character_body_movement(delta)
 	else:
-		reset_to_walk()
+		apply_rigid_body_movement(delta)
 
-	# Checks for crouch
-	if (is_player_controlled and Input.is_action_pressed("crouch") and enable_crouching):
-		crouch(delta)
-	else:
-		stop_crouch(delta)
-
-	# Add the gravity
-	if not character.is_on_floor():
-		_current_movement_state = MOVEMENT_STATES.FALLING
+func apply_gravity(delta: float) -> void:
+	if (!character.is_on_floor()):
 		character.velocity.y -= _gravity * delta
+		switch_state(MOVEMENT_STATES.FALLING)
 
-	apply_movement(delta)
+func apply_footsteps(delta: float) -> void:
+	if (!is_instance_valid(footsteps)): return
 
-	_prev_movement_state= _current_movement_state
+	if (current_movement_state != MOVEMENT_STATES.FALLING and !input_dir.is_equal_approx(Vector2.ZERO)):
+		_footstep_dist_traveled += max(0.8, (1.0 * character.velocity.length_squared()) / 60.0)
 
-func apply_movement(delta: float) -> void:
+	# Play footsteps based on distance walked
+	if (_footstep_dist_traveled >= footsteps.distance_between_steps):
+		footsteps.footstep_audio_player.play()
+		_footstep_dist_traveled = 0.0
+
+	if (current_movement_state != MOVEMENT_STATES.FALLING):
+		if (prev_movement_state == MOVEMENT_STATES.FALLING):
+			footsteps.land_audio_player.play()
+
+func apply_character_body_movement(delta: float) -> void:
 	# Checks for applying acceleration
 	if (move_stats.apply_acceleration):
-		_direction = lerp(_direction, (character.transform.basis * Vector3(_input_dir.x, 0, _input_dir.y)).normalized(), delta * move_stats.acceleration)
+		direction = lerp(direction, (character.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized(), delta * move_stats.acceleration)
 	else:
-		_direction = (character.transform.basis * Vector3(_input_dir.x, 0, _input_dir.y)).normalized()
+		direction = (character.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	# Checks for applying air acceleration
-	if character.is_on_floor():
-		if _direction:
-			character.velocity.x = _direction.x * _current_max_move_speed
-			character.velocity.z = _direction.z * _current_max_move_speed
+	if (character.is_on_floor()):
+		if (direction):
+			character.velocity.x = direction.x * _current_max_move_speed
+			character.velocity.z = direction.z * _current_max_move_speed
 		else:
 			character.velocity.x = move_toward(character.velocity.x, 0, _current_max_move_speed)
 			character.velocity.z = move_toward(character.velocity.z, 0, _current_max_move_speed)
+	elif (move_stats.apply_air_acceleration):
+		character.velocity.x = lerp(character.velocity.x, direction.x * _current_max_move_speed, delta * move_stats.air_acceleration)
+		character.velocity.z = lerp(character.velocity.z, direction.z * _current_max_move_speed, delta * move_stats.air_acceleration)
 
-	elif move_stats.apply_air_acceleration:
-		character.velocity.x = lerp(character.velocity.x, _direction.x * _current_max_move_speed, delta * move_stats.air_acceleration)
-		character.velocity.z = lerp(character.velocity.z, _direction.z * _current_max_move_speed, delta * move_stats.air_acceleration)
-
-	_process_footsteps(delta)
 	character.move_and_slide()
 
+	# Save previous movement state
+	prev_movement_state = current_movement_state
 
-var dist_traveled: float = 0.0
-func _process_footsteps(delta: float) -> void:
-	if (_input_dir != Vector2.ZERO and character.is_on_floor()):
-		dist_traveled += max(0.8, (1.0 * character.velocity.length_squared()) / 60.0)
-	elif (character.is_on_floor()):
-		if (_prev_movement_state == MOVEMENT_STATES.FALLING):
-			land_audio_player.play()
-
-	if (dist_traveled >= 70.0):
-		footstep_audio_player.play()
-		dist_traveled = 0.0
-
-func apply_player_input_direction() -> void:
-	_input_dir = Input.get_vector(move_left_name, move_right_name, move_forward_name, move_backward_name)
-
-func jump() -> void:
-	if character.is_on_floor():
-		character.velocity.y = move_stats.jump_height
-
-		jump_audio_player.play()
-
-func sprint() -> void:
-	if (character.is_on_floor() and _current_movement_state != MOVEMENT_STATES.CROUCHING):
-		_current_movement_state = MOVEMENT_STATES.SPRINTING
-		_current_max_move_speed = move_stats.speed * move_stats.sprint_multiplier
-
-func crouch(delta: float) -> void:
-	_current_movement_state = MOVEMENT_STATES.CROUCHING
-	collider.shape.set_height(lerpf(collider.shape.get_height(), 1.25, 7.5 * delta))
-	_current_max_move_speed = move_stats.speed * move_stats.crouch_multiplier
-
-func _debug_noclip() -> void:
+func apply_rigid_body_movement(delta: float) -> void:
 	pass
 
-func stop_crouch(delta: float) -> void:
-	collider.shape.set_height(lerpf(collider.shape.get_height(), 2.0, 7.5 * delta))
+func switch_state(state: MOVEMENT_STATES) -> void:
+	# Switching to different state updates
+	if (current_movement_state != state):
+		match (current_movement_state):
+			MOVEMENT_STATES.WALKING:
+				pass
+			MOVEMENT_STATES.SPRINTING:
+				pass
+			MOVEMENT_STATES.CROUCHING:
+				create_tween().tween_property(collider.shape, "height", 2.0, 7.5 * get_physics_process_delta_time())
+			MOVEMENT_STATES.FALLING:
+				pass
+				#footsteps.jump_audio_player.play()
 
-func reset_to_walk() -> void:
-	_current_max_move_speed = move_stats.speed
-	_current_movement_state = MOVEMENT_STATES.WALKING
+	current_movement_state = state
 
-func move_to_direction(direction: Vector3, delta: float) -> void:
+func process_movement_states() -> void:
+	match (current_movement_state):
+		MOVEMENT_STATES.WALKING:
+			_current_max_move_speed = move_stats.speed
+		MOVEMENT_STATES.SPRINTING:
+			_current_max_move_speed = move_stats.speed * move_stats.sprint_multiplier
+		MOVEMENT_STATES.CROUCHING:
+			create_tween().tween_property(collider.shape, "height", 0.25, 7.5 * get_physics_process_delta_time())
+			_current_max_move_speed = move_stats.speed * move_stats.crouch_multiplier
+
+func jump() -> void:
+	if (enable_jumping and current_movement_state != MOVEMENT_STATES.FALLING):
+		character.velocity.y = move_stats.jump_height
+
+func sprint() -> void:
+	if (enable_sprinting and current_movement_state != MOVEMENT_STATES.FALLING and current_movement_state != MOVEMENT_STATES.CROUCHING):
+		switch_state(MOVEMENT_STATES.SPRINTING)
+
+func crouch() -> void:
+	if (enable_crouching):
+		switch_state(MOVEMENT_STATES.CROUCHING)
+
+func reset_to_walk_state() -> void:
+	switch_state(MOVEMENT_STATES.WALKING)
+
+func move_todirection(direction: Vector3, delta: float) -> void:
 	direction = direction.normalized()
 
 	character.velocity = character.velocity.lerp(direction * _current_max_move_speed, move_stats.acceleration * delta)

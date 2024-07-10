@@ -4,8 +4,8 @@ class_name FPCameraComponent3D
 
 # Camera controller settings and code used from: https://github.com/Btan2/Q_Move/. Thank you!
 
-@export var character: CharacterBody3D
-@export var item_container: FPItemContainer3D
+@export var character: PhysicsBody3D
+@export var item_container: ItemManager3D
 
 @export_group("Config")
 @export var mouse_sensitivity: float = 3.0
@@ -66,7 +66,7 @@ func _ready() -> void:
 	cam_pos = transform.origin
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	Input.use_accumulated_input = false
-	#swayPos = item_container.current_item.viewmodel_origin
+	swayPos = item_container.current_item.viewmodel_origin
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (event is InputEventMouseMotion):
@@ -124,7 +124,7 @@ func _process(delta: float) -> void:
 	# Set points of origin
 	rotation_degrees = Vector3(mouse_rotation_x, 0, 0)
 	transform.origin = cam_pos
-	#item_container.transform.origin = item_container.current_item.viewmodel_origin
+	item_container.transform.origin = item_container.current_item.viewmodel_origin
 	item_container.rotation_degrees = Vector3.ZERO
 
 	# Apply velocity roll

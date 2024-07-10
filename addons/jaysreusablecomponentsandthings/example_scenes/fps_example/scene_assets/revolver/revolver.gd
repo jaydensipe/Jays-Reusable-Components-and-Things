@@ -2,7 +2,7 @@ extends FPItem3D
 
 @onready var weapon_component: WeaponComponent = $WeaponComponent
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var scene_spawn_component_3d: SceneSpawnComponent3D = $SceneSpawnComponent3D
+@onready var decal_spawn_component_3d: DecalSpawnComponent3D = $DecalSpawnComponent3D
 @onready var audio_gunshot_player: AudioStreamPlayer = $AudioGunshotPlayer
 @onready var audio_reload_player: AudioStreamPlayer = $AudioReloadPlayer
 
@@ -49,7 +49,7 @@ func _shared_between_primary_and_alternate(range: float, anim_speed: float) -> v
 	audio_gunshot_player.play()
 	var hit: Dictionary = RaycastIt.ray_from_camera_3d(range, get_parent_node_3d().camera, true, 0.1, [get_parent_node_3d().owner])
 	if (hit != {}):
-		scene_spawn_component_3d.spawn_at_location_with_normal(hit["normal"], hit["position"])
+		decal_spawn_component_3d.spawn_decal_at_transfrom(hit["normal"], Transform3D(Basis.IDENTITY, hit["position"]))
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if (anim_name == "revolver_reload"):

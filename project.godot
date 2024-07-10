@@ -26,7 +26,6 @@ ResonateIt="*res://addons/jaysreusablecomponentsandthings/common_components/auto
 
 [debug]
 
-gdscript/warnings/exclude_addons=false
 gdscript/warnings/untyped_declaration=2
 
 [display]
@@ -45,6 +44,7 @@ folder_colors={
 "res://addons/jaysreusablecomponentsandthings/3d_components/": "teal",
 "res://addons/jaysreusablecomponentsandthings/assets/": "green",
 "res://addons/jaysreusablecomponentsandthings/common_components/": "gray",
+"res://addons/jaysreusablecomponentsandthings/editor/": "red",
 "res://addons/jaysreusablecomponentsandthings/example_scenes/": "purple",
 "res://addons/jaysreusablecomponentsandthings/resources/": "blue"
 }
@@ -106,7 +106,7 @@ interact={
 }
 mouse_primary_fire={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":1,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
 mouse_alternate_fire={
@@ -125,7 +125,7 @@ reload={
 3d_physics/layer_1="Level / Props"
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Projectiles"
-3d_physics/layer_4="Interactables"
+3d_physics/layer_4="Physics"
 
 [physics]
 

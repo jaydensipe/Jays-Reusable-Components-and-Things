@@ -11,6 +11,7 @@ extends EditorPlugin
 # Custom Icon Colors:
 # Trigger: R: 252, G: 191, B: 126
 
+var toolbox_panel: Control = preload("res://addons/jaysreusablecomponentsandthings/editor/toolbox/toolbox.tscn").instantiate()
 var _default_keybinds: Array[Dictionary] = [
 	{
 		action = &"move_forward",
@@ -73,8 +74,10 @@ func _init_default_keybinds() -> void:
 		var key: InputEventWithModifiers
 		if (keybind["key"] is Key):
 			key = InputEventKey.new()
+			key.physical_keycode = keybind["key"]
 		elif (keybind["key"] is MouseButton):
 			key = InputEventMouseButton.new()
+			key.button_index = keybind["key"]
 
 		var input: Dictionary = {
 			"deadzone": 0.5,
@@ -82,7 +85,6 @@ func _init_default_keybinds() -> void:
 				key
 			]
 		}
-		key.physical_keycode = keybind["key"]
 
 		ProjectSettings.set_setting('input/%s' % keybind["action"], input)
 	ProjectSettings.save()
@@ -101,10 +103,15 @@ func _enter_tree() -> void:
 	add_autoload_singleton("RaycastIt", "res://addons/jaysreusablecomponentsandthings/common_components/autoloads/raycast/raycastit.gd")
 	add_autoload_singleton("ResonateIt", "res://addons/jaysreusablecomponentsandthings/common_components/autoloads/audio/resonateit.gd")
 
-func _exit_tree() -> void:
+	# Add Toolbox to bottom panel
+	add_control_to_bottom_panel(toolbox_panel, &"Toolbox")
 
+func _exit_tree() -> void:
 	# Remove autoload singletons
 	remove_autoload_singleton("DrawIt")
 	remove_autoload_singleton("DebugIt")
 	remove_autoload_singleton("RaycastIt")
 	remove_autoload_singleton("ResonateIt")
+
+	# Remove Toolbox from bottom panel
+	remove_control_from_bottom_panel(toolbox_panel)

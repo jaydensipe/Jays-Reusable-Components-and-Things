@@ -1,40 +1,20 @@
+@icon("res://addons/jaysreusablecomponentsandthings/assets/icons/icon_knockback_component_3d.svg")
 extends ShapeCast3D
 class_name KnockbackComponent3D
 
-@export var normalize_velocity: bool = true
-@export var speed: float = 10.0
-@export var x_scale: float = 0.0
-@export var y_scale: float = 0.0
-@export var z_scale: float = 0.0
-@export var override_x: float = 0.0
-@export var override_y: float = 0.0
-@export var override_z: float = 0.0
+@export var knockback_amount: Vector3 = Vector3.ZERO
+@export_group("Config")
+@export var wall_detection: bool = true
 
 func trigger_knockback()  -> void:
-	for i in get_collision_count():
-		if (get_collider(i) is not PhysicsBody3D): return
+	for collision_index: int  in get_collision_count():
+		var collider: Object = get_collider(collision_index)
+		if (collider is not PhysicsBody3D): return
 
-		var vector: Vector3 = get_collider(i).global_transform.origin - global_transform.origin
-		var direction:= vector.normalized()
-		var distance_squared:= vector.length_squared()
-		var velocity:= direction * speed/distance_squared
+		var direction: Vector3 = collider.global_transform.origin - global_transform.origin
+		var impulse: Vector3 = direction.normalized() * knockback_amount
 
-		var _x: float = 0.0
-		var _y: float = 0.0
-		var _z: float = 0.0
-		if (override_x != 0.0):
-			_x = override_x
-		elif (normalize_velocity):
-			_x = velocity.normalized().x * x_scale
-
-		if (override_y != 0.0):
-			_y = override_y
-		elif (normalize_velocity):
-			_y = velocity.normalized().y * y_scale
-
-		if (override_z != 0.0):
-			_z = override_z
-		elif (normalize_velocity):
-			_z = velocity.normalized().z * z_scale
-
-		get_collider(i).velocity += Vector3(_x, _y, _z)
+		if (collider is CharacterBody3D):
+			collider.velocity += impulse
+		elif (collider is RigidBody3D):
+			collider.apply_central_impulse(direction)

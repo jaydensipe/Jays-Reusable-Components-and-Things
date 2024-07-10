@@ -94,14 +94,12 @@ script = ExtResource("1_ytsrn")
 speed = 30.0
 
 [node name="KnockbackComponent3D" type="ShapeCast3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0)
 shape = SubResource("SphereShape3D_pbmy6")
 target_position = Vector3(0, 0, 0)
-collision_mask = 2
+collision_mask = 10
 script = ExtResource("3_fgtjt")
-x_scale = 15.0
-y_scale = 15.0
-z_scale = 15.0
+knockback_amount = Vector3(15, 7.5, 15)
 
 [node name="Model" type="MeshInstance3D" parent="."]
 transform = Transform3D(-0.0104276, 200, 8.74228e-06, 0, -8.74228e-06, 200, 200, 0.0104276, 4.55806e-10, 0, 0, 0)

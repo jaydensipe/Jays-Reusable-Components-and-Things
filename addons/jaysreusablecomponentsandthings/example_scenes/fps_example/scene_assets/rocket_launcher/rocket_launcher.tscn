@@ -1,11 +1,10 @@
-[gd_scene load_steps=19 format=4 uid="uid://nf2vqxboypy3"]
+[gd_scene load_steps=17 format=4 uid="uid://nf2vqxboypy3"]
 
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/rocket_launcher/rocket_launcher.gd" id="3_un334"]
 [ext_resource type="PackedScene" uid="uid://c4cm83wmrw3jw" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/rocket_launcher/rocket.tscn" id="4_5qvo8"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/weapon/weapon_component.gd" id="4_n8h8u"]
 [ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/stats/weapon_stats.gd" id="5_7vjl6"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/binds/weapon_binds.gd" id="6_sko28"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/spawners/scene_spawn_component_3d.gd" id="7_lrqdr"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/spawners/component/scene_spawn_component_3d.gd" id="7_lrqdr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqmw4"]
 resource_name = "WeaponPrimary"
@@ -142,12 +141,6 @@ script = ExtResource("5_7vjl6")
 fire_rate = 0.8
 max_ammo = 3.0
 
-[sub_resource type="Resource" id="Resource_svtjv"]
-script = ExtResource("6_sko28")
-reload = "reload"
-primary = "primary"
-alternate = "alternate"
-
 [sub_resource type="Animation" id="Animation_u4dji"]
 length = 0.001
 tracks/0/type = "value"
@@ -254,7 +247,6 @@ skeleton = NodePath("")
 [node name="WeaponComponent" type="Node" parent="."]
 script = ExtResource("4_n8h8u")
 _weapon_stats = SubResource("Resource_ldb54")
-_weapon_binds = SubResource("Resource_svtjv")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
