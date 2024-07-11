@@ -11,6 +11,8 @@ extends Panel
 func _on_button_pressed() -> void:
 	_generate_trigger()
 
+# TODO: Add interact layer
+
 func _generate_trigger() -> void:
 	var trigger: Trigger3D = null
 	if (trigger_type_option_button.text == &"Function"):

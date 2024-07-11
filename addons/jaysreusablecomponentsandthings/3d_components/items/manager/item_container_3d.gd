@@ -24,5 +24,5 @@ func _switch_placeholder(index: int) -> void:
 
 	remove_child(current_item)
 
-	current_item = items[index].instantiate()  as FPItem3D
+	current_item = items[index].instantiate() as FPItem3D
 	add_child(current_item, true)

@@ -7,7 +7,10 @@ class_name MovementComponent3D
 @export var move_stats: MoveStats
 
 @export_group("Footsteps")
-@export var footsteps: Footsteps
+@export var distance_between_steps: float = 60
+@export var footstep_audio: AudioStreamPlayer3D
+@export var jump_audio: AudioStreamPlayer3D
+@export var land_audio: AudioStreamPlayer3D
 
 @export_group("Advanced Config")
 @export_subgroup("Jump Config")
@@ -61,19 +64,17 @@ func apply_gravity(delta: float) -> void:
 		switch_state(MOVEMENT_STATES.FALLING)
 
 func apply_footsteps(delta: float) -> void:
-	if (!is_instance_valid(footsteps)): return
-
 	if (current_movement_state != MOVEMENT_STATES.FALLING and !input_dir.is_equal_approx(Vector2.ZERO)):
 		_footstep_dist_traveled += max(0.8, (1.0 * character.velocity.length_squared()) / 60.0)
 
 	# Play footsteps based on distance walked
-	if (_footstep_dist_traveled >= footsteps.distance_between_steps):
-		footsteps.footstep_audio_player.play()
+	if (_footstep_dist_traveled >= distance_between_steps):
+		footstep_audio.play()
 		_footstep_dist_traveled = 0.0
 
 	if (current_movement_state != MOVEMENT_STATES.FALLING):
 		if (prev_movement_state == MOVEMENT_STATES.FALLING):
-			footsteps.land_audio_player.play()
+			land_audio.play()
 
 func apply_character_body_movement(delta: float) -> void:
 	# Checks for applying acceleration
@@ -113,8 +114,7 @@ func switch_state(state: MOVEMENT_STATES) -> void:
 			MOVEMENT_STATES.CROUCHING:
 				create_tween().tween_property(collider.shape, "height", 2.0, 7.5 * get_physics_process_delta_time())
 			MOVEMENT_STATES.FALLING:
-				pass
-				#footsteps.jump_audio_player.play()
+				jump_audio.play()
 
 	current_movement_state = state
 

@@ -53,10 +53,6 @@ folder_colors={
 
 import/fbx2gltf/enabled=false
 
-[global_group]
-
-player=""
-
 [input]
 
 move_forward={

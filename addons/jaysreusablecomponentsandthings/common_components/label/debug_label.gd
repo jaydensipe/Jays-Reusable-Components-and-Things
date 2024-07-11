@@ -18,6 +18,11 @@ var _label: Node = null
 
 signal value_changed
 
+func _ready() -> void:
+	DebugIt.global_debug_changed.connect(func(value: bool) -> void:
+		_label.visible = value
+	)
+
 func _enter_tree() -> void:
 	var parent: Node = get_parent()
 	if (parent is Node2D):
