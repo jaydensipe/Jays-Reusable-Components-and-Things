@@ -2,6 +2,9 @@ extends Node
 
 # Code based on https://github.com/Ryan-Mirch/Line-and-Sphere-Drawing/blob/main/Draw3D.gd. Thank you!
 
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_PAUSABLE
+
 func draw_line_3d(from: Vector3, to: Vector3, color: Color = Color.RED, seconds_to_persist: float = 0.0) -> void:
 	if (!DebugIt.is_global_debug_enabled): return
 
@@ -90,7 +93,7 @@ func instantiate_and_cleanup(mesh_instance: MeshInstance3D, seconds_to_persist: 
 	RenderingServer.instance_geometry_set_cast_shadows_setting(rendering_server, RenderingServer.SHADOW_CASTING_SETTING_OFF)
 
 	if (seconds_to_persist > 0.0):
-		await get_tree().create_timer(seconds_to_persist).timeout
+		await get_tree().create_timer(seconds_to_persist, false).timeout
 
 	mesh_instance.queue_free()
 	RenderingServer.free_rid(rendering_server)

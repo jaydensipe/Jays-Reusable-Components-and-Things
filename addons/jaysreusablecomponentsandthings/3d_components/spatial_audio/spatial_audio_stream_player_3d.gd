@@ -5,7 +5,7 @@ class_name SpatialAudioStreamPlayer3D
 
 @export_enum("Spatial", "Soundscape") var sound_type: int = 0
 @export_enum("Single Raycast", "Multi-Raycast") var occlusion_type: int = 0
-@export_flags_3d_physics var static_geometry_layers
+@export_flags_3d_physics var static_geometry_layers: int
 @onready var _current_bus_index: int = AudioServer.bus_count
 @onready var _current_bus_name: StringName = "SpatialBus#%d" % _current_bus_index
 @onready var _single_raycast_3d: RayCast3D
@@ -21,7 +21,7 @@ func _ready() -> void:
 			attenuation_model = ATTENUATION_DISABLED
 			panning_strength = 0.0
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if (sound_type == 1): return
 
 	match (occlusion_type):

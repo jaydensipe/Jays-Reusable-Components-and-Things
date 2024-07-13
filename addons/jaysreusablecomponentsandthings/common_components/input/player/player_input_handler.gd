@@ -13,10 +13,8 @@ func _ready() -> void:
 		#player_debug_box.add_toggle_button("Toggle Noclip", _debug_noclip)
 		player_debug_box.add_toggle_button("Disable Movement", func() -> void: movement_component.disable_movement = !movement_component.disable_movement)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	apply_player_input_direction()
-
-	#movement_component.reset_to_walk_state()
 
 	# Checks for jump
 	if (Input.is_action_just_pressed(&"jump")):
@@ -24,7 +22,6 @@ func _physics_process(delta: float) -> void:
 
 	# Checks for sprint
 	if (Input.is_action_pressed(&"sprint")):
-		print("asdasd")
 		movement_component.sprint()
 
 	# Checks for crouch

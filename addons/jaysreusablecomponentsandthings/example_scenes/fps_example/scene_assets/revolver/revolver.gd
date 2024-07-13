@@ -47,7 +47,7 @@ func _shared_between_primary_and_alternate(range: float, anim_speed: float) -> v
 	weapon_component.get_stats().ammo -= 1
 	animation_player.play("revolver_shoot", -1, anim_speed)
 	audio_gunshot_player.play()
-	var hit: Dictionary = RaycastIt.ray_from_camera_3d(range, get_parent_node_3d().camera, true, 0.1, [get_parent_node_3d().owner])
+	var hit: Dictionary = RaycastIt.ray_from_camera_3d(range, get_parent_node_3d().camera, true, 5.1, [get_parent_node_3d().owner])
 	if (hit != {}):
 		decal_spawn_component_3d.spawn_decal_at_transfrom(hit["normal"], Transform3D(Basis.IDENTITY, hit["position"]))
 

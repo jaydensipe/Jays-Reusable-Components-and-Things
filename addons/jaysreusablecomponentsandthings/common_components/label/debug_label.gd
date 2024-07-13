@@ -1,4 +1,5 @@
 @tool
+@icon("res://addons/jaysreusablecomponentsandthings/assets/icons/icon_debug_label.svg")
 extends Node
 class_name DebugLabel
 
@@ -41,7 +42,7 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	_label.queue_free()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if (!enabled or Engine.is_editor_hint()): return
 
 	label_text = str(get_parent().get(property))

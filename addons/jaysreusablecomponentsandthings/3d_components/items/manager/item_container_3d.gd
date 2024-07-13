@@ -7,19 +7,24 @@ class_name ItemManager3D
 @onready var current_item: FPItem3D
 
 func _ready() -> void:
+	_init_empty_spots_to_null()
+
 	current_item = items[0].instantiate() as FPItem3D
 	add_child(current_item, true)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_1:
-			_switch_placeholder(0)
+			switch_item(0)
 		if event.keycode == KEY_2:
-			_switch_placeholder(1)
+			switch_item(1)
 		if event.keycode == KEY_3:
-			_switch_placeholder(2)
+			switch_item(2)
 
-func _switch_placeholder(index: int) -> void:
+func _init_empty_spots_to_null() -> void:
+	items.resize(3)
+
+func switch_item(index: int) -> void:
 	if (!is_instance_valid(items[index])): return
 
 	remove_child(current_item)

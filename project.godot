@@ -26,6 +26,7 @@ ResonateIt="*res://addons/jaysreusablecomponentsandthings/common_components/auto
 
 [debug]
 
+gdscript/warnings/exclude_addons=false
 gdscript/warnings/untyped_declaration=2
 
 [display]

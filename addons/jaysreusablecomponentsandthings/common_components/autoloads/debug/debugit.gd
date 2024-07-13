@@ -1,8 +1,9 @@
 extends Control
 
-@onready var window: Window = $Window
-@onready var debug: FlowContainer = $Window/TabContainer/Debug
-@onready var inspector: Inspector = $Window/TabContainer/Inspector
+@onready var window: Window = %Window
+@onready var debug: FlowContainer = %Debug
+@onready var inspector: Inspector = %Inspector
+@onready var debug_value_container: VBoxContainer = %DebugValueContainer
 var is_global_debug_enabled: bool = false :
 	set(value):
 		is_global_debug_enabled = value
@@ -38,6 +39,18 @@ func create_debug_box(title: StringName, background_color: Color = Color.GRAY) -
 func register_in_inspector(node: Node, bit_flag: int, icon: Texture2D = inspector._fallback_icon) -> void:
 	inspector._register_inspector(node, bit_flag, icon)
 
+func show_value_on_screen(title: String, value: Variant) -> void:
+	var found: Label = debug_value_container.find_child(title, true, false)
+	if (found):
+		found.text = "%s : %s" % [title, str(value)]
+		found.name = title
+	else:
+		var label: Label = Label.new()
+		label.text = "%s : %s" % [title, str(value)]
+		label.name = title
+		label.add_theme_font_size_override("font_size", 32)
+		debug_value_container.add_child(label)
+
 func _input(event: InputEvent) -> void:
 	if (event is InputEventKey):
 		if (event.is_action_pressed(&"debug")):
@@ -62,7 +75,6 @@ func _init_default_debug_box_functionality() -> void:
 	)
 	built_ins_box.add_toggle_button("Toggle Fly Camera (3D)", func() -> void:
 		if (is_instance_valid(_debug_fly_cam_3d)):
-			_debug_fly_cam_3d._prev_camera.make_current()
 			_debug_fly_cam_3d.queue_free()
 			return
 
@@ -70,7 +82,7 @@ func _init_default_debug_box_functionality() -> void:
 		get_tree().current_scene.add_child(_debug_fly_cam_3d)
 
 		var _current_cam: Camera3D = get_viewport().get_camera_3d()
-		_debug_fly_cam_3d.global_transform = _current_cam.global_transform
+		_debug_fly_cam_3d.global_position = _current_cam.global_position
 		_debug_fly_cam_3d._prev_camera = _current_cam
 		_debug_fly_cam_3d.make_current()
 	).add_shortcut(KEY_V)

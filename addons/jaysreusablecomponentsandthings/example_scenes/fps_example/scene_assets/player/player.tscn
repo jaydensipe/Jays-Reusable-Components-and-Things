@@ -91,7 +91,6 @@ script = ExtResource("7_01v45")
 character = NodePath("..")
 collider = NodePath("../CollisionShape3D")
 move_stats = SubResource("Resource_heiak")
-distance_between_steps = 70.0
 footstep_audio = NodePath("FootstepAudio")
 jump_audio = NodePath("JumpAudio")
 land_audio = NodePath("LandAudio")

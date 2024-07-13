@@ -120,7 +120,6 @@ func calc_bob (freqmod: float, mode: BOB_TYPE, bob_i: int, bob: float) -> float:
 func _process(delta: float) -> void:
 	deltaTime = delta
 
-
 	# Set points of origin
 	rotation_degrees = Vector3(mouse_rotation_x, 0, 0)
 	transform.origin = cam_pos

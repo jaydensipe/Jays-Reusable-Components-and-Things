@@ -6,6 +6,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xllp7"]
 
 [node name="TriggerGenerator" type="Panel"]
+custom_minimum_size = Vector2(500, 400)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
