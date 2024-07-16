@@ -4,6 +4,8 @@ class_name DebugBoxContainer
 @onready var background: Panel = $Background
 @onready var label: Label = $VBoxContainer/Label
 @onready var grid_container: GridContainer = $VBoxContainer/GridContainer
+@onready var _enabled_color: Color = ProjectSettings.get_setting("jays_reusable_components/default_colors/enabled", Color.GREEN)
+@onready var _disabled_color: Color = ProjectSettings.get_setting("jays_reusable_components/default_colors/disabled", Color.RED)
 
 class ShortcutButton extends Button:
 	func add_shortcut(shortcut_key: Key) -> void:
@@ -74,11 +76,10 @@ func add_toggle_button(button_text: String, functionality: Callable, start_press
 	toggle_button.toggle_mode = true
 	toggle_button.button_pressed = start_pressed
 
-	# TODO: Add color uniformity in project settings
-	toggle_button.add_theme_color_override("font_color", Color.RED)
-	toggle_button.add_theme_color_override("font_pressed_color", Color.GREEN)
-	toggle_button.add_theme_color_override("font_focus_color", Color.RED)
-	toggle_button.add_theme_color_override("font_hover_color", Color.RED)
+	toggle_button.add_theme_color_override("font_color", _disabled_color)
+	toggle_button.add_theme_color_override("font_pressed_color", _enabled_color)
+	toggle_button.add_theme_color_override("font_focus_color", _disabled_color)
+	toggle_button.add_theme_color_override("font_hover_color", _disabled_color)
 
 	grid_container.add_child(toggle_button)
 

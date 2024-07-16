@@ -10,9 +10,11 @@ class_name TriggerSoundscape3D
 var _playback_position: float = 0.0
 
 func _ready() -> void:
+	Helpers.require_instance_variables(get_path(), [spatial_audio])
+
 	super()
 
-	trigger_entered.connect(func(body: Node3D) -> void:
+	trigger_entered.connect(func(_body: Node3D) -> void:
 		if (is_instance_valid(exterior_soundscape)):
 			# Enable LPF on soundscape to diminish outdoor noise
 			AudioServer.set_bus_effect_enabled(spatial_audio.bus_index, 0, true)
@@ -24,7 +26,7 @@ func _ready() -> void:
 		spatial_audio.play(_playback_position)
 	)
 
-	trigger_exited.connect(func(body: Node3D) -> void:
+	trigger_exited.connect(func(_body: Node3D) -> void:
 		if (is_instance_valid(exterior_soundscape)):
 			# Disable LPF on soundscape
 			AudioServer.set_bus_effect_enabled(spatial_audio.bus_index, 0, false)

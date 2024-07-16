@@ -42,11 +42,11 @@ func register_in_inspector(node: Node, bit_flag: int, icon: Texture2D = inspecto
 func show_value_on_screen(title: String, value: Variant) -> void:
 	var found: Label = debug_value_container.find_child(title, true, false)
 	if (found):
-		found.text = "%s : %s" % [title, str(value)]
+		found.text = "%s: %s" % [title, str(value)]
 		found.name = title
 	else:
 		var label: Label = Label.new()
-		label.text = "%s : %s" % [title, str(value)]
+		label.text = "%s: %s" % [title, str(value)]
 		label.name = title
 		label.add_theme_font_size_override("font_size", 32)
 		debug_value_container.add_child(label)

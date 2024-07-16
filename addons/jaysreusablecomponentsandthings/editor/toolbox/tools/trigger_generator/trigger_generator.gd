@@ -23,6 +23,8 @@ func _generate_trigger() -> void:
 		trigger = TriggerSoundscape3D.new()
 	elif(trigger_type_option_button.text == &"Teleport"):
 		trigger = TriggerTeleport3D.new()
+	elif(trigger_type_option_button.text == &"Scene"):
+		trigger = TriggerLevel3D.new()
 
 	# Add Trigger to scene tree
 	EditorInterface.get_selection().get_selected_nodes()[0].add_child(trigger, true)
@@ -60,6 +62,7 @@ func _add_specific_functionality(trigger: Trigger3D) -> void:
 		spatial_audio_stream_player_3d.name = spatial_audio_stream_player_3d.get_script().get_global_name()
 		trigger.spatial_audio = spatial_audio_stream_player_3d
 
+	# Trigger functionality, add Marker3D to created Trigger
 	if(trigger_type_option_button.text == &"Teleport"):
 		var marker: Marker3D = Marker3D.new()
 		trigger.add_child(marker, true)

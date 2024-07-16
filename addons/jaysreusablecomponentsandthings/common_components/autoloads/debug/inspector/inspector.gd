@@ -4,6 +4,11 @@ class_name Inspector
 var _tree_root: TreeItem
 var _fallback_icon: Texture2D = preload("res://addons/jaysreusablecomponentsandthings/assets/icons/object.svg")
 var _reset_icon: Texture2D = preload("res://addons/jaysreusablecomponentsandthings/assets/icons/reset.svg")
+@onready var _enabled_color: Color = ProjectSettings.get_setting("jays_reusable_components/default_colors/enabled", Color.GREEN)
+@onready var _disabled_color: Color = ProjectSettings.get_setting("jays_reusable_components/default_colors/disabled", Color.RED)
+@onready var _highlight_color: Color = ProjectSettings.get_setting("jays_reusable_components/default_colors/highlight", Color.CORAL)
+
+# TODO: Queue freed nodes are not removed.
 
 func _ready() -> void:
 	columns = 2
@@ -21,7 +26,7 @@ func _physics_process(_delta: float) -> void:
 		for child: TreeItem in _tree_root.get_children():
 			_update_values_in_tree(child)
 
-func _register_inspector(node: Node, bit_flag: int, icon: Texture2D) -> void:
+func _register_inspector(node: Node, _bit_flag: int, icon: Texture2D) -> void:
 	var registered_root_tree_item: TreeItem = create_item(_tree_root)
 
 	_create_node_tree_item(node, registered_root_tree_item, icon)
@@ -46,7 +51,7 @@ func _update_values_in_tree(root_node_tree_item: TreeItem) -> void:
 				color_lerp_weight += 0.01
 				property_row.set_meta(&"color_lerp_weight", color_lerp_weight)
 
-			property_row.set_custom_color(0, (Color.CORAL.lerp(Color.WHITE, color_lerp_weight)))
+			property_row.set_custom_color(0, (_highlight_color.lerp(Color.WHITE, color_lerp_weight)))
 			property_row.set_text(0, current_item_name)
 			property_row.set_text(1, str(node_value))
 			property_row.set_meta(&"prev_value", node_value)
@@ -71,13 +76,13 @@ func _create_property_tree_item(property: Dictionary, property_value: Variant, p
 		property_tree_item.set_cell_mode(1, TreeItem.CELL_MODE_CHECK)
 		property_tree_item.set_checked(1, property_value)
 		if (property_tree_item.is_checked(1)):
-			property_tree_item.set_custom_color(1, Color.GREEN)
+			property_tree_item.set_custom_color(1, _enabled_color)
 		else:
-			property_tree_item.set_custom_color(1, Color.RED)
+			property_tree_item.set_custom_color(1, _disabled_color)
 
 func _on_item_selected() -> void:
 	var selected_tree_item: TreeItem = get_selected()
-	if (!selected_tree_item.has_meta(&"current_node_instance_id") or selected_tree_item.get_icon_modulate(0) == Color.GREEN): return
+	if (!selected_tree_item.has_meta(&"current_node_instance_id") or selected_tree_item.get_icon_modulate(0) == _enabled_color): return
 
 	var current_node_instance_id: Variant = selected_tree_item.get_meta(&"current_node_instance_id")
 	var current_node: Object = null
@@ -86,7 +91,7 @@ func _on_item_selected() -> void:
 	else:
 		current_node = instance_from_id(current_node_instance_id)
 
-	selected_tree_item.set_icon_modulate(0, Color.GREEN)
+	selected_tree_item.set_icon_modulate(0, _enabled_color)
 
  	# Display child nodes
 	if (current_node is Node and current_node.get_script() == null):
@@ -138,7 +143,7 @@ func _set_tree_item_value(tree_item: TreeItem, reset_value: bool = false, button
 	tree_item.set_text(1, str(edited_value))
 	if (cell_mode == TreeItem.CELL_MODE_CHECK):
 		tree_item.set_checked(1, edited_value)
-		tree_item.set_custom_color(1, Color.GREEN if edited_value else Color.RED)
+		tree_item.set_custom_color(1, _enabled_color if edited_value else _disabled_color)
 
 func _clear_edit_variable(tree_item: TreeItem, button_id: int) -> void:
 	tree_item.clear_custom_bg_color(0)
@@ -146,7 +151,7 @@ func _clear_edit_variable(tree_item: TreeItem, button_id: int) -> void:
 	tree_item.erase_button(1, button_id)
 
 func _set_edit_variable(tree_item: TreeItem, button_id: int) -> void:
-	tree_item.set_custom_bg_color(0, Color.CORAL, true)
+	tree_item.set_custom_bg_color(0, _highlight_color, true)
 	tree_item.add_button(1, _reset_icon, button_id, false, "Reset")
 	tree_item.set_button_color(1, button_id, Color.WHITE)
 

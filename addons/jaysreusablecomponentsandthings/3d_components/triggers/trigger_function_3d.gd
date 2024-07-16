@@ -5,6 +5,8 @@ class_name TriggerFunction3D
 @export var triggers: Array[TriggerEffect]
 
 func _ready() -> void:
+	Helpers.require_instance_variables(get_path(), [node])
+
 	super()
 
 	for trigger: TriggerEffect in triggers:

@@ -2,7 +2,6 @@
 extends Node3D
 class_name ItemManager3D
 
-@export var camera: Camera3D
 @export var items: Array[PackedScene] = []
 @onready var current_item: FPItem3D
 

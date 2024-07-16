@@ -37,7 +37,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-item_count = 4
+item_count = 5
 popup/item_0/text = "Function"
 popup/item_0/icon = ExtResource("1_n5h6e")
 popup/item_1/text = "Interact"
@@ -49,6 +49,9 @@ popup/item_2/id = 2
 popup/item_3/text = "Teleport"
 popup/item_3/icon = ExtResource("1_n5h6e")
 popup/item_3/id = 3
+popup/item_4/text = "Scene"
+popup/item_4/icon = ExtResource("1_n5h6e")
+popup/item_4/id = 4
 
 [node name="VarietyOptionButton" type="OptionButton" parent="VBoxContainer/TriggerHBoxContainer"]
 unique_name_in_owner = true

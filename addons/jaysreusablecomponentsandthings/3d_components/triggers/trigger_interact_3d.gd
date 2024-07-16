@@ -10,6 +10,9 @@ class_name TriggerInteract3D
 @export var off_method: String = ""
 var _toggled: bool = false
 
+func _ready() -> void:
+	Helpers.require_instance_variables(get_path(), [node])
+
 func pressed() -> void:
 	if (toggleable):
 		if (_toggled):

@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7f1oytsw335a"]
-
-[ext_resource type="Texture2D" uid="uid://cf0snaedkfehl" path="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/scene_assets/revolver/decal.png" id="1_1cxyh"]
-
-[node name="BulletDecal" type="Decal"]
-size = Vector3(0.25, 0.25, 0.25)
-texture_albedo = ExtResource("1_1cxyh")
-modulate = Color(0, 0, 0, 1)

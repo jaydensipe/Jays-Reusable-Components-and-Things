@@ -1,7 +1,6 @@
 class_name FlyCamera extends Camera3D
 
 # Used from https://github.com/adamviola/simple-free-look-camera/blob/master/camera.gd. Thank you!
-# TODO: Update camera code
 
 @export_range(0.0, 1.0) var sensitivity: float = 0.25
 var _prev_camera: Camera3D = null

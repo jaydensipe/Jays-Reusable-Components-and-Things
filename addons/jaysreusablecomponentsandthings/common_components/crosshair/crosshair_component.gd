@@ -9,6 +9,8 @@ class_name CrosshairComponent
 var _crosshair_sprite: Sprite2D
 
 func _ready() -> void:
+	Helpers.require_instance_variables(get_path(), [default_crosshair])
+
 	if (crosshair_type == 0):
 		set_anchors_preset(Control.PRESET_CENTER, true)
 		mouse_filter = MOUSE_FILTER_IGNORE

@@ -12,8 +12,9 @@ config_version=5
 
 config/name="Jay's Reusable Components & Things"
 config/description="A package of reusable components and random things for Godot."
+config/version="1.0"
 config/tags=PackedStringArray("plugin")
-run/main_scene="res://addons/jaysreusablecomponentsandthings/example_scenes/fps_example/fps_example.tscn"
+run/main_scene="res://addons/jaysreusablecomponentsandthings/example_scenes/levels/fps_example.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -23,6 +24,8 @@ DrawIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoload
 DebugIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/debugit.tscn"
 RaycastIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/raycast/raycastit.gd"
 ResonateIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/audio/resonateit.gd"
+SceneIt="*res://addons/jaysreusablecomponentsandthings/common_components/scene/scene_it.gd"
+LevelIt="*res://addons/jaysreusablecomponentsandthings/common_components/scene/level/level_it.gd"
 
 [debug]
 
@@ -103,12 +106,12 @@ interact={
 }
 mouse_primary_fire={
 "deadzone": 0.5,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
 mouse_alternate_fire={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":2,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
 reload={

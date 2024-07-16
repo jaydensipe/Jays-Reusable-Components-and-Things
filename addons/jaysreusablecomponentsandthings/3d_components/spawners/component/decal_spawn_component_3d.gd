@@ -5,6 +5,9 @@ class_name DecalSpawnComponent3D
 @export var decal_scene: PackedScene
 @onready var _decal: Decal = decal_scene.instantiate()
 
+func _ready() -> void:
+	Helpers.require_instance_variables(get_path(), [decal_scene])
+
 func spawn_decal_at_transfrom(normal: Vector3, spawn_transform: Transform3D) -> void:
 	await _check_spawn_delay()
 

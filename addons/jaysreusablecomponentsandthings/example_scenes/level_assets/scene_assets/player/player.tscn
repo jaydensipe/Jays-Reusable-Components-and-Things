@@ -1,0 +1,125 @@
+[gd_scene load_steps=28 format=3 uid="uid://d3qwpjxs716bx"]
+
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/camera/head/head.gd" id="1_76gpt"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/items/manager/item_container_3d.gd" id="2_807of"]
+[ext_resource type="PackedScene" uid="uid://civqocinlq2bd" path="res://addons/jaysreusablecomponentsandthings/example_scenes/level_assets/scene_assets/revolver/revolver.tscn" id="3_45v3g"]
+[ext_resource type="AudioStream" uid="uid://bas52qxxkopvx" path="res://addons/jaysreusablecomponentsandthings/example_scenes/level_assets/scene_assets/sfx/step1.wav" id="5_gjlvm"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/crosshair/crosshair_component.gd" id="6_oej4x"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/config/camera_config.gd" id="6_rji3v"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/movement/movement_component_3d.gd" id="7_01v45"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/config/crosshair.gd" id="7_pegim"]
+[ext_resource type="Texture2D" uid="uid://cd6ee2xwwkm32" path="res://addons/jaysreusablecomponentsandthings/example_scenes/level_assets/scene_assets/textures/crosshair/crosshair.svg" id="8_3i6c6"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/3d_components/camera/fp_camera_3d.gd" id="8_7kd6y"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/resources/stats/move_stats.gd" id="8_cuvm2"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/input/player/player_input_handler.gd" id="8_rjot6"]
+[ext_resource type="AudioStream" uid="uid://rbpmt258euvf" path="res://addons/jaysreusablecomponentsandthings/example_scenes/level_assets/scene_assets/sfx/step6.wav" id="10_aa4tn"]
+[ext_resource type="AudioStream" uid="uid://bgrohoosx7jni" path="res://addons/jaysreusablecomponentsandthings/example_scenes/level_assets/scene_assets/sfx/step8.wav" id="12_7a1qt"]
+[ext_resource type="AudioStream" uid="uid://bfam36tqaqx7r" path="res://addons/jaysreusablecomponentsandthings/example_scenes/level_assets/scene_assets/sfx/jump1.wav" id="13_v8fdy"]
+[ext_resource type="AudioStream" uid="uid://tgkqfwnjjefe" path="res://addons/jaysreusablecomponentsandthings/example_scenes/level_assets/scene_assets/sfx/jump2.wav" id="14_r88do"]
+[ext_resource type="AudioStream" uid="uid://bhityhq61e18o" path="res://addons/jaysreusablecomponentsandthings/example_scenes/level_assets/scene_assets/sfx/land1.wav" id="15_5mke7"]
+[ext_resource type="AudioStream" uid="uid://cuwe7kpflehy8" path="res://addons/jaysreusablecomponentsandthings/example_scenes/level_assets/scene_assets/sfx/land2.wav" id="16_iarww"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/inspector/inspector_register_component.gd" id="21_6w2p5"]
+[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/interaction/component/fp_interaction_component.gd" id="25_jw0hi"]
+
+[sub_resource type="Resource" id="Resource_3cfv4"]
+script = ExtResource("6_rji3v")
+mouse_sensitivity = 3.0
+enable_roll = true
+roll_amount = 30.0
+roll_speed = 125.0
+enable_bob = true
+bob_frequency = 1.1
+bob_amplitude = 0.01
+
+[sub_resource type="Resource" id="Resource_qoj45"]
+script = ExtResource("7_pegim")
+texture = ExtResource("8_3i6c6")
+scale = 0.15
+
+[sub_resource type="Resource" id="Resource_heiak"]
+script = ExtResource("8_cuvm2")
+speed = 8.0
+sprint_multiplier = 1.25
+crouch_multiplier = 0.55
+jump_height = 3.0
+apply_acceleration = true
+acceleration = 10.0
+apply_air_acceleration = true
+air_acceleration = 2.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ndo8w"]
+random_pitch = 1.1
+streams_count = 3
+stream_0/stream = ExtResource("5_gjlvm")
+stream_1/stream = ExtResource("10_aa4tn")
+stream_2/stream = ExtResource("12_7a1qt")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hoevt"]
+streams_count = 2
+stream_0/stream = ExtResource("13_v8fdy")
+stream_1/stream = ExtResource("14_r88do")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_vaj6h"]
+streams_count = 2
+stream_0/stream = ExtResource("15_5mke7")
+stream_1/stream = ExtResource("16_iarww")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xdt0c"]
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+
+[node name="Head" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+script = ExtResource("1_76gpt")
+
+[node name="ItemManager3D" type="Node3D" parent="Head"]
+script = ExtResource("2_807of")
+items = Array[PackedScene]([ExtResource("3_45v3g")])
+
+[node name="FPCamera3D" type="Camera3D" parent="Head" node_paths=PackedStringArray("head", "character")]
+current = true
+script = ExtResource("8_7kd6y")
+head = NodePath("..")
+character = NodePath("../..")
+camera_config = SubResource("Resource_3cfv4")
+
+[node name="CrosshairComponent" type="Control" parent="Head/FPCamera3D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_oej4x")
+default_crosshair = SubResource("Resource_qoj45")
+
+[node name="MovementComponent3D" type="Node3D" parent="." node_paths=PackedStringArray("character", "collider", "footstep_audio", "jump_audio", "land_audio")]
+script = ExtResource("7_01v45")
+character = NodePath("..")
+collider = NodePath("../CollisionShape3D")
+move_stats = SubResource("Resource_heiak")
+enable_footsteps = true
+footstep_audio = NodePath("FootstepAudio")
+jump_audio = NodePath("JumpAudio")
+land_audio = NodePath("LandAudio")
+
+[node name="PlayerInputHandler" type="Node" parent="MovementComponent3D"]
+script = ExtResource("8_rjot6")
+
+[node name="FootstepAudio" type="AudioStreamPlayer3D" parent="MovementComponent3D"]
+stream = SubResource("AudioStreamRandomizer_ndo8w")
+max_polyphony = 2
+
+[node name="JumpAudio" type="AudioStreamPlayer3D" parent="MovementComponent3D"]
+stream = SubResource("AudioStreamRandomizer_hoevt")
+
+[node name="LandAudio" type="AudioStreamPlayer3D" parent="MovementComponent3D"]
+stream = SubResource("AudioStreamRandomizer_vaj6h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_xdt0c")
+
+[node name="InspectorRegister" type="Node" parent="."]
+script = ExtResource("21_6w2p5")
+
+[node name="FPInteractionComponent" type="Node" parent="."]
+script = ExtResource("25_jw0hi")

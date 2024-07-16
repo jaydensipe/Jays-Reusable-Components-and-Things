@@ -6,9 +6,10 @@ class_name SceneSpawnComponent3D
 
 @export var scene: PackedScene
 
-func spawn_at_location(spawn_position: Vector3 = global_position, parent: Node = get_tree().current_scene) -> Node3D:
-	assert(scene is PackedScene, "Ensure a Scene export is set on this Spawn Component.")
+func _ready() -> void:
+	Helpers.require_instance_variables(get_path(), [scene])
 
+func spawn_at_location(spawn_position: Vector3 = global_position, parent: Node = get_tree().current_scene) -> Node3D:
 	await _check_spawn_delay()
 
 	var instance: Node3D = scene.instantiate()
@@ -21,8 +22,6 @@ func spawn_at_location(spawn_position: Vector3 = global_position, parent: Node =
 	return instance
 
 func spawn_at_location_with_transform(spawn_transform: Transform3D = global_transform, parent: Node = get_tree().current_scene) -> Node3D:
-	assert(scene is PackedScene, "Ensure a Scene export is set on this Spawn Component.")
-
 	await _check_spawn_delay()
 
 	var instance: Node3D = scene.instantiate()
@@ -35,8 +34,6 @@ func spawn_at_location_with_transform(spawn_transform: Transform3D = global_tran
 	return instance
 
 func spawn_at_location_with_normal(normal: Vector3, spawn_position: Vector3 = global_position, parent: Node = get_tree().current_scene) -> Node3D:
-	assert(scene is PackedScene, "Ensure a Scene export is set on this Spawn Component.")
-
 	await _check_spawn_delay()
 
 	var instance: Node3D = scene.instantiate()

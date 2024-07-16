@@ -2,7 +2,7 @@
 extends Node
 class_name PlayerInputHandler
 
-@export var movement_component: MovementComponent3D
+@onready var movement_component: MovementComponent3D = get_parent() as MovementComponent3D
 @export_group("Debug")
 @export var show_debug: bool = false
 var input_dir: Vector3 = Vector3.ZERO

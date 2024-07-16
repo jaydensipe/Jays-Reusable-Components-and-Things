@@ -5,6 +5,8 @@ class_name TriggerTeleport3D
 @export var marker: Marker3D = null
 
 func _ready() -> void:
+	Helpers.require_instance_variables(get_path(), [marker])
+
 	super()
 
 	if (trigger_type == 0):

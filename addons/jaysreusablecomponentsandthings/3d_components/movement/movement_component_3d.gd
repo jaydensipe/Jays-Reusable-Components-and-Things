@@ -7,6 +7,7 @@ class_name MovementComponent3D
 @export var move_stats: MoveStats
 
 @export_group("Footsteps")
+@export var enable_footsteps: bool = false
 @export var distance_between_steps: float = 70.0
 @export var footstep_audio: AudioStreamPlayer3D
 @export var jump_audio: AudioStreamPlayer3D
@@ -42,6 +43,9 @@ var _footstep_dist_traveled: float = 0.0
 @onready var _current_max_move_speed: float = move_stats.speed
 @onready var _character_movement: bool = true if (character is CharacterBody3D) else false
 
+func _ready() -> void:
+	Helpers.require_instance_variables(get_path(), [character, collider, move_stats])
+
 func _physics_process(delta: float) -> void:
 	# Add the gravity
 	apply_gravity(delta)
@@ -66,6 +70,8 @@ func apply_gravity(delta: float) -> void:
 		character.velocity.y -= _gravity * delta
 
 func apply_footsteps() -> void:
+	if (!enable_footsteps): return
+
 	# Add up distance traveled if velocity is not 0
 	if (current_movement_state != MOVEMENT_STATES.FALLING and !input_dir.is_equal_approx(Vector2.ZERO)):
 		_footstep_dist_traveled += max(0.8, (1.0 * character.velocity.length_squared()) / 60.0)
@@ -105,7 +111,7 @@ func apply_character_body_movement(delta: float) -> void:
 	# Save previous movement state
 	prev_movement_state = current_movement_state
 
-func apply_rigid_body_movement(delta: float) -> void:
+func apply_rigid_body_movement(_delta: float) -> void:
 	pass
 
 func switch_state(state: MOVEMENT_STATES) -> void:
@@ -115,6 +121,8 @@ func switch_state(state: MOVEMENT_STATES) -> void:
 			MOVEMENT_STATES.CROUCHING:
 				create_tween().tween_property(collider.shape, "height", 2.0, 7.5 * get_physics_process_delta_time())
 			MOVEMENT_STATES.FALLING:
+				if (!enable_footsteps): return
+
 				land_audio.play()
 
 	current_movement_state = state
@@ -132,6 +140,9 @@ func process_movement_states() -> void:
 func jump() -> void:
 	if (enable_jumping and current_movement_state != MOVEMENT_STATES.FALLING):
 		character.velocity.y = move_stats.jump_height
+
+		if (!enable_footsteps): return
+
 		jump_audio.play()
 
 func sprint() -> void:
