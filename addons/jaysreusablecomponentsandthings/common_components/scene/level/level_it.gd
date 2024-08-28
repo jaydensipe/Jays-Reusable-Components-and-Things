@@ -13,7 +13,6 @@ signal finished_loading
 
 func _ready() -> void:
 	_parse_file_system_for_levels()
-	print(level_dictionary)
 
 func load_level_by_name(level_name: StringName, delete_type: DELETE_TYPE = DELETE_TYPE.NONE) -> void:
 	_load_level(level_name, delete_type)

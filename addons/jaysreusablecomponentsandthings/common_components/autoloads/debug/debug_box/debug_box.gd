@@ -6,6 +6,7 @@ class_name DebugBoxContainer
 @onready var grid_container: GridContainer = $VBoxContainer/GridContainer
 @onready var _enabled_color: Color = ProjectSettings.get_setting("jays_reusable_components/default_colors/enabled", Color.GREEN)
 @onready var _disabled_color: Color = ProjectSettings.get_setting("jays_reusable_components/default_colors/disabled", Color.RED)
+var functionality_strings: Array = []
 
 class ShortcutButton extends Button:
 	func add_shortcut(shortcut_key: Key) -> void:
@@ -61,20 +62,30 @@ class PlusMinusButton extends BaseButton:
 		setter.call(value)
 
 func add_button(button_text: String, functionality: Callable) -> ShortcutButton:
+	# If debug box already has a button with this text, return; useful for not duplicating when restarting game
+	if (functionality_strings.has(button_text)):
+		return
+
 	var button: ShortcutButton = ShortcutButton.new()
 	button.text = button_text
 	button.pressed.connect(functionality)
+	functionality_strings.append(button_text)
 
 	grid_container.add_child(button)
 
 	return button
 
 func add_toggle_button(button_text: String, functionality: Callable, start_pressed: bool = false) -> ShortcutButton:
+	# If debug box already has a button with this text, return; useful for not duplicating when restarting game
+	if (functionality_strings.has(button_text)):
+		return
+
 	var toggle_button: Button = ShortcutButton.new()
 	toggle_button.text = button_text
 	toggle_button.pressed.connect(functionality)
 	toggle_button.toggle_mode = true
 	toggle_button.button_pressed = start_pressed
+	functionality_strings.append(button_text)
 
 	toggle_button.add_theme_color_override("font_color", _disabled_color)
 	toggle_button.add_theme_color_override("font_pressed_color", _enabled_color)
@@ -86,11 +97,16 @@ func add_toggle_button(button_text: String, functionality: Callable, start_press
 	return toggle_button
 
 func add_plus_minus_buton(button_text: String, initial_value: float, setter: Callable, step: float = 0.1) -> PlusMinusButton:
+	# If debug box already has a button with this text, return; useful for not duplicating when restarting game
+	if (functionality_strings.has(button_text)):
+		return
+
 	var plus_minus_button: PlusMinusButton = PlusMinusButton.new()
 	plus_minus_button.button_text = button_text
 	plus_minus_button.initial_value = initial_value
 	plus_minus_button.step = step
 	plus_minus_button.setter = setter
+	functionality_strings.append(button_text)
 
 	grid_container.add_child(plus_minus_button.init_plus_minus_button())
 

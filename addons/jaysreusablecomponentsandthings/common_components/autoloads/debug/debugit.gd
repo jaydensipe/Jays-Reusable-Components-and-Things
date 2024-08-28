@@ -9,12 +9,14 @@ var is_global_debug_enabled: bool = false :
 		is_global_debug_enabled = value
 		global_debug_changed.emit(value)
 var _debug_fly_cam_3d: FlyCamera = null
+var _previous_captured_mouse_mode: Input.MouseMode = Input.mouse_mode
 const DEBUG_BOX_CONTAINER = preload("res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/debug_box/debug_box_container.tscn")
 
 signal global_debug_changed(value: bool)
 
 func _ready() -> void:
 	_init_editor_debug_build_specifics()
+	_init_debug_window_usability()
 	_init_default_debug_box_functionality()
 
 func create_debug_box(title: StringName, background_color: Color = Color.GRAY) -> DebugBoxContainer:
@@ -54,9 +56,32 @@ func show_value_on_screen(title: String, value: Variant) -> void:
 func _input(event: InputEvent) -> void:
 	if (event is InputEventKey):
 		if (event.is_action_pressed(&"debug")):
+			_previous_captured_mouse_mode = Input.mouse_mode
+
 			if (!window.visible):
 				window.visible = true
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			else:
+				window.visible = false
+				Input.set_mouse_mode(_previous_captured_mouse_mode)
+
+func _init_debug_window_usability() -> void:
+	window.window_input.connect(func(event: InputEvent) -> void:
+		if (event is InputEventKey):
+			if (event.is_action_pressed(&"debug")):
+				window.visible = false
+
+				_previous_captured_mouse_mode = Input.mouse_mode
+				Input.set_mouse_mode(_previous_captured_mouse_mode)
+	)
+
+	window.close_requested.connect(func() -> void:
+		window.visible = false
+	)
+
+	window.focus_exited.connect(func() -> void:
+		Input.set_mouse_mode(_previous_captured_mouse_mode)
+	)
 
 func _init_default_debug_box_functionality() -> void:
 	var built_ins_box: DebugBoxContainer = create_debug_box("Built-Ins")

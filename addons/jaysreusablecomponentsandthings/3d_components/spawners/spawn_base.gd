@@ -14,15 +14,15 @@ class_name SpawnBase
 
 func _check_delete_timer(instance: Node3D) -> void:
 	if (enable_delete):
-		get_tree().create_timer(delete_time).timeout.connect(func() -> void: instance.queue_free())
+		get_tree().create_timer(delete_time, false).timeout.connect(func() -> void: instance.queue_free())
 
 func _check_delete_timer_rid(rid: RID) -> void:
 	if (enable_delete):
-		get_tree().create_timer(delete_time).timeout.connect(func() -> void: RenderingServer.free_rid(rid))
+		get_tree().create_timer(delete_time, false).timeout.connect(func() -> void: RenderingServer.free_rid(rid))
 
 func _check_spawn_delay() -> void:
 	if (enable_delay):
-		await get_tree().create_timer(spawn_delay_time).timeout
+		await get_tree().create_timer(spawn_delay_time, false).timeout
 
 func _check_randomize_position(instance: Node3D) -> Node3D:
 	if (randomize_x):

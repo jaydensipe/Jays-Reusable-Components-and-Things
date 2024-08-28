@@ -15,20 +15,19 @@ config/description="A package of reusable components and random things for Godot
 config/version="1.0"
 config/tags=PackedStringArray("plugin")
 run/main_scene="res://addons/jaysreusablecomponentsandthings/example_scenes/levels/fps_example.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-DrawIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/draw/drawit.gd"
 DebugIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/debugit.tscn"
+DrawIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/draw/drawit.gd"
 RaycastIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/raycast/raycastit.gd"
 ResonateIt="*res://addons/jaysreusablecomponentsandthings/common_components/autoloads/audio/resonateit.gd"
-SceneIt="*res://addons/jaysreusablecomponentsandthings/common_components/scene/scene_it.gd"
-LevelIt="*res://addons/jaysreusablecomponentsandthings/common_components/scene/level/level_it.gd"
 
 [debug]
 
+settings/stdout/verbose_stdout=true
 gdscript/warnings/exclude_addons=false
 gdscript/warnings/untyped_declaration=2
 
@@ -120,6 +119,12 @@ reload={
 ]
 }
 
+[jays_reusable_components]
+
+modules/SceneIt=false
+modules/LevelIt=false
+modules/ResonateIt=false
+
 [layer_names]
 
 3d_physics/layer_1="Level / Props"
@@ -129,4 +134,4 @@ reload={
 
 [physics]
 
-common/physics_ticks_per_second=120
+common/physics_interpolation=true

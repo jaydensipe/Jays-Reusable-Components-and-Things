@@ -24,4 +24,6 @@ static func custom(message: Variant, log_type: String, bbcode_color: String) -> 
 	_display_log(message, log_type, bbcode_color)
 
 static func _display_log(message: Variant, log_level: StringName, bbcode_color: String) -> void:
-	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=%s][%s][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), get_stack()[1]["source"], get_stack()[1]["function"], get_stack()[1]["line"], bbcode_color, log_level, str(message)])
+	var code_stack: Array = get_stack()
+
+	print_rich("%s %s [color=orange][b][%s][/b][/color] - [color=lightblue][u]%s[/u]:%s[/color] [indent][color=%s][%s][/color] %s" % [Time.get_date_string_from_system(), Time.get_time_string_from_system(), code_stack[2]["source"], code_stack[2]["function"], code_stack[2]["line"], bbcode_color, log_level, str(message)])
