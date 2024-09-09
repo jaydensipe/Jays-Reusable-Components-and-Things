@@ -147,6 +147,7 @@ func _init_project_settings() -> void:
 	if (!ProjectSettings.has_setting(_setting_module_debugit)):
 		ProjectSettings.set_setting(_setting_module_debugit, true)
 	ProjectSettings.set_initial_value(_setting_module_debugit, true)
+	ProjectSettings.set_restart_if_changed(_setting_module_debugit, true)
 	ProjectSettings.set_as_basic(_setting_module_debugit, true)
 	var _module_debugit_property_info: Dictionary = {
 		"name": _setting_module_debugit,
@@ -158,6 +159,7 @@ func _init_project_settings() -> void:
 	if (!ProjectSettings.has_setting(_setting_module_drawit)):
 		ProjectSettings.set_setting(_setting_module_drawit, true)
 	ProjectSettings.set_initial_value(_setting_module_drawit, true)
+	ProjectSettings.set_restart_if_changed(_setting_module_drawit, true)
 	ProjectSettings.set_as_basic(_setting_module_drawit, true)
 	var _module_drawit_property_info: Dictionary = {
 		"name": _setting_module_drawit,
@@ -169,6 +171,7 @@ func _init_project_settings() -> void:
 	if (!ProjectSettings.has_setting(_setting_module_raycastit)):
 		ProjectSettings.set_setting(_setting_module_raycastit, true)
 	ProjectSettings.set_initial_value(_setting_module_raycastit, true)
+	ProjectSettings.set_restart_if_changed(_setting_module_raycastit, true)
 	ProjectSettings.set_as_basic(_setting_module_raycastit, true)
 	var _module_raycastit_property_info: Dictionary = {
 		"name": _setting_module_raycastit,
@@ -180,6 +183,7 @@ func _init_project_settings() -> void:
 	if (!ProjectSettings.has_setting(_setting_module_resonateit)):
 		ProjectSettings.set_setting(_setting_module_resonateit, true)
 	ProjectSettings.set_initial_value(_setting_module_resonateit, true)
+	ProjectSettings.set_restart_if_changed(_setting_module_resonateit, true)
 	ProjectSettings.set_as_basic(_setting_module_resonateit, true)
 	var _module_resonateit_property_info: Dictionary = {
 		"name": _setting_module_resonateit,
@@ -191,6 +195,7 @@ func _init_project_settings() -> void:
 	if (!ProjectSettings.has_setting(_setting_module_sceneit)):
 		ProjectSettings.set_setting(_setting_module_sceneit, true)
 	ProjectSettings.set_initial_value(_setting_module_sceneit, true)
+	ProjectSettings.set_restart_if_changed(_setting_module_sceneit, true)
 	ProjectSettings.set_as_basic(_setting_module_sceneit, true)
 	var _module_sceneit_property_info: Dictionary = {
 		"name": _setting_module_sceneit,
@@ -202,13 +207,13 @@ func _init_project_settings() -> void:
 	if (!ProjectSettings.has_setting(_setting_module_levelit)):
 		ProjectSettings.set_setting(_setting_module_levelit, true)
 	ProjectSettings.set_initial_value(_setting_module_levelit, true)
+	ProjectSettings.set_restart_if_changed(_setting_module_levelit, true)
 	ProjectSettings.set_as_basic(_setting_module_levelit, true)
 	var _module_levelit_property_info: Dictionary = {
 		"name": _setting_module_levelit,
 		"type": TYPE_BOOL
 	}
 	ProjectSettings.add_property_info(_module_levelit_property_info)
-
 
 	ProjectSettings.save()
 
