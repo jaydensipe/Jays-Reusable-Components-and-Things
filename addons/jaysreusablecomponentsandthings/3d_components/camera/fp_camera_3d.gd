@@ -21,13 +21,15 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	head.rotation_degrees = Vector3(_mouse_rotation_x, 0, 0)
-	_process_velocity_roll()
+	global_transform.origin = get_parent_node_3d().get_global_transform_interpolated().origin
 
+	_process_velocity_roll()
+#
 func _physics_process(delta: float) -> void:
 	_process_head_bob(delta)
 	#_process_velocity_fov_change(delta)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseMotion):
 		var viewport_transform: Transform2D = get_tree().root.get_final_transform()
 		var motion: Vector2 = event.xformed_by(viewport_transform).relative

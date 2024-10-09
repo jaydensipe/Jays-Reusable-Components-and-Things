@@ -78,6 +78,7 @@ script = ExtResource("2_807of")
 items = Array[PackedScene]([ExtResource("3_45v3g")])
 
 [node name="FPCamera3D" type="Camera3D" parent="Head" node_paths=PackedStringArray("head", "character")]
+physics_interpolation_mode = 2
 current = true
 script = ExtResource("8_7kd6y")
 head = NodePath("..")

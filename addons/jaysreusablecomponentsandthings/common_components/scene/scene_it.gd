@@ -22,6 +22,7 @@ func load_packed_scene_by_resource_path(resource_path: String) -> Resource:
 	return ResourceLoader.load_threaded_get(_scene_path)
 
 func _process(delta: float) -> void:
-	var scene_load_status: ResourceLoader.ThreadLoadStatus = ResourceLoader.load_threaded_get_status(_scene_path, load_progress)
-	if (scene_load_status == ResourceLoader.THREAD_LOAD_LOADED):
-		scene_loaded.emit()
+	pass
+	#var scene_load_status: ResourceLoader.ThreadLoadStatus = ResourceLoader.load_threaded_get_status(_scene_path, load_progress)
+	#if (scene_load_status == ResourceLoader.THREAD_LOAD_LOADED):
+		#scene_loaded.emit()
