@@ -24,12 +24,14 @@
 [sub_resource type="Resource" id="Resource_3cfv4"]
 script = ExtResource("6_rji3v")
 mouse_sensitivity = 3.0
-enable_roll = true
+enable_roll = false
 roll_amount = 30.0
 roll_speed = 125.0
-enable_bob = true
-bob_frequency = 1.1
-bob_amplitude = 0.01
+enable_bob = false
+bob_frequency = 2.0
+bob_amplitude = 0.08
+change_amount = 5.0
+change_speed = 5.0
 
 [sub_resource type="Resource" id="Resource_qoj45"]
 script = ExtResource("7_pegim")
@@ -77,12 +79,13 @@ script = ExtResource("1_76gpt")
 script = ExtResource("2_807of")
 items = Array[PackedScene]([ExtResource("3_45v3g")])
 
-[node name="FPCamera3D" type="Camera3D" parent="Head" node_paths=PackedStringArray("head", "character")]
+[node name="FPCamera3D" type="Camera3D" parent="Head" node_paths=PackedStringArray("head", "character", "movement_component")]
 physics_interpolation_mode = 2
 current = true
 script = ExtResource("8_7kd6y")
 head = NodePath("..")
 character = NodePath("../..")
+movement_component = NodePath("../../MovementComponent3D")
 camera_config = SubResource("Resource_3cfv4")
 
 [node name="CrosshairComponent" type="Control" parent="Head/FPCamera3D"]

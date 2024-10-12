@@ -18,6 +18,7 @@ const SHIFT_MULTIPLIER: float = 2.5
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 
 func _exit_tree() -> void:
 	_prev_camera.make_current()

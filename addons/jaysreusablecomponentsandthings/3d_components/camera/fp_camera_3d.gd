@@ -6,6 +6,7 @@ class_name FPCamera3D
 
 @export var head: Head
 @export var character: CharacterBody3D
+@export var movement_component: MovementComponent3D
 
 @export_group("Config")
 @export var camera_config: CameraConfig
@@ -15,7 +16,7 @@ var _time_bob: float = 0.0
 @onready var _current_fov: float = self.fov
 
 func _ready() -> void:
-	Helpers.require_instance_variables(get_path(), [head, character, camera_config])
+	Helpers.require_instance_variables(get_path(), [head, character, movement_component, camera_config])
 
 	_init_input()
 
@@ -27,7 +28,7 @@ func _process(_delta: float) -> void:
 #
 func _physics_process(delta: float) -> void:
 	_process_head_bob(delta)
-	#_process_velocity_fov_change(delta)
+	_process_velocity_fov_change(delta)
 
 func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseMotion):
@@ -44,8 +45,10 @@ func _init_input() -> void:
 	Input.use_accumulated_input = false
 
 func _process_velocity_fov_change(delta: float) -> void:
-	fov *= character.velocity.length_squared() * delta * 1.2
-	fov = clampf(fov, _current_fov, fov * 1.5)
+	if (movement_component.current_movement_state == movement_component.MOVEMENT_STATES.SPRINTING):
+		fov = lerpf(fov, _current_fov + camera_config.change_amount, delta * camera_config.change_speed)
+	else:
+		fov = lerpf(fov, _current_fov, delta * camera_config.change_speed)
 
 func _process_head_bob(delta: float) -> void:
 	if (!character.is_on_floor() or !camera_config.enable_bob): return

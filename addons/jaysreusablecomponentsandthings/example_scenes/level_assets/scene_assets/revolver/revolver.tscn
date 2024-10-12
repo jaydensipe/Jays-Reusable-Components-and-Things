@@ -91,9 +91,6 @@ stream_1/stream = ExtResource("9_svexd")
 stream_2/stream = ExtResource("10_1n7mw")
 stream_3/stream = ExtResource("11_ooefa")
 
-[sub_resource type="Animation" id="Animation_fb8lx"]
-length = 0.001
-
 [sub_resource type="Animation" id="Animation_yfgwb"]
 resource_name = "revolver_reload"
 length = 0.4
@@ -143,11 +140,14 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_fb8lx"]
+length = 0.001
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ma20a"]
 _data = {
 &"RESET": SubResource("Animation_fb8lx"),
-&"revolver_reload": SubResource("Animation_yfgwb"),
-&"revolver_shoot": SubResource("Animation_17lce")
+&"revolver_shoot": SubResource("Animation_17lce"),
+&"revolver_reload": SubResource("Animation_yfgwb")
 }
 
 [node name="Revolver" type="Node3D"]
