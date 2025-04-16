@@ -467,7 +467,8 @@ omni_range = 6.0
 [node name="Props" type="Node3D" parent="."]
 
 [node name="Speaker" parent="Props" instance=ExtResource("7_jxymw")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -9, 0.701488, 0)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -11.4235, 0.674729, -0.682729)
+metadata/_edit_group_ = true
 
 [node name="Triggers" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, 37)

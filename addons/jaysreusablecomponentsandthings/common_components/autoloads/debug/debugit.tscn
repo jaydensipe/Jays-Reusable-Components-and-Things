@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://dy0q60vlkv5xb"]
 
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/debugit.gd" id="1_4pexd"]
+[ext_resource type="Script" uid="uid://f73tbyws2pmw" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/debugit.gd" id="1_4pexd"]
 [ext_resource type="Theme" uid="uid://ch4j3053qj2bo" path="res://addons/jaysreusablecomponentsandthings/assets/theme/debugit_theme.tres" id="1_upi3j"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/inspector/inspector.gd" id="2_c1qnf"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/menu/debug_window.gd" id="3_y1dr7"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/menu/debug_tab_container.gd" id="4_21lsg"]
-[ext_resource type="Script" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/menu/debug_system_monitor.gd" id="6_h22fl"]
+[ext_resource type="Script" uid="uid://twc4vub7qwk8" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/inspector/inspector.gd" id="2_c1qnf"]
+[ext_resource type="Script" uid="uid://ccxtpuxbvqgov" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/menu/debug_window.gd" id="3_y1dr7"]
+[ext_resource type="Script" uid="uid://bfqogolb7re2o" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/menu/debug_tab_container.gd" id="4_21lsg"]
+[ext_resource type="Script" uid="uid://7mmm71nn0v1d" path="res://addons/jaysreusablecomponentsandthings/common_components/autoloads/debug/menu/debug_system_monitor.gd" id="6_h22fl"]
 
 [node name="DebugIt" type="Control"]
 process_mode = 3

@@ -15,7 +15,7 @@ config/description="A package of reusable components and random things for Godot
 config/version="1.0"
 config/tags=PackedStringArray("plugin")
 run/main_scene="res://addons/jaysreusablecomponentsandthings/example_scenes/levels/fps_example.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -38,7 +38,6 @@ gdscript/warnings/untyped_declaration=2
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/always_on_top=true
-window/vsync/vsync_mode=0
 
 [editor_plugins]
 
@@ -131,6 +130,6 @@ move_backward={
 
 [physics]
 
-3d/run_on_separate_thread=true
 common/physics_jitter_fix=0.0
+3d/physics_engine="Jolt Physics"
 common/physics_interpolation=true
